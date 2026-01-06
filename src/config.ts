@@ -29,6 +29,13 @@ export const siteConfig = {
       skills: ["Flutter", "Firebase", "Gemini API"],
     },
     {
+      name: "HandCast – Hand Gesture Point Detection System",
+      description:
+        "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. Built with React Three.js frontend and Python MediaPipe backend for real-time hand tracking and interaction.",
+      link: "https://github.com/RusithHansana/HandCast",
+      skills: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
+    },
+    {
       name: "PromptShare – Prompt Sharing Platform",
       description:
         "A full-stack web platform where users can create, edit, and share AI prompts. Features include secure authentication, user profiles, tag-based discovery, and infinite scrolling for a smooth content exploration experience.",
