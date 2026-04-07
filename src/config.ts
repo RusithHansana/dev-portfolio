@@ -22,6 +22,18 @@ export const siteConfig = {
   ],
   projects: [
     {
+      name: "BizAgent – AI-Powered Receptionist",
+      description: "A cross-platform mobile application that provides a 24/7 AI-powered receptionist for service-based businesses. It features a conversational interface for lead qualification, FAQ handling, and automated appointment scheduling synced directly to Google Sheets.",
+      link: "https://github.com/RusithHansana/biz-agent-react-native",
+      skills: ["React Native", "Expo", "TypeScript", "Node.js", "Gemini API", "Google Sheets API"]
+    },
+    {
+      name: "SocketXO – Real-Time Resilient Tic-Tac-Toe",
+      description: "A high-performance, server-authoritative Tic-Tac-Toe web application focused on connection resilience. It features a custom 'Disconnect Handshake' protocol for session recovery, instant global matchmaking, and a deterministic AI benchmark mode.",
+      link: "https://github.com/RusithHansana/socket-xo",
+      skills: ["React", "TypeScript", "Node.js", "Socket.io", "Vite", "Vitest","Express"]
+    },
+    {
       name: "FinBuddy – AI-Powered Finance Assistant",
       description:
         "A cross-platform mobile application that provides AI-driven personal finance guidance through a conversational chat interface. Built to deliver accessible financial insights using real-time AI responses.",
@@ -34,13 +46,6 @@ export const siteConfig = {
         "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. Built with React Three.js frontend and Python MediaPipe backend for real-time hand tracking and interaction.",
       link: "https://github.com/RusithHansana/HandCast",
       skills: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
-    },
-    {
-      name: "PromptShare – Prompt Sharing Platform",
-      description:
-        "A full-stack web platform where users can create, edit, and share AI prompts. Features include secure authentication, user profiles, tag-based discovery, and infinite scrolling for a smooth content exploration experience.",
-      link: "https://github.com/RusithHansana/prompt-share",
-      skills: ["Next.js", "NextAuth", "MongoDB"],
     },
   ],
   experience: [
