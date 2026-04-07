@@ -1,4 +1,4 @@
-<img width="1943" height="1093" alt="image" src="https://github.com/user-attachments/assets/cc2ff955-17c2-48c7-81c8-479a0f061850" />
+<img width="auto" height="auto" alt="image" src="https://github.com/user-attachments/assets/611046a7-638a-4232-abb4-e3098ff8c8cc" />
 
 # Rusith Hansana | Software Engineer
 
