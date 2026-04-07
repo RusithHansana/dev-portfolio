@@ -8,8 +8,7 @@ export const siteConfig = {
     github: "https://github.com/RusithHansana",
     linkedin: "https://www.linkedin.com/in/rusith-hansana/",
   },
-  aboutMe:
-    "Software Engineer focused on building modern web and mobile applications with Next.js, React, Flutter, and Node.js. Experienced in ERP modernization, startup projects, and AI-powered solutions.",
+  aboutMe:"Software Engineer building scalable web, AI-powered, and interactive systems. Focused on clean architecture, performance, and product-driven engineering.",
   skills: [
     "Javascript",
     "TypeScript",
@@ -19,6 +18,8 @@ export const siteConfig = {
     "Node.js",
     "Flutter",
     "React Native",
+    "LangChain",
+    "Jupyter Notebook",
   ],
   projects: [
     {
