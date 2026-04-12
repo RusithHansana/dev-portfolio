@@ -49,10 +49,13 @@ const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
  */
 function extractPortfolioSections(markdown: string): string {
   const targetSections = ["Overview", "Features", "Demo", "Architecture", "Tech Stack"];
+  const targetSlugs = targetSections.map(s => s.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-'));
+  
   const lines = markdown.split(/\r?\n/);
   let result = "";
-  let isCapturing = false;
+  let isCapturing = true; // Start by capturing "top content" (logo, badges, etc.)
   let currentHeaderLevel = 0;
+  let firstHeaderEncountered = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -68,18 +71,44 @@ function extractPortfolioSections(markdown: string): string {
       if (isTarget) {
         isCapturing = true;
         currentHeaderLevel = level;
-        result += line + "\n";
-      } else if (isCapturing && level <= currentHeaderLevel) {
-        // Stop capturing if we hit a header of same or higher level that isn't a target
+      } else if (!firstHeaderEncountered) {
+        // Keep the first header even if it's not a target (likely project title)
+        isCapturing = true;
+        currentHeaderLevel = level;
+      } else if (level <= currentHeaderLevel) {
+        // Stop capturing if we hit a new header that isn't a target and isn't a sub-header
         isCapturing = false;
       }
       
-      // If we are capturing and this is a sub-header, include it
-      if (isCapturing && !isTarget) {
-        result += line + "\n";
-      }
+      firstHeaderEncountered = true;
+      if (isCapturing) result += line + "\n";
     } else if (isCapturing) {
-      result += line + "\n";
+      // Filter links in "top content" or anywhere we are capturing
+      // 1. Handle Markdown links: [Text](#anchor)
+      let filteredLine = line.replace(/\[([^\]]*)\]\((#[^\)]+)\)/g, (match, text, anchor) => {
+        const slug = anchor.substring(1).toLowerCase();
+        if (targetSlugs.includes(slug)) return match;
+        return ""; // Remove link if anchor is not a target
+      });
+
+      // 2. Handle HTML links: <a href="#anchor">Text</a>
+      filteredLine = filteredLine.replace(/<a\s+[^>]*href=(["'])(#[^"']+)\1[^>]*>([\s\S]*?)<\/a>/gi, (match, quote, anchor, text) => {
+        const slug = anchor.substring(1).toLowerCase();
+        if (targetSlugs.includes(slug)) return match;
+        return ""; // Remove link if anchor is not a target
+      });
+
+      // Simple cleanup of leftover separators from nav bars (e.g. "Link1 |  | Link3" or "Link1 • Link2")
+      filteredLine = filteredLine
+        .replace(/[|·•]\s*(?=[|·•\s]*$)/g, '') // Remove trailing separators
+        .replace(/^\s*[|·•]\s*/, '')           // Remove leading separators
+        .replace(/[|·•]\s*(?=[|·•])/g, '')      // Remove empty segments
+        .trim();
+      
+      // If the line became just whitespace/separators after filtering, skip it
+      if (line.trim() !== "" && (filteredLine === "" || /^[|·•\s]+$/.test(filteredLine))) continue;
+      
+      result += filteredLine + "\n";
     }
   }
 

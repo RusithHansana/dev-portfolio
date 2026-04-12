@@ -1,8 +1,14 @@
 interface GitHubReadmeResponse {
   content?: string;
+  download_url?: string;
 }
 
-export async function fetchReadme(repo: string): Promise<string> {
+export interface ReadmeData {
+  content: string;
+  downloadUrl: string;
+}
+
+export async function fetchReadme(repo: string): Promise<ReadmeData> {
   const token = import.meta.env.GITHUB_TOKEN;
   const headers: HeadersInit = {
     Accept: "application/vnd.github+json",
@@ -21,14 +27,14 @@ export async function fetchReadme(repo: string): Promise<string> {
       console.warn(
         `Unable to fetch README for ${repo}. GitHub API returned status ${response.status}.`,
       );
-      return "";
+      return { content: "", downloadUrl: "" };
     }
 
     const payload = (await response.json()) as GitHubReadmeResponse;
 
     if (!payload?.content || typeof payload.content !== 'string') {
       console.warn(`README payload for ${repo} did not include content.`);
-      return "";
+      return { content: "", downloadUrl: "" };
     }
 
     // Decode base64 to utf-8 across environments
@@ -38,9 +44,12 @@ export async function fetchReadme(repo: string): Promise<string> {
       bytes[i] = binaryString.charCodeAt(i);
     }
     const decoder = new TextDecoder('utf-8');
-    return decoder.decode(bytes);
+    return {
+      content: decoder.decode(bytes),
+      downloadUrl: payload.download_url || "",
+    };
   } catch (err) {
     console.error(`Failed to fetch README for ${repo}:`, err);
-    return "";
+    return { content: "", downloadUrl: "" };
   }
 }
