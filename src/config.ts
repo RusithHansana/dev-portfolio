@@ -37,20 +37,20 @@ export const siteConfig = {
       skills: ["React", "TypeScript", "Node.js", "Socket.io", "Vite", "Vitest","Express"]
     },
     {
+      name: "HandCast – Hand Gesture Point Detection System",
+      slug: "handcast-hand-gesture-point-detection-system",
+      description:
+      "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. Built with React Three.js frontend and Python MediaPipe backend for real-time hand tracking and interaction.",
+      link: "https://github.com/RusithHansana/HandCast",
+      skills: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
+    },
+    {
       name: "FinBuddy – AI-Powered Finance Assistant",
       slug: "finbuddy-ai-powered-finance-assistant",
       description:
         "A cross-platform mobile application that provides AI-driven personal finance guidance through a conversational chat interface. Built to deliver accessible financial insights using real-time AI responses.",
       link: "https://github.com/RusithHansana/finbuddy_ai",
       skills: ["Flutter", "Firebase", "Gemini API"],
-    },
-    {
-      name: "HandCast – Hand Gesture Point Detection System",
-      slug: "handcast-hand-gesture-point-detection-system",
-      description:
-        "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. Built with React Three.js frontend and Python MediaPipe backend for real-time hand tracking and interaction.",
-      link: "https://github.com/RusithHansana/HandCast",
-      skills: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
     },
   ],
   experience: [

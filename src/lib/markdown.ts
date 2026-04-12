@@ -127,15 +127,33 @@ marked.use({
   }
 });
 
-export function parseMarkdown(raw: string): string {
+export function parseMarkdown(raw: string, downloadUrl?: string): string {
   if (!raw || typeof raw !== 'string') return "";
 
   // Convert github blob image URLs to raw URLs so they render properly
   let filteredRaw = extractPortfolioSections(raw);
+  let processedRaw = filteredRaw;
+
+  // Resolve relative asset paths if a downloadUrl is provided
+  if (downloadUrl) {
+    // The downloadUrl is typically https://raw.githubusercontent.com/owner/repo/branch/README.md
+    // We want the base directory: https://raw.githubusercontent.com/owner/repo/branch/
+    const assetBaseUrl = downloadUrl.substring(0, downloadUrl.lastIndexOf('/') + 1);
+    
+    // 1. Fix Markdown links/images: [text](relative/path) -> [text](https://.../relative/path)
+    // Negative lookahead for http, /, #, mailto
+    processedRaw = processedRaw.replace(/(!?\[[^\]]*\]\()((?!https?:\/\/|\/|#|mailto:)[^)]+)(\))/gi, (match, prefix, path, suffix) => {
+      return `${prefix}${assetBaseUrl}${path}${suffix}`;
+    });
+
+    // 2. Fix HTML src/href attributes: src="relative/path" -> src="https://.../relative/path"
+    processedRaw = processedRaw.replace(/(src|href)=(["'])((?!https?:\/\/|\/|#|mailto:)[^"']+)\2/gi, (match, attr, quote, path) => {
+      return `${attr}=${quote}${assetBaseUrl}${path}${quote}`;
+    });
+  }
   
-  // If no sections matched, fall back to the original raw content (optional, but safer)
-  // However, user requested ONLY these sections. Let's stick to the rule.
-  let processedRaw = filteredRaw.replace(
+  // Also convert existing github blob image URLs to raw URLs (for manually linked assets)
+  processedRaw = processedRaw.replace(
     /https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/([^"'\s)>]+)/g,
     'https://raw.githubusercontent.com/$1/$2/$3/$4'
   );

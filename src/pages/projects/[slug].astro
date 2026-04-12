@@ -11,8 +11,8 @@ export async function getStaticPaths() {
   const paths = [];
   // Use sequential loop to avoid GitHub API secondary rate limits
   for (const project of projects) {
-    const raw = await fetchReadme(project.repo);
-    const readmeHtml = parseMarkdown(raw);
+    const { content, downloadUrl } = await fetchReadme(project.repo);
+    const readmeHtml = parseMarkdown(content, downloadUrl);
 
     paths.push({
       params: { slug: project.slug },
