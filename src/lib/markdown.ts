@@ -12,8 +12,22 @@ export function parseMarkdown(raw: string): string {
   const sections = processedRaw.split(/\r?\n##\s+/);
   let finalRaw = sections[0] || ''; // Preamble (Logo, title, badges)
   
-  // Safely strip out HTML Table of Contents containing hash links from the preamble
-  finalRaw = finalRaw.replace(/<p align="center">\s*(?:<a href="#[^>]+>.*?<\/a>\s*(?:•|\||\-|<br>)?\s*)+<\/p>/, '');
+  // Safely filter HTML Table of Contents containing hash links to only keep available sections
+  finalRaw = finalRaw.replace(/<p align="center">\s*(?:<a href="#[^>]+>.*?<\/a>\s*(?:•|\||\-|<br>)?\s*)+<\/p>/, (match) => {
+    const allowed = ["#overview", "#features", "#demo", "#tech-stack"];
+    let filteredLinks: string[] = [];
+    match.replace(/<a href="([^"]+)">(.*?)<\/a>/g, (m, href, text) => {
+      // Check if href matches our allowed list (ignoring case)
+      if (allowed.includes(href.toLowerCase())) {
+        filteredLinks.push(m);
+      }
+      return m;
+    });
+    if (filteredLinks.length > 0) {
+      return `<p align="center">\n  ${filteredLinks.join(' • ')}\n</p>`;
+    }
+    return '';
+  });
 
   const allowedSections = ["overview", "features", "demo", "tech stack"];
   
