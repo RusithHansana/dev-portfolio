@@ -14,4 +14,12 @@ export const projects: Project[] = [
     slug: "socketxo-real-time-resilient-tic-tac-toe",
     repo: "RusithHansana/socket-xo",
   },
+  {
+    slug: "finbuddy-ai-powered-finance-assistant",
+    repo: "RusithHansana/finbuddy_ai",
+  },
+  {
+    slug: "handcast-hand-gesture-point-detection-system",
+    repo: "RusithHansana/HandCast",
+  },
 ];
