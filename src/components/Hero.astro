@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "../config";
+import IDCard from "./IDCard.astro";
 ---
 
 <div
@@ -13,6 +14,16 @@ import { siteConfig } from "../config";
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, white 100%)`}
   >
   </div>
+  
+  <IDCard 
+    name={siteConfig.name} 
+    role={siteConfig.title || "Software Engineer"} 
+    avatar="https://avatars.githubusercontent.com/u/84988775?v=4" 
+    stack="React, Next.js, AI" 
+    location="Remote" 
+    status="Open to Work" 
+  />
+
   <svg
     aria-hidden="true"
     class="absolute inset-0 -z-10 size-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"

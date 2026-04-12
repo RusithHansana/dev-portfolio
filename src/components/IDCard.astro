@@ -1,0 +1,46 @@
+---
+import '../styles/IDCard.css';
+
+export interface Props {
+  name: string;
+  role: string;
+  avatar: string;
+  stack: string;
+  location: string;
+  status: string;
+}
+
+const { name, role, avatar, stack, location, status } = Astro.props;
+
+const isAvailable = status === 'Available' || status.toLowerCase().includes('available') || status.toLowerCase().includes('open');
+---
+
+<div class="id-card-anchor">
+  <div class="id-card-assembly">
+    <div class="id-card-nail"></div>
+    <div class="id-card-string"></div>
+    <div class="id-card-body">
+      <div class="id-card-accent-stripe"></div>
+      
+      <img src={avatar} alt={`${name} avatar`} class="id-card-avatar" />
+      <h3 class="id-card-name">{name}</h3>
+      <span class="id-card-role">{role}</span>
+      
+      <div class="id-card-divider"></div>
+      
+      <dl class="id-card-grid">
+        <dt>Stack</dt>
+        <dd>{stack}</dd>
+        
+        <dt>Location</dt>
+        <dd>{location}</dd>
+        
+        <dt>Status</dt>
+        <dd>
+          {isAvailable && <span class="id-card-status-dot"></span>}
+          {status}
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div>
