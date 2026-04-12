@@ -44,3 +44,72 @@ const isAvailable = status === 'Available' || status.toLowerCase().includes('ava
     </div>
   </div>
 </div>
+
+<script>
+  import { hasGPU } from '../utils/gpu';
+
+  function initInteractiveCard() {
+    const isGPUAvailable = hasGPU();
+    const hero = document.getElementById('hero');
+    const assembly = document.querySelector('.id-card-assembly') as HTMLElement | null;
+    
+    if (!assembly) return;
+
+    if (!isGPUAvailable) {
+      assembly.classList.add('swing-mode');
+      return;
+    }
+
+    if (!hero) return;
+
+    // Apply hardware acceleration since GPU is available
+    assembly.style.willChange = 'transform';
+
+    const MAX_ANGLE = 20;
+    const LERP_SPEED = 0.08;
+    
+    let currentAngle = 0;
+    let targetAngle = 0;
+    let rafId: number | null = null;
+
+    const animate = () => {
+      const diff = targetAngle - currentAngle;
+      currentAngle += diff * LERP_SPEED;
+      
+      assembly.style.transform = `rotate(${currentAngle.toFixed(3)}deg)`;
+      
+      if (Math.abs(diff) > 0.05) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        currentAngle = targetAngle;
+        assembly.style.transform = `rotate(${targetAngle.toFixed(3)}deg)`;
+        rafId = null;
+      }
+    };
+
+    const setTarget = (angle: number) => {
+      targetAngle = angle;
+      if (!rafId) {
+        rafId = requestAnimationFrame(animate);
+      }
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const rect = hero.getBoundingClientRect();
+      const ratio = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      setTarget(ratio * MAX_ANGLE);
+    };
+
+    const onLeave = () => {
+      setTarget(0);
+    };
+
+    hero.addEventListener('mousemove', onMove);
+    hero.addEventListener('mouseleave', onLeave);
+  }
+
+  // Run on initial load
+  initInteractiveCard();
+  // Support Astro View Transitions if enabled
+  document.addEventListener('astro:page-load', initInteractiveCard);
+</script>
