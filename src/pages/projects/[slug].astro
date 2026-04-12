@@ -8,17 +8,17 @@ import { siteConfig } from "../../config";
 import "../../styles/global.css";
 
 export async function getStaticPaths() {
-  const paths = await Promise.all(
-    projects.map(async (project) => {
-      const raw = await fetchReadme(project.repo);
-      const readmeHtml = parseMarkdown(raw);
+  const paths = [];
+  // Use sequential loop to avoid GitHub API secondary rate limits
+  for (const project of projects) {
+    const raw = await fetchReadme(project.repo);
+    const readmeHtml = parseMarkdown(raw);
 
-      return {
-        params: { slug: project.slug },
-        props: { project, readmeHtml },
-      };
-    })
-  );
+    paths.push({
+      params: { slug: project.slug },
+      props: { project, readmeHtml },
+    });
+  }
   return paths;
 }
 
@@ -31,14 +31,23 @@ const { project, readmeHtml } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`Details for ${project.slug}`} />
+    <meta name="description" content={`Details for ${project.name || project.slug}`} />
+    
+    <!-- OpenGraph/Twitter Meta Tags -->
+    <meta property="og:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
+    <meta property="og:description" content={`Project details and README for ${project.name || project.slug}`} />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
+    <meta name="twitter:description" content={`Project details and README for ${project.name || project.slug}`} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
-    <title>{siteConfig.name} - {project.slug}</title>
+    <title>{project.name || project.slug} - {siteConfig.name}</title>
   </head>
   <body>
     <Header />
@@ -56,8 +65,9 @@ const { project, readmeHtml } = Astro.props;
           <div class="aspect-video w-full overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
             <iframe
               src={project.demoVideo}
-              title={`${project.slug} demo`}
+              title={`${project.name || project.slug} demo`}
               allow="fullscreen"
+              allowfullscreen
               class="w-full h-full border-none"
             />
           </div>
@@ -67,9 +77,9 @@ const { project, readmeHtml } = Astro.props;
       <!-- Screenshots -->
       {project.screenshots && project.screenshots.length > 0 && (
         <section class="screenshots grid grid-cols-1 md:grid-cols-2 gap-6">
-          {project.screenshots.map((src: string) => (
+          {project.screenshots.map((src: string, index: number) => (
             <div class="overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
-              <img src={src} alt={`${project.slug} screenshot`} loading="lazy" class="w-full h-auto object-cover" />
+              <img src={src} alt={`${project.name || project.slug} screenshot ${index + 1}`} loading="lazy" class="w-full h-auto object-cover" />
             </div>
           ))}
         </section>

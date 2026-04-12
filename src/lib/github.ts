@@ -1,5 +1,3 @@
-import { Buffer } from "node:buffer";
-
 interface GitHubReadmeResponse {
   content?: string;
 }
@@ -14,23 +12,35 @@ export async function fetchReadme(repo: string): Promise<string> {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`https://api.github.com/repos/${repo}/readme`, {
-    headers,
-  });
+  try {
+    const response = await fetch(`https://api.github.com/repos/${repo}/readme`, {
+      headers,
+    });
 
-  if (!response.ok) {
-    console.warn(
-      `Unable to fetch README for ${repo}. GitHub API returned status ${response.status}.`,
-    );
+    if (!response.ok) {
+      console.warn(
+        `Unable to fetch README for ${repo}. GitHub API returned status ${response.status}.`,
+      );
+      return "";
+    }
+
+    const payload = (await response.json()) as GitHubReadmeResponse;
+
+    if (!payload?.content || typeof payload.content !== 'string') {
+      console.warn(`README payload for ${repo} did not include content.`);
+      return "";
+    }
+
+    // Decode base64 to utf-8 across environments
+    const binaryString = atob(payload.content.replace(/\n/g, ""));
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const decoder = new TextDecoder('utf-8');
+    return decoder.decode(bytes);
+  } catch (err) {
+    console.error(`Failed to fetch README for ${repo}:`, err);
     return "";
   }
-
-  const payload = (await response.json()) as GitHubReadmeResponse;
-
-  if (!payload.content) {
-    console.warn(`README payload for ${repo} did not include content.`);
-    return "";
-  }
-
-  return Buffer.from(payload.content.replace(/\n/g, ""), "base64").toString("utf-8");
 }
