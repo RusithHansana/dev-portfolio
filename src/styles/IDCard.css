@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  --id-accent-color: #f43f5e; /* Rose-500 for strong contrast against the blue main theme */
 }
 
 .id-card-nail {
@@ -33,18 +34,18 @@
 
 .id-card-string {
   width: 3px;
-  height: 220px; /* Longer and thicker string */
+  height: 220px; 
   background-color: #d1d5db; /* gray-300 */
   margin-top: -6px;
   z-index: 1;
 }
 
 .id-card-body {
-  width: 380px; /* Significantly wider */
+  width: 380px; 
   background-color: #ffffff;
-  border-radius: 28px; /* Rounder corners */
+  border-radius: 28px; 
   border: 1px solid #e5e7eb; /* gray-200 */
-  padding: 40px; /* Increased padding */
+  padding: 40px; 
   box-shadow: 0 35px 50px -10px rgba(0, 0, 0, 0.15), 0 20px 25px -10px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
@@ -60,12 +61,12 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 10px; /* Thicker */
+  height: 10px; 
   background-color: var(--accent-color, #1d4ed8);
 }
 
 .id-card-avatar {
-  width: 120px; /* Much larger avatar */
+  width: 120px; 
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
@@ -76,7 +77,7 @@
 }
 
 .id-card-name {
-  font-size: 32px; /* Large name */
+  font-size: 32px; 
   font-weight: 800;
   color: #1f2937; /* gray-800 */
   text-align: center;
@@ -88,7 +89,7 @@
   display: inline-block;
   background-color: var(--accent-color, #1d4ed8);
   color: #ffffff;
-  font-size: 18px; /* Larger role badge */
+  font-size: 18px; 
   font-weight: 600;
   padding: 6px 20px;
   border-radius: 9999px;
@@ -107,9 +108,9 @@
   display: grid;
   grid-template-columns: auto 1fr;
   width: 100%;
-  gap: 16px 32px;
+  gap: 16px 20px;
   margin: 0;
-  font-size: 18px; /* Larger info grid text */
+  font-size: 18px; 
 }
 
 .id-card-grid dt {
@@ -117,8 +118,8 @@
   text-align: left;
   margin: 0;
   text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 12px; 
+  letter-spacing: 0.05em;
   font-weight: 600;
 }
 
@@ -133,28 +134,27 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  background-color: #10b981; /* emerald-500 */
+  background-color: #10b981; 
   border-radius: 50%;
   margin-right: 10px;
 }
 
 .id-card-specialties-container {
-  display: flex-wrap;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px; 
 }
 
 .id-card-specialty-badge {
-  background-color: #f3f4f6; /* gray-100 fallback */
-  background-color: var(--accent-color);
+  background-color: var(--id-accent-color);
   color: #ffffff;
-  font-size: 13px;
+  font-size: 12px; 
   font-weight: 600;
-  padding: 4px 12px;
+  padding: 4px 10px; 
   border-radius: 9999px;
   white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Softer shadow for light mode */
 }
 
 /* Fallback Swing Animation (No GPU) */
