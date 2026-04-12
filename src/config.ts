@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "Rusith Hansana",
+  githubUsername: "RusithHansana",
   title: "Software Engineer",
   description: "Portfolio website of Rusith Hansana",
   accentColor: "#1d4ed8",
