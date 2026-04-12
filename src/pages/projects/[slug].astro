@@ -1,0 +1,225 @@
+---
+import { projects } from "../../data/projects";
+import { fetchReadme } from "../../lib/github";
+import { parseMarkdown } from "../../lib/markdown";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { siteConfig } from "../../config";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const paths = [];
+  // Use sequential loop to avoid GitHub API secondary rate limits
+  for (const project of projects) {
+    const raw = await fetchReadme(project.repo);
+    const readmeHtml = parseMarkdown(raw);
+
+    paths.push({
+      params: { slug: project.slug },
+      props: { project, readmeHtml },
+    });
+  }
+  return paths;
+}
+
+const { project, readmeHtml } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={`Details for ${project.name || project.slug}`} />
+    
+    <!-- OpenGraph/Twitter Meta Tags -->
+    <meta property="og:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
+    <meta property="og:description" content={`Project details and README for ${project.name || project.slug}`} />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
+    <meta name="twitter:description" content={`Project details and README for ${project.name || project.slug}`} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{project.name || project.slug} - {siteConfig.name}</title>
+  </head>
+  <body>
+    <Header />
+    <main class="max-w-4xl mx-auto px-6 py-12 md:py-24 w-full flex flex-col gap-12 mt-16">
+      <div class="flex flex-row justify-between items-center gap-4">
+        <a href="/" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity">← Back to portfolio</a>
+        <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2">
+          View on GitHub ↗
+        </a>
+      </div>
+
+      <!-- Demo video -->
+      {project.demoVideo && (
+        <section class="demo-video">
+          <div class="aspect-video w-full overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
+            <iframe
+              src={project.demoVideo}
+              title={`${project.name || project.slug} demo`}
+              allow="fullscreen"
+              allowfullscreen
+              class="w-full h-full border-none"
+            />
+          </div>
+        </section>
+      )}
+
+      <!-- Screenshots -->
+      {project.screenshots && project.screenshots.length > 0 && (
+        <section class="screenshots grid grid-cols-1 md:grid-cols-2 gap-6">
+          {project.screenshots.map((src: string, index: number) => (
+            <div class="overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
+              <img src={src} alt={`${project.name || project.slug} screenshot ${index + 1}`} loading="lazy" class="w-full h-auto object-cover" />
+            </div>
+          ))}
+        </section>
+      )}
+
+      <!-- README rendered as HTML -->
+      {readmeHtml && (
+      <section class="readme-content unreset-tailwind-styles overflow-hidden w-full">
+        <Fragment set:html={readmeHtml} />
+      </section>
+      )}
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  /* Custom typography classes to gracefully handle markdown when Tailwind Typography is missing */
+  .readme-content {
+    line-height: 1.7;
+    font-size: 0.95rem;
+    word-wrap: break-word; /* Prevents text overflow */
+  }
+
+  .readme-content h1, .readme-content h2, .readme-content h3, .readme-content h4, .readme-content h5, .readme-content h6 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .readme-content h1 { font-size: 2.25rem; }
+  .readme-content h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 0.5rem; }
+  .readme-content h3 { font-size: 1.35rem; }
+
+  .readme-content a {
+    color: #534db7;
+    text-decoration: none;
+  }
+  .readme-content a:hover {
+    text-decoration: underline;
+  }
+
+  .readme-content p {
+    margin-bottom: 1.25rem;
+  }
+
+  .readme-content ul, .readme-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .readme-content li {
+    margin-bottom: 0.25rem;
+  }
+  .readme-content ul { list-style-type: disc; }
+  .readme-content ol { list-style-type: decimal; }
+
+  .readme-content code {
+    font-family: 'IBM Plex Mono', monospace;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+  }
+
+  .readme-content pre {
+    background: #0d1117;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+  }
+
+  .readme-content pre code {
+    background: transparent;
+    padding: 0;
+    font-size: 0.85rem;
+    color: #e6edf3;
+  }
+
+  .readme-content blockquote {
+    border-left: 4px solid #534ab7;
+    padding-left: 1rem;
+    color: rgba(0, 0, 0, 0.6);
+    background: rgba(83, 74, 183, 0.1);
+    padding: 1rem;
+    border-radius: 0 0.25rem 0.25rem 0;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .readme-content blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Support for HTML styling traits from the Dev Notes guidance */
+  .readme-content img {
+    max-width: 100%; /* Ensures images scale down proportionally */
+    height: auto;
+    border-radius: 0.25rem;
+    margin: 1rem 0;
+  }
+  
+  .readme-content p[align="center"], .readme-content h1[align="center"] {
+    text-align: center;
+  }
+
+  .readme-content p[align="center"] img, .readme-content a img {
+    display: inline-block;
+    margin: 0.25rem;
+    vertical-align: middle;
+  }
+
+  .readme-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    display: block;
+    overflow-x: auto; /* Responsive wrapper built-in for markdown tables */
+  }
+  
+  .readme-content th {
+    text-align: left;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    padding: 0.75rem;
+    font-weight: 600;
+  }
+
+  .readme-content td {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .readme-content hr {
+    border: 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 2rem 0;
+  }
+</style>
