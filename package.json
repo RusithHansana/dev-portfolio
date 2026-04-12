@@ -12,9 +12,13 @@
     "@astrojs/vercel": "^10.0.4",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^6.1.4",
+    "marked": "^18.0.0",
     "tailwindcss": "^4.1.11"
   },
   "overrides": {
     "path-to-regexp": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0"
   }
 }
