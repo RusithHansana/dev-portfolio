@@ -43,11 +43,70 @@ const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
   // Strip everything else (scripts, iframes, event handlers, javascript: URIs)
 };
 
+/**
+ * Extracts specific sections from a README markdown string.
+ * Target sections: Overview, Features, Demo, Architecture, Tech Stack.
+ */
+function extractPortfolioSections(markdown: string): string {
+  const targetSections = ["Overview", "Features", "Demo", "Architecture", "Tech Stack"];
+  const lines = markdown.split(/\r?\n/);
+  let result = "";
+  let isCapturing = false;
+  let currentHeaderLevel = 0;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmedLine = line.trim();
+    const headerMatch = trimmedLine.match(/^(#{1,6})\s+(.*)$/);
+
+    if (headerMatch) {
+      const level = headerMatch[1].length;
+      const title = headerMatch[2].replace(/[^\w\s]/g, '').trim().toLowerCase();
+      
+      const isTarget = targetSections.some(ts => ts.toLowerCase() === title);
+
+      if (isTarget) {
+        isCapturing = true;
+        currentHeaderLevel = level;
+        result += line + "\n";
+      } else if (isCapturing && level <= currentHeaderLevel) {
+        // Stop capturing if we hit a header of same or higher level that isn't a target
+        isCapturing = false;
+      }
+      
+      // If we are capturing and this is a sub-header, include it
+      if (isCapturing && !isTarget) {
+        result += line + "\n";
+      }
+    } else if (isCapturing) {
+      result += line + "\n";
+    }
+  }
+
+  return result.trim();
+}
+
+// Configure marked for mermaid support
+marked.use({
+  renderer: {
+    code({ text, lang }: { text: string; lang?: string }) {
+      if (lang === 'mermaid') {
+        return `<pre class="mermaid">${text}</pre>`;
+      }
+      return false; // use default
+    }
+  }
+});
+
 export function parseMarkdown(raw: string): string {
   if (!raw || typeof raw !== 'string') return "";
 
   // Convert github blob image URLs to raw URLs so they render properly
-  let processedRaw = raw.replace(
+  let filteredRaw = extractPortfolioSections(raw);
+  
+  // If no sections matched, fall back to the original raw content (optional, but safer)
+  // However, user requested ONLY these sections. Let's stick to the rule.
+  let processedRaw = filteredRaw.replace(
     /https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/([^"'\s)>]+)/g,
     'https://raw.githubusercontent.com/$1/$2/$3/$4'
   );
