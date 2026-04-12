@@ -6,8 +6,28 @@ export function parseMarkdown(raw: string): string {
     /https:\/\/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/([^"'\s)>]+)/g,
     'https://raw.githubusercontent.com/$1/$2/$3/$4'
   );
+
+  // Split by markdown h2 to filter out non-portfolio sections
+  // Using \n## to safely catch sections
+  const sections = processedRaw.split(/\r?\n##\s+/);
+  let finalRaw = sections[0] || ''; // Preamble (Logo, title, badges)
   
-  let html = marked.parse(processedRaw, { async: false }) as string;
+  // Safely strip out HTML Table of Contents containing hash links from the preamble
+  finalRaw = finalRaw.replace(/<p align="center">\s*(?:<a href="#[^>]+>.*?<\/a>\s*(?:•|\||\-|<br>)?\s*)+<\/p>/, '');
+
+  const allowedSections = ["overview", "features", "demo", "tech stack"];
+  
+  for (let i = 1; i < sections.length; i++) {
+    const section = sections[i];
+    const titleLine = section.split('\n')[0].toLowerCase().trim();
+    
+    // Check if the title line contains any of the allowed keywords
+    if (allowedSections.some(allowed => titleLine.includes(allowed))) {
+      finalRaw += '\n\n## ' + section;
+    }
+  }
+  
+  let html = marked.parse(finalRaw, { async: false }) as string;
 
   // Add IDs to headings for anchor links (e.g. href="#features" maps to id="features")
   html = html.replace(/<h([1-6])(.*?)>(.*?)<\/h\1>/g, (match, level, attributes, content) => {
