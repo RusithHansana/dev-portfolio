@@ -5,12 +5,12 @@ export interface Props {
   name: string;
   role: string;
   avatar: string;
-  stack: string;
+  specialties: string[];
   location: string;
   status: string;
 }
 
-const { name, role, avatar, stack, location, status } = Astro.props;
+const { name, role, avatar, specialties, location, status } = Astro.props;
 
 const isAvailable = status === 'Available' || status.toLowerCase().includes('available') || status.toLowerCase().includes('open');
 ---
@@ -29,8 +29,14 @@ const isAvailable = status === 'Available' || status.toLowerCase().includes('ava
       <div class="id-card-divider"></div>
       
       <dl class="id-card-grid">
-        <dt>Stack</dt>
-        <dd>{stack}</dd>
+        <dt>Focus</dt>
+        <dd>
+          <div class="id-card-specialties-container">
+            {specialties.map((specialty) => (
+              <span class="id-card-specialty-badge">{specialty}</span>
+            ))}
+          </div>
+        </dd>
         
         <dt>Location</dt>
         <dd>{location}</dd>

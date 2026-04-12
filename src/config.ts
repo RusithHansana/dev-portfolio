@@ -8,6 +8,7 @@ export const siteConfig = {
     github: "https://github.com/RusithHansana",
     linkedin: "https://www.linkedin.com/in/rusith-hansana/",
   },
+  specialties: ["Full-Stack", "Mobile Apps", "AI Apps"],
   aboutMe:"Software Engineer building scalable web, AI-powered, and interactive systems. Focused on clean architecture, performance, and product-driven engineering.",
   skills: [
     "Javascript",
