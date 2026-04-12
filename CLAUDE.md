@@ -44,6 +44,12 @@ The project follows a component-based architecture with all customization centra
 - The project uses IBM Plex Mono font loaded from Google Fonts
 - Social links in the config are all optional and will conditionally render
 
+## Environment Variables Guardrail
+
+- Under no circumstance should code read or parse `.env` from disk.
+- Document environment variables in `.env.example` and load values via `import.meta.env` (Astro) / `process.env` (Node) as appropriate.
+- `.env` is for local developer secrets only and must remain untracked.
+
 ## Working with Components
 
 When modifying components:
