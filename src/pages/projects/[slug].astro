@@ -48,13 +48,27 @@ const { project, readmeHtml } = Astro.props;
       rel="stylesheet"
     />
     <title>{project.name || project.slug} - {siteConfig.name}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
   </head>
   <body>
     <Header />
     <main class="max-w-4xl mx-auto px-6 py-12 md:py-24 w-full flex flex-col gap-12 mt-16">
       <div class="flex flex-row justify-between items-center gap-4">
-        <a href="/" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity">← Back to portfolio</a>
-        <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2">
+        <a href="/" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity dark:text-zinc-300 dark:border-zinc-300">← Back to portfolio</a>
+        <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2 dark:text-zinc-300 dark:border-zinc-300">
           View on GitHub ↗
         </a>
       </div>
@@ -62,7 +76,7 @@ const { project, readmeHtml } = Astro.props;
       <!-- Demo video -->
       {project.demoVideo && (
         <section class="demo-video">
-          <div class="aspect-video w-full overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
+          <div class="aspect-video w-full overflow-hidden border border-zinc-200 dark:border-zinc-800 rounded-md bg-zinc-50 dark:bg-zinc-900/50">
             <iframe
               src={project.demoVideo}
               title={`${project.name || project.slug} demo`}
@@ -78,7 +92,7 @@ const { project, readmeHtml } = Astro.props;
       {project.screenshots && project.screenshots.length > 0 && (
         <section class="screenshots grid grid-cols-1 md:grid-cols-2 gap-6">
           {project.screenshots.map((src: string, index: number) => (
-            <div class="overflow-hidden border border-[rgba(0,0,0,0.1)] rounded-md bg-[rgba(0,0,0,0.02)]">
+            <div class="overflow-hidden border border-zinc-200 dark:border-zinc-800 rounded-md bg-zinc-50 dark:bg-zinc-900/50">
               <img src={src} alt={`${project.name || project.slug} screenshot ${index + 1}`} loading="lazy" class="w-full h-auto object-cover" />
             </div>
           ))}
@@ -242,5 +256,59 @@ const { project, readmeHtml } = Astro.props;
     padding: 1rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Dark mode overrides for README content */
+  .dark .readme-content {
+    color: #f4f4f5; /* zinc-100 */
+  }
+
+  .dark .readme-content h1,
+  .dark .readme-content h2,
+  .dark .readme-content h3,
+  .dark .readme-content h4,
+  .dark .readme-content h5,
+  .dark .readme-content h6 {
+    color: #fff;
+  }
+
+  .dark .readme-content h2 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .readme-content a {
+    color: #818cf8; /* indigo-400 */
+  }
+
+  .dark .readme-content code {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .readme-content pre {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #09090b; /* zinc-950 */
+  }
+
+  .dark .readme-content blockquote {
+    color: #a1a1aa; /* zinc-400 */
+    background: rgba(129, 140, 248, 0.1);
+    border-left-color: #818cf8;
+  }
+
+  .dark .readme-content th {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .readme-content td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .readme-content hr {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .mermaid {
+    background: #18181b; /* zinc-900 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 </style>
