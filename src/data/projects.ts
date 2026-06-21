@@ -7,6 +7,10 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "nomadagent-ai-powered-travel-research-agent",
+    repo: "RusithHansana/nomad-agent",
+  },
+  {
     slug: "bizagent-ai-powered-receptionist",
     repo: "RusithHansana/biz-agent-react-native",
   },
