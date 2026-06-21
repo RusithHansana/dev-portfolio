@@ -25,6 +25,13 @@ export const siteConfig = {
   ],
   projects: [
     {
+      name: "NomadAgent – AI-Powered Travel Research Agent",
+      slug: "nomadagent-ai-powered-travel-research-agent",
+      description: "An AI-powered travel research agent that turns natural-language trip descriptions into fully verified itineraries. Features real-time streaming with LangGraph agent pipeline, interactive map view with OpenStreetMap, and PDF export. Built with Flutter frontend and FastAPI backend powered by Google Gemini and Tavily search.",
+      link: "https://github.com/RusithHansana/nomad-agent",
+      skills: ["Flutter", "Dart", "Python", "FastAPI", "LangGraph", "Gemini API", "Tavily API", "Server-Sent Events"]
+    },
+    {
       name: "BizAgent – AI-Powered Receptionist",
       slug: "bizagent-ai-powered-receptionist",
       description: "A cross-platform mobile application that provides a 24/7 AI-powered receptionist for service-based businesses. It features a conversational interface for lead qualification, FAQ handling, and automated appointment scheduling synced directly to Google Sheets.",
