@@ -1,6 +1,8 @@
 ---
 import { siteConfig } from "../config";
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
+
+const images = import.meta.glob<{ default: { src: string } }>('/src/assets/covers/*.{jpeg,jpg,png,gif}', { eager: true });
 ---
 
 {
@@ -41,7 +43,7 @@ const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
                       {/* Cover photo — required for every project */}
                       <div class="relative w-full h-[220px] sm:h-[260px] overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                         <img
-                          src={project.coverImage}
+                          src={images[`/${project.coverImage}`]?.default?.src || project.coverImage}
                           alt={project.name}
                           loading="lazy"
                           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
