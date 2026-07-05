@@ -19,10 +19,6 @@ export const projects: Project[] = [
     repo: "RusithHansana/socket-xo",
   },
   {
-    slug: "finbuddy-ai-powered-finance-assistant",
-    repo: "RusithHansana/finbuddy_ai",
-  },
-  {
     slug: "handcast-hand-gesture-point-detection-system",
     repo: "RusithHansana/HandCast",
   },
