@@ -6,11 +6,12 @@ import Projects from "../components/Projects.astro";
 import Experience from "../components/Experience.astro";
 import Education from "../components/Education.astro";
 import Footer from "../components/Footer.astro";
+import PageTransition from "../components/PageTransition.astro";
 import { siteConfig } from "../config";
 import "../styles/global.css";
 ---
 
-<html lang="en">
+<html lang="en" style={`--accent-color: ${siteConfig.accentColor}`}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -40,6 +41,7 @@ import "../styles/global.css";
     </script>
   </head>
   <body>
+    <PageTransition />
     <Header />
     <section>
       <Hero />

@@ -1,8 +1,9 @@
 ---
 import { siteConfig } from "../config";
+import { projects } from "../data/projects";
 import ThemeToggle from "./ThemeToggle.astro";
 
-const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
+const hasProjects = projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 ---
@@ -21,7 +22,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     <ul class="hidden md:flex items-center gap-8 justify-center flex-1">
       <li>
         <a
-          href="#about"
+          href="/#about"
           class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
         >
           About
@@ -31,7 +32,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
         hasProjects && (
           <li>
             <a
-              href="#projects"
+              href="/#projects"
               class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
             >
               Projects
@@ -43,7 +44,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
         hasExperience && (
           <li>
             <a
-              href="#experience"
+              href="/#experience"
               class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
             >
               Experience
@@ -55,7 +56,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
         hasEducation && (
           <li>
             <a
-              href="#education"
+              href="/#education"
               class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
             >
               Education
@@ -91,7 +92,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       <ul class="flex flex-col gap-6 text-center mt-12">
         <li>
           <a
-            href="#about"
+            href="/#about"
             class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
           >
             About
@@ -101,7 +102,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           hasProjects && (
             <li>
               <a
-                href="#projects"
+                href="/#projects"
                 class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
               >
                 Projects
@@ -113,7 +114,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           hasExperience && (
             <li>
               <a
-                href="#experience"
+                href="/#experience"
                 class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
               >
                 Experience
@@ -125,7 +126,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           hasEducation && (
             <li>
               <a
-                href="#education"
+                href="/#education"
                 class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
               >
                 Education
