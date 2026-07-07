@@ -33,74 +33,152 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    name: "NomadAgent - AI-Powered Travel Research Agent",
-    slug: "nomadagent-ai-powered-travel-research-agent",
-    tagline: "Verified itinerary planning from natural-language trip ideas.",
+    name: "NomadAgent",
+    slug: "nomadagent",
+    tagline:
+      "An AI-powered travel research agent that generates verified itineraries from natural-language trip descriptions.",
     description:
-      "An AI-powered travel research agent that turns natural-language trip descriptions into fully verified itineraries. It combines real-time streaming, map-based itinerary review, and PDF export through a Flutter frontend and FastAPI backend.",
+      "NomadAgent is an AI-powered travel research agent that transforms natural-language trip descriptions into verified itineraries. It researches destinations in real time, extracts structured venue information, verifies results, and compiles day-by-day travel plans with maps, coordinates, opening hours, and source citations through a Flutter mobile app and a FastAPI backend.",
     coverImage: "src/assets/covers/nomad-agent-cover.jpg",
     links: {
-      github: "https://github.com/RusithHansana/nomad-agent",
+      github: "https://github.com/RusithHansana/nomad-agent.git",
+      demo: "https://github.com/user-attachments/assets/a73a4c4c-5a2c-40b8-8f2c-388061d7868c",
     },
-    status: "Draft case study",
-    year: "2025",
-    type: "AI travel application",
+    status: "Completed",
+    year: "2026",
+    type: "AI Travel Agent",
     stack: [
       "Flutter",
-      "Dart",
       "Python",
       "FastAPI",
       "LangGraph",
-      "Gemini API",
-      "Tavily API",
-      "Server-Sent Events",
+      "Google Gemini",
+      "Tavily Python SDK",
     ],
     overview: [
-      "NomadAgent explores how an agentic workflow can turn a loose travel prompt into a researched itinerary with places, timing, and map context.",
-      "The first pass focuses on search-backed planning, streamed progress, interactive route review, and exportable trip output. These notes are drafted from the project summary and can be expanded with production metrics later.",
+      "NomadAgent converts natural-language trip descriptions into verified travel itineraries. Users describe their destination, interests, and trip duration, while the agent researches the web, extracts venue information, verifies results, and produces a structured itinerary with citations.",
+      "The application consists of a Flutter mobile frontend and a Python FastAPI backend. An agent pipeline powered by LangGraph and Google Gemini coordinates planning, web research, structured data extraction, and itinerary compilation.",
+      "The mobile application provides real-time streaming of the agent's progress, an interactive map displaying verified venues, day-by-day itinerary views, and PDF export functionality for sharing completed travel plans.",
     ],
     highlights: [
-      "Natural-language trip intake for flexible planning requests.",
-      "Real-time streamed agent progress through a LangGraph pipeline.",
-      "Interactive OpenStreetMap itinerary review.",
-      "PDF export for generated travel plans.",
+      "Natural language trip input",
+      "Multi-step agent pipeline",
+      "Real-time streaming with Server-Sent Events",
+      "Intelligent web research",
+      "LLM-powered venue data extraction",
+      "Venue verification",
+      "Interactive map view",
+      "Day-by-day itinerary generation",
+      "PDF export and sharing",
     ],
     problem:
-      "Trip planning often requires switching between search results, maps, reviews, and document tools before a plan feels usable.",
+      "Raw web search results are not sufficient for producing accurate travel itineraries because they require structured venue information, verification, and organization into practical travel plans.",
     solution:
-      "NomadAgent brings research, reasoning, map visualization, and export into one guided flow so a traveler can move from idea to itinerary faster.",
+      "NomadAgent uses a multi-step agent pipeline to plan research tasks, search the web, extract structured venue data with Gemini, verify venues, and compile day-by-day itineraries with maps, coordinates, opening hours, and source citations.",
     features: [
       {
-        title: "Streaming research flow",
+        title: "Natural Language Trip Input",
         description:
-          "Server-sent events keep the Flutter client updated while the backend researches and assembles the itinerary.",
+          "Accepts trip descriptions in plain English and automatically identifies the destination, duration, and interests.",
       },
       {
-        title: "Map-backed itinerary review",
+        title: "Multi-Step Agent Pipeline",
         description:
-          "Generated stops can be reviewed spatially with OpenStreetMap context instead of only as plain text.",
+          "Uses a planner, researcher, extractor, and compiler workflow orchestrated by LangGraph with state management.",
       },
       {
-        title: "Portable output",
+        title: "Real-Time Streaming",
         description:
-          "PDF export turns the generated itinerary into a shareable artifact for offline planning.",
+          "Streams thought logs, venue verification events, and self-corrections to the mobile app using Server-Sent Events.",
+      },
+      {
+        title: "Intelligent Web Research",
+        description:
+          "Searches the web using Tavily with hybrid relevance scoring to filter results.",
+      },
+      {
+        title: "LLM-Powered Data Extraction",
+        description:
+          "Extracts structured venue information including coordinates, addresses, opening hours, and descriptions from web content.",
+      },
+      {
+        title: "Venue Verification",
+        description:
+          "Applies tiered verification scoring with type-specific weighting for different venue categories.",
+      },
+      {
+        title: "Interactive Map View",
+        description:
+          "Displays verified venues with coordinates on an interactive OpenStreetMap layer.",
+      },
+      {
+        title: "Day-by-Day Itinerary",
+        description:
+          "Organizes verified venues into daily travel plans with logistics and estimated timing.",
+      },
+      {
+        title: "PDF Export & Sharing",
+        description:
+          "Generates PDF itineraries that can be shared directly from the application.",
+      },
+      {
+        title: "Parallel Extraction",
+        description:
+          "Runs concurrent LLM extraction tasks using asyncio.gather to reduce processing time.",
+      },
+      {
+        title: "Bounded Event History",
+        description:
+          "Maintains a rolling event buffer with a monotonic cursor for efficient streaming.",
+      },
+      {
+        title: "Graceful Error Handling",
+        description:
+          "Continues pipeline execution by skipping failed search tasks and handling service errors without blocking generation.",
       },
     ],
     architecture: [
       {
-        label: "Client",
+        label: "Mobile App",
         description:
-          "Flutter handles prompt input, streamed state, itinerary presentation, map views, and export actions.",
+          "A Flutter application that provides trip input, real-time generation, itinerary viewing, map visualization, and PDF export.",
       },
       {
-        label: "API",
+        label: "Backend",
         description:
-          "FastAPI coordinates the agent pipeline and streams progress back to the client.",
+          "A FastAPI backend exposing health and itinerary generation endpoints while streaming updates with Server-Sent Events.",
       },
       {
-        label: "AI/Search",
+        label: "AI Pipeline",
         description:
-          "Gemini supports reasoning while Tavily provides search-backed travel research.",
+          "A LangGraph workflow consisting of planner, researcher, extractor, and compiler stages.",
+      },
+      {
+        label: "APIs",
+        description:
+          "Uses Tavily for web search and Google Gemini for extraction and itinerary compilation.",
+      },
+    ],
+    screenshots: [
+      {
+        src: "",
+        alt: "Home Screen",
+      },
+      {
+        src: "",
+        alt: "Home with Prompt",
+      },
+      {
+        src: "",
+        alt: "Event Streaming",
+      },
+      {
+        src: "",
+        alt: "Itinerary View",
+      },
+      {
+        src: "",
+        alt: "Map View",
       },
     ],
   },
