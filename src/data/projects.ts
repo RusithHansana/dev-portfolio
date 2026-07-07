@@ -183,72 +183,129 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "BizAgent - AI-Powered Receptionist",
-    slug: "bizagent-ai-powered-receptionist",
-    tagline: "A mobile receptionist assistant for lead capture and scheduling.",
+    name: "BizAgent",
+    slug: "bizagent",
+    tagline:
+      "A cross-platform mobile application providing a 24/7 AI-powered receptionist for service-based businesses.",
     description:
-      "A cross-platform mobile application that provides a 24/7 AI-powered receptionist for service-based businesses. It supports conversational lead qualification, FAQ handling, and appointment scheduling synced to Google Sheets.",
+      "BizAgent is a cross-platform mobile application for service-based small businesses that provides a 24/7 AI-powered receptionist. The application uses an intelligent chatbot to answer frequently asked questions, qualify leads, validate appointment availability, prevent double bookings, and write confirmed appointments to a Google Sheet used as a CRM.",
     coverImage: "src/assets/covers/biz-agent-cover.jpg",
     links: {
-      github: "https://github.com/RusithHansana/biz-agent-react-native",
+      github: "https://github.com/RusithHansana/biz-agent-react-native.git",
+      demo: "https://github.com/user-attachments/assets/f5ba4dc8-98b4-48df-9f0e-1f7659d7d6a2",
     },
-    status: "Draft case study",
-    year: "2025",
-    type: "AI business assistant",
+    status: "Completed",
+    year: "2026",
+    type: "Mobile Chatbot",
     stack: [
       "React Native",
       "Expo",
       "TypeScript",
+      "React 19",
       "Node.js",
-      "Gemini API",
-      "Google Sheets API",
+      "Express",
+      "Vercel Serverless Functions",
     ],
     overview: [
-      "BizAgent is designed for service businesses that need a lightweight way to respond to prospects outside normal working hours.",
-      "The app combines a conversational mobile interface with an automation backend that can qualify leads, answer common questions, and record appointments in Google Sheets.",
+      "BizAgent is a cross-platform mobile application designed for service-based small businesses such as real estate agencies, dental clinics, and consultancies. It provides a 24/7 AI-powered receptionist that interacts with users through an intelligent chatbot.",
+      "The chatbot answers frequently asked questions, qualifies leads, validates appointment availability, prevents double bookings, and records confirmed appointments in a Google Sheet used as a zero-cost CRM.",
     ],
     highlights: [
-      "Conversational lead qualification flow.",
-      "FAQ handling for common customer questions.",
-      "Appointment capture synced to Google Sheets.",
-      "Cross-platform mobile experience through Expo.",
+      "Conversational AI booking",
+      "Lead qualification",
+      "Smart scheduling",
+      "Google Sheets CRM integration",
+      "Prompt injection resistance",
+      "Offline booking retry",
+      "Network awareness",
+      "Easy client onboarding",
     ],
     problem:
-      "Small service businesses can miss leads when inquiries arrive outside business hours or when staff are busy with existing customers.",
+      "Service-based small businesses need a receptionist that can answer questions, qualify leads, manage appointments, and avoid double bookings without the cost of a traditional CRM.",
     solution:
-      "BizAgent acts as a first-response receptionist that gathers key details, answers routine questions, and writes scheduling data into a simple business-owned spreadsheet.",
+      "BizAgent provides a cross-platform AI-powered receptionist that guides users through bookings, validates scheduling, prevents conflicts, and stores confirmed appointments in Google Sheets as a zero-cost CRM.",
     features: [
       {
-        title: "Mobile-first conversation",
+        title: "Conversational AI Booking",
         description:
-          "React Native and Expo provide a cross-platform interface for managing receptionist conversations.",
+          "Uses Google Gemini 2.5 Flash to guide users from inquiry to a confirmed appointment in a single session.",
       },
       {
-        title: "Lead qualification",
+        title: "Lead Qualification",
         description:
-          "The assistant prompts for relevant customer details before passing the lead into the business workflow.",
+          "Collects the user's name, email, and desired service before booking.",
       },
       {
-        title: "Sheets-backed scheduling",
+        title: "Smart Scheduling",
         description:
-          "Appointments are written to Google Sheets so the first version stays easy for operators to inspect and adjust.",
+          "Validates business hours and checks Google Sheets for conflicts to prevent double bookings.",
+      },
+      {
+        title: "Google Sheets CRM",
+        description:
+          "Appends every confirmed booking to a Google Sheet with booking details.",
+      },
+      {
+        title: "Prompt Injection Resistance",
+        description:
+          "Uses system prompt guardrails to keep the chatbot in its receptionist role.",
+      },
+      {
+        title: "Offline Resilience",
+        description:
+          "Caches failed bookings locally with AsyncStorage and retries them on the next launch.",
+      },
+      {
+        title: "Network Awareness",
+        description:
+          "Displays an offline connection banner and disables chat input until connectivity is restored.",
+      },
+      {
+        title: "Easy Client Onboarding",
+        description:
+          "Allows deployment for a new client by changing the business profile JSON and Google Sheet ID.",
       },
     ],
     architecture: [
       {
-        label: "App",
+        label: "Mobile App",
         description:
-          "React Native renders the conversation experience and business-facing mobile screens.",
+          "React Native Expo client using React Context, useReducer, and AsyncStorage communicates with backend endpoints over HTTPS.",
       },
       {
         label: "Backend",
         description:
-          "A Node.js service manages AI requests and integration logic for scheduling workflows.",
+          "Node.js and Express application deployed as Vercel Serverless Functions exposing chat, booking, and health endpoints.",
       },
       {
-        label: "Data",
-        description:
-          "Google Sheets acts as the appointment and lead handoff layer for this draft implementation.",
+        label: "AI",
+        description: "Google Gemini 2.5 Flash processes chatbot requests.",
+      },
+      {
+        label: "Database",
+        description: "Google Sheets API stores confirmed bookings as CRM records.",
+      },
+    ],
+    screenshots: [
+      {
+        src: "",
+        alt: "Landing Screen",
+      },
+      {
+        src: "",
+        alt: "Chat Greeting",
+      },
+      {
+        src: "",
+        alt: "Chat Conversation",
+      },
+      {
+        src: "",
+        alt: "Continue Conversation",
+      },
+      {
+        src: "",
+        alt: "Booking Confirmed",
       },
     ],
   },
