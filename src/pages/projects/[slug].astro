@@ -190,7 +190,15 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
 
               {mobileScreenshots.length > 0 && (
                 <div class="row-container mt-4">
-                  <h3 class="row-title">Mobile</h3>
+                  <div class="row-header">
+                    <h3 class="row-title">Mobile</h3>
+                    <span class="scroll-hint">
+                      Swipe to view
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
                   <div class="row">
                     {mobileScreenshots.map((shot) => (
                       <div class="thumb mobile" data-index={shot.index}>
@@ -203,7 +211,15 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
 
               {webScreenshots.length > 0 && (
                 <div class="row-container mt-6">
-                  <h3 class="row-title">Web</h3>
+                  <div class="row-header">
+                    <h3 class="row-title">Web</h3>
+                    <span class="scroll-hint">
+                      Swipe to view
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </span>
+                  </div>
                   <div class="row">
                     {webScreenshots.map((shot) => (
                       <div class="thumb web" data-index={shot.index}>
@@ -250,10 +266,19 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
         <div class="modal" id="screenshot-modal">
           <div class="modal-stage">
             <div class="modal-nav prev" id="prevBtn">&#8249;</div>
-            <img id="modalImg" src="" alt="" />
+            <img id="modalImg" src="" alt="" draggable="false" />
             <div class="modal-nav next" id="nextBtn">&#8250;</div>
             <div class="modal-close" id="closeBtn">&#10005;</div>
             <div class="modal-counter" id="counter"></div>
+          </div>
+          <div class="swipe-hint" id="swipeHint">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            <span>Swipe to browse</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
           </div>
         </div>
 
@@ -261,12 +286,23 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
           const modal = document.getElementById('screenshot-modal');
           const modalImg = document.getElementById('modalImg');
           const counter = document.getElementById('counter');
+          const swipeHint = document.getElementById('swipeHint');
           let current = 0;
+          let hintTimeout = null;
 
           function openModal(index) {
             current = index;
             render();
             modal.classList.add('open');
+
+            // Show swipe hint on mobile/touch screens and fade out
+            if (swipeHint) {
+              swipeHint.classList.add('show');
+              if (hintTimeout) clearTimeout(hintTimeout);
+              hintTimeout = setTimeout(() => {
+                swipeHint.classList.remove('show');
+              }, 2500);
+            }
           }
           function render() {
             modalImg.src = screenshots[current].src;
@@ -275,6 +311,8 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
           }
           function closeModal() {
             modal.classList.remove('open');
+            if (swipeHint) swipeHint.classList.remove('show');
+            if (hintTimeout) clearTimeout(hintTimeout);
           }
           function next() {
             current = (current + 1) % screenshots.length;
@@ -305,6 +343,24 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
             modal.addEventListener('click', e => {
               if (e.target === modal) closeModal();
             });
+
+            // Swipe logic for touch screens
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            modal.addEventListener('touchstart', e => {
+              touchStartX = e.changedTouches[0].clientX;
+            }, { passive: true });
+
+            modal.addEventListener('touchend', e => {
+              touchEndX = e.changedTouches[0].clientX;
+              const threshold = 50; // minimum swipe distance in pixels
+              if (touchEndX < touchStartX - threshold) {
+                next();
+              } else if (touchEndX > touchStartX + threshold) {
+                prev();
+              }
+            }, { passive: true });
           }
 
           document.addEventListener('keydown', e => {
@@ -430,7 +486,7 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
   }
 
   .cover-frame {
-    aspect-ratio: 16 / 8;
+    aspect-ratio: 16 / 9;
     background: rgb(228 228 231);
     border: 1px solid rgb(212 212 216);
     border-radius: 0.75rem;
@@ -595,13 +651,47 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
     color: rgb(244 244 245);
   }
 
+  .row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
   .row-title {
     font-size: 0.875rem;
     font-weight: 600;
     color: rgb(113 113 122);
-    margin: 1rem 0 0.5rem;
+    margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+  }
+
+  .scroll-hint {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    color: rgb(161 161 170);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .scroll-hint svg {
+    animation: bounceHorizontal 1s infinite alternate;
+  }
+
+  @keyframes bounceHorizontal {
+    from { transform: translateX(0); }
+    to { transform: translateX(3px); }
+  }
+
+  @media (max-width: 640px) {
+    .scroll-hint {
+      display: flex;
+    }
   }
 
   .dark .row-title {
@@ -734,6 +824,7 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
     font-size: 18px;
     user-select: none;
     transition: background .15s ease;
+    z-index: 10;
   }
 
   .modal-close:hover, .modal-nav:hover {
@@ -764,6 +855,43 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
     transform: translateX(-50%);
     font-size: 13px;
     color: rgb(161 161 170);
+  }
+
+  .swipe-hint {
+    position: absolute;
+    bottom: 80px;
+    background: rgba(24, 24, 27, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgb(244 244 245);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 10px);
+    left: 50%;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s ease;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 20;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    white-space: nowrap;
+  }
+
+  .swipe-hint.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    visibility: visible;
+  }
+
+  /* Hide completely on desktop screens larger than 768px */
+  @media (min-width: 769px) {
+    .swipe-hint {
+      display: none !important;
+    }
   }
 
   .stub-code {
@@ -861,10 +989,6 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
 
     .architecture-row {
       grid-template-columns: 1fr;
-    }
-
-    .cover-frame {
-      aspect-ratio: 4 / 3;
     }
   }
 </style>
