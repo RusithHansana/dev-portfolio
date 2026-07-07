@@ -23,41 +23,6 @@ export const siteConfig = {
     "LangChain",
     "Jupyter Notebook",
   ],
-  projects: [
-    {
-      name: "NomadAgent – AI-Powered Travel Research Agent",
-      slug: "nomadagent-ai-powered-travel-research-agent",
-      description: "An AI-powered travel research agent that turns natural-language trip descriptions into fully verified itineraries. Features real-time streaming with LangGraph agent pipeline, interactive map view with OpenStreetMap, and PDF export. Built with Flutter frontend and FastAPI backend powered by Google Gemini and Tavily search.",
-      link: "https://github.com/RusithHansana/nomad-agent",
-      coverImage: "src/assets/covers/nomad-agent-cover.jpg",
-      skills: ["Flutter", "Dart", "Python", "FastAPI", "LangGraph", "Gemini API", "Tavily API", "Server-Sent Events"]
-    },
-    {
-      name: "BizAgent – AI-Powered Receptionist",
-      slug: "bizagent-ai-powered-receptionist",
-      description: "A cross-platform mobile application that provides a 24/7 AI-powered receptionist for service-based businesses. It features a conversational interface for lead qualification, FAQ handling, and automated appointment scheduling synced directly to Google Sheets.",
-      link: "https://github.com/RusithHansana/biz-agent-react-native",
-      coverImage: "src/assets/covers/biz-agent-cover.jpg",
-      skills: ["React Native", "Expo", "TypeScript", "Node.js", "Gemini API", "Google Sheets API"]
-    },
-    {
-      name: "SocketXO – Real-Time Resilient Tic-Tac-Toe",
-      slug: "socketxo-real-time-resilient-tic-tac-toe",
-      description: "A high-performance, server-authoritative Tic-Tac-Toe web application focused on connection resilience. It features a custom 'Disconnect Handshake' protocol for session recovery, instant global matchmaking, and a deterministic AI benchmark mode.",
-      link: "https://github.com/RusithHansana/socket-xo",
-      coverImage: "src/assets/covers/socket-xo-cover.jpg",
-      skills: ["React", "TypeScript", "Node.js", "Socket.io", "Vite", "Vitest","Express"]
-    },
-    {
-      name: "HandCast – Hand Gesture Point Detection System",
-      slug: "handcast-hand-gesture-point-detection-system",
-      description:
-      "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. Built with React Three.js frontend and Python MediaPipe backend for real-time hand tracking and interaction.",
-      link: "https://github.com/RusithHansana/HandCast",
-      coverImage: "src/assets/covers/hand-cast-cover.jpg",
-      skills: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
-    },
-  ],
   experience: [
     {
       company: "Novalink Innovations",

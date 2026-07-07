@@ -1,28 +1,24 @@
 ---
 import { projects } from "../../data/projects";
-import { fetchReadme } from "../../lib/github";
-import { parseMarkdown } from "../../lib/markdown";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { siteConfig } from "../../config";
 import "../../styles/global.css";
 
-export async function getStaticPaths() {
-  const paths = [];
-  // Use sequential loop to avoid GitHub API secondary rate limits
-  for (const project of projects) {
-    const { content, downloadUrl } = await fetchReadme(project.repo);
-    const readmeHtml = parseMarkdown(content, downloadUrl);
-
-    paths.push({
-      params: { slug: project.slug },
-      props: { project, readmeHtml },
-    });
-  }
-  return paths;
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
 }
 
-const { project, readmeHtml } = Astro.props;
+const { project } = Astro.props;
+const images = import.meta.glob<{ default: { src: string } }>(
+  "/src/assets/covers/*.{jpeg,jpg,png,gif}",
+  { eager: true },
+);
+const coverSrc = images[`/${project.coverImage}`]?.default?.src || project.coverImage;
+const hasScreenshots = project.screenshots && project.screenshots.length > 0;
 ---
 
 <html lang="en">
@@ -31,23 +27,20 @@ const { project, readmeHtml } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={`Details for ${project.name || project.slug}`} />
-    
-    <!-- OpenGraph/Twitter Meta Tags -->
-    <meta property="og:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
-    <meta property="og:description" content={`Project details and README for ${project.name || project.slug}`} />
+    <meta name="description" content={project.description} />
+    <meta property="og:title" content={`${project.name} - ${siteConfig.name}`} />
+    <meta property="og:description" content={project.description} />
     <meta property="og:type" content="article" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${project.name || project.slug} - ${siteConfig.name}`} />
-    <meta name="twitter:description" content={`Project details and README for ${project.name || project.slug}`} />
-
+    <meta name="twitter:title" content={`${project.name} - ${siteConfig.name}`} />
+    <meta name="twitter:description" content={project.description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
     />
-    <title>{project.name || project.slug} - {siteConfig.name}</title>
+    <title>{project.name} - {siteConfig.name}</title>
     <script is:inline>
       const theme = (() => {
         if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
@@ -65,250 +58,530 @@ const { project, readmeHtml } = Astro.props;
   </head>
   <body>
     <Header />
-    <main class="max-w-4xl mx-auto px-6 py-12 md:py-24 w-full flex flex-col gap-12 mt-16">
-      <div class="flex flex-row justify-between items-center gap-4">
-        <a href="/" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity dark:text-zinc-300 dark:border-zinc-300">← Back to portfolio</a>
-        <a href={`https://github.com/${project.repo}`} target="_blank" rel="noopener noreferrer" class="text-sm border-b leading-tight w-fit opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2 dark:text-zinc-300 dark:border-zinc-300">
-          View on GitHub ↗
-        </a>
-      </div>
+    <main
+      class="project-detail mx-auto mt-16 w-full max-w-7xl px-4 py-10 sm:px-6 md:py-16 lg:px-8"
+      style={`--accent-color: ${siteConfig.accentColor}`}
+    >
+      <a
+        href="/#projects"
+        class="mb-6 inline-flex w-fit border-b border-zinc-400 text-sm leading-tight text-zinc-600 transition-colors hover:text-zinc-950 dark:border-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-100"
+      >
+        Back to portfolio
+      </a>
 
-      <!-- Demo video -->
-      {project.demoVideo && (
-        <section class="demo-video">
-          <div class="aspect-video w-full overflow-hidden border border-zinc-200 dark:border-zinc-800 rounded-md bg-zinc-50 dark:bg-zinc-900/50">
-            <iframe
-              src={project.demoVideo}
-              title={`${project.name || project.slug} demo`}
-              allow="fullscreen"
-              allowfullscreen
-              class="w-full h-full border-none"
-            />
+      <article class="ticket overflow-hidden border border-zinc-200 bg-zinc-50 shadow-2xl shadow-zinc-200/60 dark:border-zinc-800 dark:bg-zinc-900/55 dark:shadow-black/30">
+        <div class="ticket-main">
+          <div class="airline-strip">
+            <span class="strip-mark"></span>
+            <span>Project boarding pass</span>
           </div>
-        </section>
-      )}
 
-      <!-- Screenshots -->
-      {project.screenshots && project.screenshots.length > 0 && (
-        <section class="screenshots grid grid-cols-1 md:grid-cols-2 gap-6">
-          {project.screenshots.map((src: string, index: number) => (
-            <div class="overflow-hidden border border-zinc-200 dark:border-zinc-800 rounded-md bg-zinc-50 dark:bg-zinc-900/50">
-              <img src={src} alt={`${project.name || project.slug} screenshot ${index + 1}`} loading="lazy" class="w-full h-auto object-cover" />
+          <div class="max-w-3xl">
+            <p class="field-label">Portfolio project</p>
+            <h1 class="mt-3 text-3xl font-bold leading-tight text-zinc-950 sm:text-5xl dark:text-zinc-50">
+              {project.name}
+            </h1>
+            <p class="mt-5 max-w-2xl text-base leading-8 text-zinc-600 sm:text-lg dark:text-zinc-300">
+              {project.tagline}
+            </p>
+          </div>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            {project.links.live && (
+              <a href={project.links.live} target="_blank" rel="noopener noreferrer" class="action action-primary">
+                View live
+              </a>
+            )}
+            {project.links.demo && (
+              <a href={project.links.demo} target="_blank" rel="noopener noreferrer" class="action action-secondary">
+                Watch demo
+              </a>
+            )}
+            <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="action action-secondary">
+              GitHub
+            </a>
+          </div>
+
+          <div class="cover-frame mt-10">
+            <img src={coverSrc} alt={`${project.name} cover`} loading="eager" class="h-full w-full object-cover" />
+          </div>
+
+          <section class="ticket-section">
+            <p class="field-label">Overview</p>
+            <h2>What it does</h2>
+            <div class="space-y-4">
+              {project.overview.map((paragraph) => (
+                <p class="body-copy">{paragraph}</p>
+              ))}
             </div>
-          ))}
-        </section>
-      )}
+          </section>
 
-      <!-- README rendered as HTML -->
-      {readmeHtml && (
-      <section class="readme-content unreset-tailwind-styles overflow-hidden w-full">
-        <Fragment set:html={readmeHtml} />
-      </section>
-      )}
+          <section class="ticket-section">
+            <p class="field-label">Problem and solution</p>
+            <div class="problem-grid">
+              <div class="info-card">
+                <h3>Problem</h3>
+                <p>{project.problem}</p>
+              </div>
+              <div class="info-card">
+                <h3>Solution</h3>
+                <p>{project.solution}</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ticket-section">
+            <p class="field-label">Highlights</p>
+            <ul class="highlight-list">
+              {project.highlights.map((highlight, index) => (
+                <li>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="ticket-section">
+            <p class="field-label">Features</p>
+            <div class="feature-grid">
+              {project.features.map((feature) => (
+                <div class="info-card">
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="ticket-section">
+            <p class="field-label">Architecture</p>
+            <div class="architecture-list">
+              {project.architecture.map((item) => (
+                <div class="architecture-row">
+                  <span>{item.label}</span>
+                  <p>{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {hasScreenshots && (
+            <section class="ticket-section">
+              <p class="field-label">Screenshots</p>
+              <div class="screenshot-grid">
+                {project.screenshots?.map((screenshot) => (
+                  <figure>
+                    <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
+                  </figure>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <aside class="ticket-stub">
+          <div>
+            <p class="stub-brand">Project stub</p>
+            <p class="stub-code">{project.slug}</p>
+          </div>
+
+          <div class="stub-field">
+            <span>Status</span>
+            <strong>{project.status}</strong>
+          </div>
+          <div class="stub-field">
+            <span>Year</span>
+            <strong>{project.year}</strong>
+          </div>
+          <div class="stub-field">
+            <span>Type</span>
+            <strong>{project.type}</strong>
+          </div>
+          <div class="stub-field">
+            <span>Stack</span>
+            <div class="stack-list">
+              {project.stack.map((item) => (
+                <span>{item}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="barcode" aria-hidden="true"></div>
+        </aside>
+      </article>
     </main>
     <Footer />
-    
-    <script is:inline type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({ 
-        startOnLoad: true,
-        theme: 'neutral',
-        securityLevel: 'loose',
-        fontFamily: 'IBM Plex Mono, monospace'
-      });
-    </script>
   </body>
 </html>
 
-<style is:global>
-  /* Custom typography classes to gracefully handle markdown when Tailwind Typography is missing */
-  .readme-content {
-    line-height: 1.7;
-    font-size: 0.95rem;
-    word-wrap: break-word; /* Prevents text overflow */
+<style>
+  .ticket {
+    border-radius: 0.875rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    position: relative;
   }
 
-  .readme-content h1, .readme-content h2, .readme-content h3, .readme-content h4, .readme-content h5, .readme-content h6 {
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+  .ticket::before {
+    border-right: 2px dashed rgb(212 212 216);
+    bottom: 0;
+    content: "";
+    position: absolute;
+    right: 18rem;
+    top: 0;
+    width: 0;
+  }
+
+  .dark .ticket::before {
+    border-right-color: rgb(63 63 70);
+  }
+
+  .ticket-main {
+    padding: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .ticket-stub {
+    background: rgb(24 24 27);
+    color: rgb(244 244 245);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .dark .ticket-stub {
+    background: rgb(9 9 11);
+  }
+
+  .airline-strip {
+    align-items: center;
+    color: rgb(82 82 91);
+    display: flex;
+    font-size: 0.75rem;
     font-weight: 600;
-    line-height: 1.3;
+    gap: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
   }
 
-  .readme-content h1 { font-size: 2.25rem; }
-  .readme-content h2 { font-size: 1.75rem; border-bottom: 1px solid rgba(0, 0, 0, 0.1); padding-bottom: 0.5rem; }
-  .readme-content h3 { font-size: 1.35rem; }
-
-  .readme-content a {
-    color: #534db7;
-    text-decoration: none;
-  }
-  .readme-content a:hover {
-    text-decoration: underline;
+  .dark .airline-strip {
+    color: rgb(161 161 170);
   }
 
-  .readme-content p {
-    margin-bottom: 1.25rem;
+  .strip-mark {
+    background: var(--accent-color);
+    border-radius: 999px;
+    display: inline-flex;
+    height: 0.375rem;
+    width: 2.25rem;
   }
 
-  .readme-content ul, .readme-content ol {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
+  .field-label {
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .readme-content li {
-    margin-bottom: 0.25rem;
-  }
-  .readme-content ul { list-style-type: disc; }
-  .readme-content ol { list-style-type: decimal; }
-
-  .readme-content code {
-    font-family: 'IBM Plex Mono', monospace;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.25rem;
-    font-size: 0.85em;
-  }
-
-  .readme-content pre {
-    background: #0d1117;
-    padding: 1rem;
-    border-radius: 0.375rem;
-    overflow-x: auto;
-    margin-bottom: 1.25rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    max-width: 100%;
+  .action {
+    border-radius: 0.5rem;
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 700;
+    min-height: 2.75rem;
+    padding: 0.75rem 1rem;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
   }
 
-  .readme-content pre code {
-    background: transparent;
+  .action:hover {
+    transform: translateY(-1px);
+  }
+
+  .action-primary {
+    background: rgb(24 24 27);
+    color: white;
+  }
+
+  .action-secondary {
+    border: 1px solid rgb(161 161 170);
+    color: rgb(39 39 42);
+  }
+
+  .dark .action-primary {
+    background: white;
+    color: rgb(24 24 27);
+  }
+
+  .dark .action-secondary {
+    border-color: rgb(82 82 91);
+    color: rgb(244 244 245);
+  }
+
+  .cover-frame {
+    aspect-ratio: 16 / 8;
+    background: rgb(228 228 231);
+    border: 1px solid rgb(212 212 216);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .dark .cover-frame {
+    background: rgb(39 39 42);
+    border-color: rgb(63 63 70);
+  }
+
+  .ticket-section {
+    border-top: 1px solid rgb(212 212 216);
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+  }
+
+  .dark .ticket-section {
+    border-top-color: rgb(63 63 70);
+  }
+
+  .ticket-section h2 {
+    color: rgb(24 24 27);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .dark .ticket-section h2 {
+    color: rgb(244 244 245);
+  }
+
+  .body-copy,
+  .info-card p,
+  .architecture-row p {
+    color: rgb(82 82 91);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .dark .body-copy,
+  .dark .info-card p,
+  .dark .architecture-row p {
+    color: rgb(212 212 216);
+  }
+
+  .problem-grid,
+  .feature-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .info-card {
+    background: white;
+    border: 1px solid rgb(228 228 231);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  .dark .info-card {
+    background: rgb(24 24 27 / 0.7);
+    border-color: rgb(63 63 70);
+  }
+
+  .info-card h3 {
+    color: rgb(24 24 27);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .dark .info-card h3 {
+    color: rgb(244 244 245);
+  }
+
+  .highlight-list {
+    display: grid;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 1rem 0 0;
     padding: 0;
-    font-size: 0.85rem;
-    color: #e6edf3;
   }
 
-  .readme-content blockquote {
-    border-left: 4px solid #534ab7;
-    padding-left: 1rem;
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(83, 74, 183, 0.1);
-    padding: 1rem;
-    border-radius: 0 0.25rem 0.25rem 0;
-    margin-bottom: 1.5rem;
-    margin-top: 1.5rem;
+  .highlight-list li {
+    align-items: baseline;
+    background: white;
+    border: 1px solid rgb(228 228 231);
+    border-radius: 0.625rem;
+    color: rgb(39 39 42);
+    display: flex;
+    gap: 0.875rem;
+    line-height: 1.6;
+    padding: 0.875rem 1rem;
   }
 
-  .readme-content blockquote p:last-child {
-    margin-bottom: 0;
+  .dark .highlight-list li {
+    background: rgb(24 24 27 / 0.7);
+    border-color: rgb(63 63 70);
+    color: rgb(244 244 245);
   }
 
-  /* Support for HTML styling traits from the Dev Notes guidance */
-  .readme-content img {
-    max-width: 100%; /* Ensures images scale down proportionally */
-    height: auto;
-    border-radius: 0.25rem;
-    margin: 1rem 0;
+  .highlight-list span,
+  .architecture-row span,
+  .stub-field span,
+  .stub-brand {
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
-  
-  .readme-content p[align="center"], .readme-content h1[align="center"] {
+
+  .architecture-list {
+    display: grid;
+    gap: 0.875rem;
+    margin-top: 1rem;
+  }
+
+  .architecture-row {
+    align-items: start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  .architecture-row span {
+    background: color-mix(in srgb, var(--accent-color) 14%, white);
+    border-radius: 0.375rem;
+    color: rgb(24 24 27);
+    padding: 0.35rem 0.65rem;
     text-align: center;
   }
 
-  .readme-content p[align="center"] img, .readme-content a img {
-    display: inline-block;
-    margin: 0.25rem;
-    vertical-align: middle;
+  .dark .architecture-row span {
+    background: color-mix(in srgb, var(--accent-color) 26%, rgb(24 24 27));
+    color: rgb(244 244 245);
   }
 
-  .readme-content table {
+  .screenshot-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1rem;
+  }
+
+  .screenshot-grid figure {
+    aspect-ratio: 16 / 10;
+    border: 1px solid rgb(212 212 216);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .dark .screenshot-grid figure {
+    border-color: rgb(63 63 70);
+  }
+
+  .screenshot-grid img {
+    height: 100%;
+    object-fit: cover;
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5rem;
-    display: block;
-    overflow-x: auto; /* Responsive wrapper built-in for markdown tables */
   }
-  
-  .readme-content th {
-    text-align: left;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-    padding: 0.75rem;
+
+  .stub-code {
+    color: rgb(161 161 170);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    overflow-wrap: anywhere;
+  }
+
+  .stub-field {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .stub-field strong {
+    font-size: 1rem;
     font-weight: 600;
+    line-height: 1.5;
   }
 
-  .readme-content td {
-    padding: 0.75rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .readme-content hr {
-    border: 0;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.2);
-    margin: 2rem 0;
-  }
-
-  /* Mermaid diagram styling */
-  .mermaid {
+  .stack-list {
     display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-    background: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
   }
 
-  /* Dark mode overrides for README content */
-  .dark .readme-content {
-    color: #f4f4f5; /* zinc-100 */
+  .stack-list span {
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 0.375rem;
+    color: rgb(244 244 245);
+    font-size: 0.72rem;
+    line-height: 1.4;
+    padding: 0.35rem 0.55rem;
   }
 
-  .dark .readme-content h1,
-  .dark .readme-content h2,
-  .dark .readme-content h3,
-  .dark .readme-content h4,
-  .dark .readme-content h5,
-  .dark .readme-content h6 {
-    color: #fff;
+  .barcode {
+    background: repeating-linear-gradient(
+      90deg,
+      rgb(244 244 245) 0 2px,
+      transparent 2px 5px,
+      rgb(244 244 245) 5px 6px,
+      transparent 6px 11px
+    );
+    height: 3rem;
+    margin-top: auto;
+    opacity: 0.8;
   }
 
-  .dark .readme-content h2 {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  @media (max-width: 980px) {
+    .ticket {
+      grid-template-columns: 1fr;
+    }
+
+    .ticket::before {
+      display: none;
+    }
+
+    .ticket-stub {
+      border-top: 2px dashed rgb(63 63 70);
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
-  .dark .readme-content a {
-    color: #818cf8; /* indigo-400 */
-  }
+  @media (max-width: 640px) {
+    .project-detail {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
 
-  .dark .readme-content code {
-    background: rgba(255, 255, 255, 0.1);
-  }
+    .ticket {
+      border-radius: 0.75rem;
+    }
 
-  .dark .readme-content pre {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #09090b; /* zinc-950 */
-  }
+    .problem-grid,
+    .screenshot-grid {
+      grid-template-columns: 1fr;
+    }
 
-  .dark .readme-content blockquote {
-    color: #a1a1aa; /* zinc-400 */
-    background: rgba(129, 140, 248, 0.1);
-    border-left-color: #818cf8;
-  }
+    .architecture-row {
+      grid-template-columns: 1fr;
+    }
 
-  .dark .readme-content th {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .dark .readme-content td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .dark .readme-content hr {
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  .dark .mermaid {
-    background: #18181b; /* zinc-900 */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    .cover-frame {
+      aspect-ratio: 4 / 3;
+    }
   }
 </style>
