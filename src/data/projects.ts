@@ -161,23 +161,23 @@ export const projects: Project[] = [
     ],
     screenshots: [
       {
-        src: "",
+        src: "src/assets/demos/nomad-agent/nomad-agent-home-no-prompt.jpg",
         alt: "Home Screen",
       },
       {
-        src: "",
+        src: "src/assets/demos/nomad-agent/nomad-agent-home-with-prompt.jpg",
         alt: "Home with Prompt",
       },
       {
-        src: "",
+        src: "src/assets/demos/nomad-agent/nomad-agent-event.jpg",
         alt: "Event Streaming",
       },
       {
-        src: "",
+        src: "src/assets/demos/nomad-agent/nomad-agent-itinerary.jpg",
         alt: "Itinerary View",
       },
       {
-        src: "",
+        src: "src/assets/demos/nomad-agent/nomad-agent-map.jpg",
         alt: "Map View",
       },
     ],

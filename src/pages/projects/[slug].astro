@@ -18,6 +18,10 @@ const images = import.meta.glob<{ default: { src: string } }>(
   "/src/assets/covers/*.{jpeg,jpg,png,gif}",
   { eager: true },
 );
+const demoImages = import.meta.glob<{ default: { src: string } }>(
+  "/src/assets/demos/**/*.{jpeg,jpg,png,gif}",
+  { eager: true },
+);
 const coverSrc = images[`/${project.coverImage}`]?.default?.src || project.coverImage;
 const hasScreenshots = project.screenshots && project.screenshots.length > 0;
 ---
@@ -171,11 +175,14 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
             <section class="ticket-section">
               <p class="field-label">Screenshots</p>
               <div class="screenshot-grid">
-                {project.screenshots?.map((screenshot) => (
-                  <figure>
-                    <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
-                  </figure>
-                ))}
+                {project.screenshots?.map((screenshot) => {
+                  const resolvedSrc = demoImages[`/${screenshot.src}`]?.default?.src || screenshot.src;
+                  return (
+                    <figure>
+                      <img src={resolvedSrc} alt={screenshot.alt} loading="lazy" />
+                    </figure>
+                  );
+                })}
               </div>
             </section>
           )}
@@ -469,12 +476,11 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
   .screenshot-grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: 1rem;
   }
 
   .screenshot-grid figure {
-    aspect-ratio: 16 / 10;
     border: 1px solid rgb(212 212 216);
     border-radius: 0.75rem;
     overflow: hidden;
