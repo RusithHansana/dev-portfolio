@@ -2,6 +2,7 @@
 import { projects } from "../../data/projects";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import PageTransition from "../../components/PageTransition.astro";
 import { siteConfig } from "../../config";
 import "../../styles/global.css";
 
@@ -57,6 +58,7 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
     </script>
   </head>
   <body>
+    <PageTransition />
     <Header />
     <main
       class="project-detail mx-auto mt-16 w-full max-w-7xl px-4 py-10 sm:px-6 md:py-16 lg:px-8"
