@@ -288,23 +288,23 @@ export const projects: Project[] = [
     ],
     screenshots: [
       {
-        src: "",
+        src: "src/assets/demos/biz-agent/landing-screen.jpg",
         alt: "Landing Screen",
       },
       {
-        src: "",
+        src: "src/assets/demos/biz-agent/chat-greeting.jpg",
         alt: "Chat Greeting",
       },
       {
-        src: "",
+        src: "src/assets/demos/biz-agent/convo-start.jpg",
         alt: "Chat Conversation",
       },
       {
-        src: "",
+        src: "src/assets/demos/biz-agent/convo-continue.jpg",
         alt: "Continue Conversation",
       },
       {
-        src: "",
+        src: "src/assets/demos/biz-agent/booking-confirmed.jpg",
         alt: "Booking Confirmed",
       },
     ],
