@@ -1,4 +1,4 @@
----
+  ---
 import { siteConfig } from "../config";
 ---
 
@@ -95,11 +95,41 @@ import { siteConfig } from "../config";
     showTransition(link.href);
   });
 
+  // Scrollbar visibility tracker
+  const initScrollbarTracking = () => {
+    let windowTimeout: number;
+    const handleWindowScroll = () => {
+      document.documentElement.classList.add('is-scrolling');
+      window.clearTimeout(windowTimeout);
+      windowTimeout = window.setTimeout(() => {
+        document.documentElement.classList.remove('is-scrolling');
+      }, 1000);
+    };
+
+    window.removeEventListener('scroll', handleWindowScroll);
+    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+
+    const scrollableElements = document.querySelectorAll('.row');
+    scrollableElements.forEach((el) => {
+      let timeout: number;
+      const handleElScroll = () => {
+        el.classList.add('is-scrolling');
+        window.clearTimeout(timeout);
+        timeout = window.setTimeout(() => {
+          el.classList.remove('is-scrolling');
+        }, 1000);
+      };
+      el.removeEventListener('scroll', handleElScroll);
+      el.addEventListener('scroll', handleElScroll, { passive: true });
+    });
+  };
+
   window.addEventListener("pageshow", () => {
     resetTransition();
     transition?.classList.remove("is-active");
     transition?.classList.toggle("is-dark", document.documentElement.classList.contains("dark"));
     document.documentElement.classList.remove("is-transitioning");
+    initScrollbarTracking();
   });
 </script>
 
@@ -210,8 +240,16 @@ import { siteConfig } from "../config";
     width: 0;
   }
 
-  .is-transitioning {
+  .is-transitioning,
+  .is-transitioning body {
     cursor: progress;
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+  }
+
+  .is-transitioning::-webkit-scrollbar,
+  .is-transitioning body::-webkit-scrollbar {
+    display: none !important;
   }
 
   @keyframes transition-blink {
