@@ -397,18 +397,18 @@ export const projects: Project[] = [
           "Real-time communication is event-driven through Socket.io with a shared event contract.",
       },
       {
-        label: "Authentication",
+        label: "Auth",
         description:
           "Players use persistent session-based identities with short-lived reconnection tokens for managed recovery.",
       },
     ],
     screenshots: [
       {
-        src: "",
+        src: "src/assets/demos/socket-xo/lobby.png",
         alt: "Lobby",
       },
       {
-        src: "",
+        src: "src/assets/demos/socket-xo/ai-game.png",
         alt: "Game Board",
       },
     ],
