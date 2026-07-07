@@ -414,65 +414,78 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "HandCast - Hand Gesture Point Detection System",
-    slug: "handcast-hand-gesture-point-detection-system",
-    tagline: "Gesture-controlled 3D lighting through real-time hand tracking.",
+    name: "HandCast",
+    slug: "handcast",
+    tagline:
+      "A gesture-based 3D lighting control system using hand tracking and pinch gestures.",
     description:
-      "A gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. It pairs a React Three.js frontend with a Python MediaPipe backend for real-time tracking.",
+      "HandCast is a gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. It translates physical hand movements into interactions within a virtual 3D space using a React Three.js frontend and a Python MediaPipe backend connected over WebSockets.",
     coverImage: "src/assets/covers/hand-cast-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/HandCast",
+      demo: "https://github.com/user-attachments/assets/eda98879-f875-4f07-8af6-47d04c4f5ab3",
     },
-    status: "Draft case study",
+    status: "Completed",
     year: "2025",
     type: "Computer vision interface",
-    stack: ["React", "Three.js", "Python", "MediaPipe", "FastAPI"],
+    stack: ["React", "Three.js", "Python", "FastAPI", "MediaPipe", "WebSockets"],
     overview: [
-      "HandCast experiments with natural hand gestures as an interface for interacting with a 3D smart-home lighting scene.",
-      "The project links real-time MediaPipe hand tracking with a browser-rendered 3D environment so pointing and pinch gestures can select and toggle lights.",
+      "HandCast is a gesture-based 3D lighting control system that detects hand pointing gestures and allows users to control smart bulbs in a realistic virtual environment using pinch gestures.",
+      "The project translates physical real-world hand movements into interactions within a 3D scene. It uses a React and Three.js frontend for rendering and a Python backend with MediaPipe for hand tracking, communicating through WebSockets.",
+      "The application includes a realistic 3D room, dynamic lighting, modern user interface elements, and spatial audio to provide an immersive interaction experience.",
     ],
     highlights: [
-      "Real-time hand point detection.",
-      "Pinch gesture interaction for toggling bulbs.",
-      "Three.js smart-home lighting scene.",
-      "Python backend for MediaPipe-based tracking.",
+      "Real-time hand tracking",
+      "3D pointing detection",
+      "Pinch gesture recognition",
+      "Smart bulb simulation",
+      "WebSocket communication",
     ],
     problem:
-      "Spatial interfaces are hard to make intuitive when input is separated from the 3D scene users are trying to control.",
+      "There was no natural way to select a specific electrical device in a smart home system using hand gestures alone.",
     solution:
-      "HandCast maps hand landmarks into the 3D interaction model so pointing and pinching become direct controls for lights in the scene.",
+      "HandCast uses raycasting to identify the targeted electrical device in the 3D scene and then controls it through pinch-based interactions.",
     features: [
       {
-        title: "Hand landmark tracking",
-        description:
-          "MediaPipe detects hand position and gesture signals that can be consumed by the interface.",
+        title: "Real-time Hand Tracking",
+        description: "Uses MediaPipe and webcam input to track hand movements in real time.",
       },
       {
-        title: "3D lighting scene",
+        title: "3D Pointing Detection",
         description:
-          "React and Three.js render a realistic environment where bulbs can be selected and toggled.",
+          "Performs precise ray casting within the 3D environment to determine pointing direction.",
       },
       {
-        title: "Gesture interaction loop",
+        title: "Pinch Gesture Recognition",
         description:
-          "Pointing identifies targets while pinch gestures confirm lighting actions.",
+          "Detects pinch gestures to enable interactions with virtual devices.",
+      },
+      {
+        title: "Smart Bulb Simulation",
+        description:
+          "Provides realistic 3D smart bulb models with lighting effects.",
+      },
+      {
+        title: "WebSocket Communication",
+        description:
+          "Enables fast real-time communication between the frontend and backend.",
       },
     ],
     architecture: [
       {
-        label: "Vision",
+        label: "Frontend",
         description:
-          "Python and MediaPipe process hand tracking data for gesture interpretation.",
+          "A React frontend renders the 3D scene using Three.js and handles ray casting, pinch detection, and UI components.",
       },
       {
-        label: "API",
+        label: "Backend",
         description:
-          "FastAPI exposes tracking and interaction data to the browser experience.",
+          "A Python backend uses MediaPipe for hand tracking, runs a FastAPI server, and streams real-time data.",
       },
       {
-        label: "Scene",
+        label: "Communication",
         description:
-          "React and Three.js visualize the smart-home space and lighting state.",
+          "The frontend and backend communicate through WebSockets for real-time interaction.",
       },
     ],
   },
