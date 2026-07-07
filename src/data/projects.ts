@@ -28,6 +28,7 @@ export interface Project {
   screenshots?: Array<{
     src: string;
     alt: string;
+    type?: "web" | "mobile";
   }>;
 }
 
@@ -163,22 +164,27 @@ export const projects: Project[] = [
       {
         src: "src/assets/demos/nomad-agent/nomad-agent-home-no-prompt.jpg",
         alt: "Home Screen",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/nomad-agent/nomad-agent-home-with-prompt.jpg",
         alt: "Home with Prompt",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/nomad-agent/nomad-agent-event.jpg",
         alt: "Event Streaming",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/nomad-agent/nomad-agent-itinerary.jpg",
         alt: "Itinerary View",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/nomad-agent/nomad-agent-map.jpg",
         alt: "Map View",
+        type: "mobile",
       },
     ],
   },
@@ -290,22 +296,27 @@ export const projects: Project[] = [
       {
         src: "src/assets/demos/biz-agent/landing-screen.jpg",
         alt: "Landing Screen",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/biz-agent/chat-greeting.jpg",
         alt: "Chat Greeting",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/biz-agent/convo-start.jpg",
         alt: "Chat Conversation",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/biz-agent/convo-continue.jpg",
         alt: "Continue Conversation",
+        type: "mobile",
       },
       {
         src: "src/assets/demos/biz-agent/booking-confirmed.jpg",
         alt: "Booking Confirmed",
+        type: "mobile",
       },
     ],
   },
@@ -406,10 +417,12 @@ export const projects: Project[] = [
       {
         src: "src/assets/demos/socket-xo/lobby.png",
         alt: "Lobby",
+        type: "web",
       },
       {
         src: "src/assets/demos/socket-xo/ai-game.png",
         alt: "Game Board",
+        type: "web",
       },
     ],
   },

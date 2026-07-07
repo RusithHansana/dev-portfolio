@@ -24,6 +24,19 @@ const demoImages = import.meta.glob<{ default: { src: string } }>(
 );
 const coverSrc = images[`/${project.coverImage}`]?.default?.src || project.coverImage;
 const hasScreenshots = project.screenshots && project.screenshots.length > 0;
+
+const resolvedScreenshots = (project.screenshots || []).map((screenshot, index) => {
+  const resolvedSrc = demoImages[`/${screenshot.src}`]?.default?.src || screenshot.src;
+  return {
+    src: resolvedSrc,
+    alt: screenshot.alt,
+    type: screenshot.type || "web",
+    index
+  };
+});
+
+const mobileScreenshots = resolvedScreenshots.filter((s) => s.type === "mobile");
+const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
 ---
 
 <html lang="en">
@@ -174,16 +187,32 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
           {hasScreenshots && (
             <section class="ticket-section">
               <p class="field-label">Screenshots</p>
-              <div class="screenshot-grid">
-                {project.screenshots?.map((screenshot) => {
-                  const resolvedSrc = demoImages[`/${screenshot.src}`]?.default?.src || screenshot.src;
-                  return (
-                    <figure>
-                      <img src={resolvedSrc} alt={screenshot.alt} loading="lazy" />
-                    </figure>
-                  );
-                })}
-              </div>
+
+              {mobileScreenshots.length > 0 && (
+                <div class="row-container mt-4">
+                  <h3 class="row-title">Mobile</h3>
+                  <div class="row">
+                    {mobileScreenshots.map((shot) => (
+                      <div class="thumb mobile" data-index={shot.index}>
+                        <img src={shot.src} alt={shot.alt} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {webScreenshots.length > 0 && (
+                <div class="row-container mt-6">
+                  <h3 class="row-title">Web</h3>
+                  <div class="row">
+                    {webScreenshots.map((shot) => (
+                      <div class="thumb web" data-index={shot.index}>
+                        <img src={shot.src} alt={shot.alt} loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </section>
           )}
         </div>
@@ -215,6 +244,78 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
       </article>
     </main>
     <Footer />
+
+    {hasScreenshots && (
+      <>
+        <div class="modal" id="screenshot-modal">
+          <div class="modal-stage">
+            <div class="modal-nav prev" id="prevBtn">&#8249;</div>
+            <img id="modalImg" src="" alt="" />
+            <div class="modal-nav next" id="nextBtn">&#8250;</div>
+            <div class="modal-close" id="closeBtn">&#10005;</div>
+            <div class="modal-counter" id="counter"></div>
+          </div>
+        </div>
+
+        <script define:vars={{ screenshots: resolvedScreenshots }}>
+          const modal = document.getElementById('screenshot-modal');
+          const modalImg = document.getElementById('modalImg');
+          const counter = document.getElementById('counter');
+          let current = 0;
+
+          function openModal(index) {
+            current = index;
+            render();
+            modal.classList.add('open');
+          }
+          function render() {
+            modalImg.src = screenshots[current].src;
+            modalImg.alt = screenshots[current].alt;
+            counter.textContent = `${current + 1} / ${screenshots.length}`;
+          }
+          function closeModal() {
+            modal.classList.remove('open');
+          }
+          function next() {
+            current = (current + 1) % screenshots.length;
+            render();
+          }
+          function prev() {
+            current = (current - 1 + screenshots.length) % screenshots.length;
+            render();
+          }
+
+          // Add click listener to all thumbs
+          document.querySelectorAll('.thumb').forEach(el => {
+            el.addEventListener('click', () => {
+              const idx = parseInt(el.getAttribute('data-index') || '0', 10);
+              openModal(idx);
+            });
+          });
+
+          const closeBtn = document.getElementById('closeBtn');
+          const nextBtn = document.getElementById('nextBtn');
+          const prevBtn = document.getElementById('prevBtn');
+
+          if (closeBtn) closeBtn.addEventListener('click', closeModal);
+          if (nextBtn) nextBtn.addEventListener('click', next);
+          if (prevBtn) prevBtn.addEventListener('click', prev);
+
+          if (modal) {
+            modal.addEventListener('click', e => {
+              if (e.target === modal) closeModal();
+            });
+          }
+
+          document.addEventListener('keydown', e => {
+            if (!modal || !modal.classList.contains('open')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowRight') next();
+            if (e.key === 'ArrowLeft') prev();
+          });
+        </script>
+      </>
+    )}
   </body>
 </html>
 
@@ -242,6 +343,7 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
 
   .ticket-main {
     padding: clamp(1.5rem, 4vw, 3rem);
+    min-width: 0;
   }
 
   .ticket-stub {
@@ -493,27 +595,155 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
     color: rgb(244 244 245);
   }
 
-  .screenshot-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 1rem;
+  .row-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(113 113 122);
+    margin: 1rem 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .screenshot-grid figure {
-    border: 1px solid rgb(212 212 216);
-    border-radius: 0.75rem;
+  .dark .row-title {
+    color: rgb(161 161 170);
+  }
+
+  .row {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+
+  .row::-webkit-scrollbar {
+    height: 6px;
+  }
+  .row::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .row::-webkit-scrollbar-thumb {
+    background: rgb(228 228 231);
+    border-radius: 3px;
+  }
+  .dark .row::-webkit-scrollbar-thumb {
+    background: rgb(63 63 70);
+  }
+
+  .thumb {
+    flex: 0 0 auto;
+    height: 260px;
+    background: white;
+    border: 1px solid rgb(228 228 231);
+    border-radius: 12px;
     overflow: hidden;
+    cursor: pointer;
+    transition: transform .15s ease, border-color .15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .dark .screenshot-grid figure {
+  .dark .thumb {
+    background: rgb(24 24 27);
     border-color: rgb(63 63 70);
   }
 
-  .screenshot-grid img {
+  .thumb:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+  }
+
+  .thumb img {
     height: 100%;
-    object-fit: cover;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    display: block;
+  }
+
+  .thumb.web img {
     width: 100%;
+    height: 100%;
+  }
+
+  /* ---- Modal / carousel ---- */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 24px;
+  }
+
+  .modal.open {
+    display: flex;
+  }
+
+  .modal-stage {
+    position: relative;
+    max-width: min(90vw, 900px);
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-stage img {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+
+  .modal-close, .modal-nav {
+    position: absolute;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+    transition: background .15s ease;
+  }
+
+  .modal-close:hover, .modal-nav:hover {
+    background: rgba(255,255,255,.18);
+  }
+
+  .modal-close {
+    top: -52px;
+    right: 0;
+  }
+
+  .modal-nav.prev {
+    left: -56px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .modal-nav.next {
+    right: -56px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .modal-counter {
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: rgb(161 161 170);
   }
 
   .stub-code {
@@ -567,7 +797,7 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
 
   @media (max-width: 980px) {
     .ticket {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .ticket::before {
@@ -593,9 +823,20 @@ const hasScreenshots = project.screenshots && project.screenshots.length > 0;
       border-radius: 0.75rem;
     }
 
-    .problem-grid,
-    .screenshot-grid {
+    .problem-grid {
       grid-template-columns: 1fr;
+    }
+
+    .thumb {
+      height: 200px;
+    }
+
+    .modal-nav.prev {
+      left: 8px;
+    }
+
+    .modal-nav.next {
+      right: 8px;
     }
 
     .architecture-row {
