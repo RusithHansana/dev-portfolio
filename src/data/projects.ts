@@ -310,73 +310,106 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "SocketXO - Real-Time Resilient Tic-Tac-Toe",
-    slug: "socketxo-real-time-resilient-tic-tac-toe",
-    tagline: "Server-authoritative multiplayer Tic-Tac-Toe with resilient sessions.",
+    name: "SocketXO",
+    slug: "socketxo",
+    tagline:
+      "A browser-based real-time Tic-Tac-Toe web application demonstrating production-grade real-time system behavior.",
     description:
-      "A high-performance, server-authoritative Tic-Tac-Toe web application focused on connection resilience. It includes a custom disconnect handshake for session recovery, instant global matchmaking, and a deterministic AI benchmark mode.",
+      "SocketXO is a browser-based real-time Tic-Tac-Toe web application built to demonstrate production-grade real-time system behavior. It focuses on connection resilience, server-authoritative state management, and deterministic state synchronization over Socket.io. The project includes online matchmaking, in-game chat, an AI benchmark mode, and developer tools for testing network conditions.",
     coverImage: "src/assets/covers/socket-xo-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/socket-xo",
+      demo: "https://github.com/user-attachments/assets/07aa4731-48e4-4be9-a972-8dc55131e6cc",
     },
-    status: "Draft case study",
-    year: "2025",
-    type: "Real-time web game",
+    status: "Completed",
+    year: "2026",
+    type: "Web Application",
     stack: [
       "React",
-      "TypeScript",
       "Node.js",
-      "Socket.io",
-      "Vite",
-      "Vitest",
       "Express",
+      "Socket.io",
+      "TypeScript",
     ],
     overview: [
-      "SocketXO treats a small game as a real-time systems exercise: authoritative state, matchmaking, reconnect handling, and deterministic tests.",
-      "The project emphasizes predictable multiplayer behavior even when users refresh, disconnect, or briefly lose network connectivity.",
+      "SocketXO is a browser-based real-time Tic-Tac-Toe web application created to demonstrate production-grade real-time system behavior. Its primary focus is connection resilience, server-authoritative state management, and deterministic synchronization between connected clients.",
+      "The application provides frictionless matchmaking, secure room-scoped chat, an AI benchmark mode using a deterministic Minimax engine, and developer tools for simulating network failures. These features are designed to demonstrate reliable real-time multiplayer behavior.",
+      "The architecture follows a state-first, server-authoritative model where the backend acts as the single source of truth. Real-time communication is event-driven with Socket.io, persistent player identities enable reconnection, and the frontend reactively updates from server-broadcasted state.",
     ],
     highlights: [
-      "Server-authoritative game state.",
-      "Custom disconnect handshake for session recovery.",
-      "Instant matchmaking flow.",
-      "Deterministic AI benchmark mode.",
+      "30-second disconnect recovery handshake",
+      "Server-authoritative game state validation",
+      "Global matchmaking queue",
+      "Room-scoped real-time chat with XSS sanitization",
+      "Deterministic Minimax AI benchmark mode",
+      "Developer controls for simulating lag and disconnects",
     ],
     problem:
-      "Real-time multiplayer apps can lose trust quickly when network interruptions create duplicate sessions, stale turns, or unclear match outcomes.",
+      "Real-time multiplayer applications must maintain synchronized game state and recover reliably from network interruptions without causing inconsistent client state.",
     solution:
-      "SocketXO centralizes game authority on the server and adds reconnect-aware session handling so players can resume cleanly after brief interruptions.",
+      "SocketXO uses a server-authoritative architecture with deterministic state synchronization and a managed disconnect recovery mechanism that preserves sessions during temporary network loss.",
     features: [
       {
-        title: "Authoritative matches",
+        title: "Disconnect Handshake",
         description:
-          "The server owns validation and state transitions, reducing client-side ambiguity during play.",
+          "Holds a disconnected player's session for 30 seconds, notifies the opponent, and restores the game state when the player reconnects.",
       },
       {
-        title: "Resilient session recovery",
+        title: "Server-Authoritative State Engine",
         description:
-          "A disconnect handshake preserves recoverable match context instead of immediately abandoning active games.",
+          "Validates every move on the server, maintains synchronized game state, and rejects invalid actions.",
       },
       {
-        title: "Benchmark AI mode",
+        title: "Frictionless Matchmaking",
         description:
-          "A deterministic mode helps verify game logic and compare outcomes without relying on live opponents.",
+          "Creates guest identities and pairs players through a global matchmaking queue.",
+      },
+      {
+        title: "Room-Scoped Chat",
+        description:
+          "Provides in-game chat with XSS sanitization for secure communication.",
+      },
+      {
+        title: "AI Benchmark Mode",
+        description:
+          "Includes a deterministic Minimax AI mode for testing game logic correctness.",
+      },
+      {
+        title: "Dev-Mode Chaos Controls",
+        description:
+          "Provides hidden developer controls to simulate lag and disconnect scenarios.",
       },
     ],
     architecture: [
       {
-        label: "Client",
+        label: "Frontend",
         description:
-          "React and Vite render the board, match state, and multiplayer interaction flow.",
+          "Uses a reactive state synchronization approach where UI components update from server-broadcasted state.",
       },
       {
-        label: "Realtime",
+        label: "Backend",
         description:
-          "Socket.io carries matchmaking, move events, disconnects, and recovery messages.",
+          "Implements a state-first, server-authoritative architecture that validates game logic and maintains session state.",
       },
       {
-        label: "Server",
+        label: "APIs",
         description:
-          "Node.js and Express own match lifecycle, validation, and deterministic game state.",
+          "Real-time communication is event-driven through Socket.io with a shared event contract.",
+      },
+      {
+        label: "Authentication",
+        description:
+          "Players use persistent session-based identities with short-lived reconnection tokens for managed recovery.",
+      },
+    ],
+    screenshots: [
+      {
+        src: "",
+        alt: "Lobby",
+      },
+      {
+        src: "",
+        alt: "Game Board",
       },
     ],
   },
