@@ -8,10 +8,10 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
 
 {
   hasProjects && (
-    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
+    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24" style={`--accent-color: ${siteConfig.accentColor};`}>
       <div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div class="lg:col-span-4">
+          <div class="lg:col-span-4 lg:sticky lg:top-8">
             <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-zinc-900 dark:text-zinc-100">
               Projects
             </h2>
@@ -22,7 +22,7 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
           </div>
 
           <div class="lg:col-span-8">
-            <div class="space-y-8">
+            <div class="space-y-8 sm:space-y-10">
               {projects.map((project, index) => {
                 const Component = project.slug ? "a" : "div";
                 const linkProps = project.slug
@@ -32,69 +32,53 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
                   : {};
 
                 return (
-                  <div class="group relative">
+                  <div class={`project-card-wrap relative rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 overflow-hidden shadow-sm transition-all duration-300 ${project.slug ? 'is-linked' : ''}`}>
                     <Component
                       {...linkProps}
-                      class={`flex flex-col relative bg-zinc-50 dark:bg-zinc-900/50 rounded-xl sm:rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden transition-all duration-300 ${
-                        project.slug
-                          ? "hover:bg-white dark:hover:bg-zinc-800 hover:shadow-xl hover:border-zinc-300 dark:hover:border-zinc-700 hover:-translate-y-1"
-                          : ""
-                      }`}
+                      class="project-card block relative w-full text-inherit no-underline"
                     >
-                      {/* Cover photo — required for every project */}
-                      <div class="relative w-full h-[220px] sm:h-[260px] overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+                      {/* Cover photo */}
+                      <div class="project-cover relative w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                         <img
                           src={images[`/${project.coverImage}`]?.default?.src || project.coverImage}
                           alt={project.name}
                           loading="lazy"
-                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+                          class="w-full h-auto block object-cover"
                         />
-
-                        {project.slug && (
-                          <div class="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center bg-zinc-900/85 backdrop-blur-sm rounded-full text-white transition-all duration-300 group-hover:bg-zinc-900">
-                            <svg
-                              class="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M7 17L17 7M17 7H7M17 7V17"
-                              />
-                            </svg>
-                          </div>
-                        )}
                       </div>
 
-                      {/* Card body */}
-                      <div class="p-4 sm:p-6 md:p-8 space-y-4">
-                        <div>
-                          <span
-                            class="text-sm font-mono"
-                            style={{ color: siteConfig.accentColor }}
-                          >
-                            0{index + 1}
-                          </span>
-                          <h3 class="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 mt-1">
-                            {project.name}
-                          </h3>
+                      {/* Desktop hover overlay panel */}
+                      <div class="project-panel hidden md:block">
+                        <div class="flex items-start justify-between gap-3">
+                          <div>
+                            <span
+                              class="text-xs sm:text-sm font-mono font-semibold block"
+                              style={{ color: siteConfig.accentColor }}
+                            >
+                              0{index + 1}
+                            </span>
+                            <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-white mt-0.5">
+                              {project.name}
+                            </h3>
+                          </div>
+
+                          {project.slug && (
+                            <div class="project-cover-arrow">
+                              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17"/>
+                              </svg>
+                            </div>
+                          )}
                         </div>
 
-                        <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                        <p class="text-sm sm:text-base text-zinc-200/90 leading-relaxed mt-2">
                           {project.description}
                         </p>
 
                         {project.stack && project.stack.length > 0 && (
-                          <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
+                          <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-3">
                             {project.stack.map((skill) => (
-                              <span
-                                class={`px-2.5 sm:px-3 py-1 sm:py-1.5 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-200 rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-all duration-300 ${
-                                  project.slug ? "group-hover:bg-zinc-800 dark:group-hover:bg-zinc-700" : ""
-                                }`}
-                              >
+                              <span class="px-2.5 py-1 bg-white/15 border border-white/20 text-white rounded-md text-xs font-medium backdrop-blur-xs">
                                 {skill}
                               </span>
                             ))}
@@ -112,3 +96,72 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
     </section>
   )
 }
+
+<style>
+  .project-card-wrap.is-linked:hover,
+  .project-card-wrap.is-linked:focus-within {
+    border-color: var(--zinc-300, #d4d4d8);
+  }
+  :global(.dark) .project-card-wrap.is-linked:hover,
+  :global(.dark) .project-card-wrap.is-linked:focus-within {
+    border-color: var(--zinc-700, #3f3f46);
+  }
+
+  /* Only show and animate panel on devices supporting hover */
+  @media (hover: hover) {
+    .project-panel {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 1rem 1.25rem 1.25rem;
+      background: rgba(24, 24, 27, 0.82);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      backdrop-filter: blur(16px) saturate(160%);
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+      z-index: 10;
+    }
+    @media (min-width: 640px) {
+      .project-panel {
+        padding: 1.25rem 1.5rem 1.5rem;
+      }
+    }
+
+    .project-card-wrap:hover .project-panel,
+    .project-card-wrap:focus-within .project-panel {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (hover: none) {
+    .project-panel {
+      display: none !important;
+    }
+  }
+
+  .project-cover-arrow {
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9999px;
+    color: #ffffff;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  .project-card-wrap.is-linked:hover .project-cover-arrow {
+    background: var(--accent-color, #6366f1);
+    transform: translate(0.125rem, -0.125rem);
+  }
+</style>
+
+
