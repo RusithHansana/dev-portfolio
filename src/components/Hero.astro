@@ -1,11 +1,14 @@
 ---
 import { siteConfig } from "../config";
+import heroImage from "../assets/hero/hero-image.jpeg";
 
 interface Props {
   photoUrl?: string;
 }
 
 const { photoUrl } = Astro.props;
+const displayPhotoSrc = photoUrl || siteConfig.photoUrl || heroImage.src;
+
 const nameParts = siteConfig.name.split(" ");
 const firstName = nameParts[0] || "Rusith";
 const lastName = nameParts.slice(1).join(" ") || "Hansana";
@@ -155,50 +158,50 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       stroke-width={0}></rect>
   </svg>
 
-  <div class="h-full w-full p-8 sm:p-12 md:p-24 flex items-center">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-[0.85fr_1.3fr_1fr] gap-5 items-stretch">
+  <div class="h-full w-full p-6 sm:p-10 md:p-16 lg:p-20 flex items-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-[0.85fr_1.3fr_1fr] gap-6 lg:gap-8 items-stretch">
       <!-- Photo Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[280px] lg:min-h-[340px] flex items-end p-4 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-        {photoUrl ? (
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[320px] sm:min-h-[380px] lg:min-h-[440px] flex items-end p-6 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        {displayPhotoSrc ? (
           <img
-            src={photoUrl}
+            src={displayPhotoSrc}
             alt={siteConfig.name}
             class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div class="absolute inset-0 bg-gradient-to-br from-zinc-200/80 via-zinc-100 to-zinc-200/50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900/90 flex items-center justify-center">
-            <svg class="w-20 h-20 text-zinc-400 dark:text-zinc-700 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg class="w-24 h-24 text-zinc-400 dark:text-zinc-700 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <circle cx="12" cy="8" r="4"/>
               <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
             </svg>
           </div>
         )}
-        <span class="relative font-mono text-[11px] uppercase tracking-widest text-zinc-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 rounded-lg shadow-sm">
+        <span class="relative font-mono text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 px-3.5 py-2 rounded-xl shadow-sm">
           portrait
         </span>
       </div>
 
       <!-- Main Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-        <div class="font-mono text-sm text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide">
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-12 lg:p-14 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide">
           Hello, I'm
         </div>
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-3">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
           {firstName} <span style={{ color: siteConfig.accentColor }}>{lastName}</span>
         </h1>
-        <p class="font-mono text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-8">
+        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
           {siteConfig.title} building reliable web & intelligent systems
         </p>
         
         <!-- Socials -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3.5">
           {siteConfig.social?.email && (
             <a
               href={`mailto:${siteConfig.social.email}`}
               aria-label="Email"
-              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
             >
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
               </svg>
             </a>
@@ -209,9 +212,9 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
             >
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="17"/><circle cx="8" cy="7" r="1"/><path d="M12 17v-4a2 2 0 0 1 4 0v4"/>
               </svg>
             </a>
@@ -222,9 +225,9 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
             >
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5 0-1-.4-2-1-2.7.1-.3.4-1.4-.1-2.8 0 0-1-.3-3 1a10 10 0 0 0-5 0c-2-1.3-3-1-3-1-.5 1.4-.2 2.5-.1 2.8A4 4 0 0 0 4 9.9c0 3.5 2 4.3 4 4.5-.3.3-.5.9-.5 1.7V19"/>
               </svg>
             </a>
@@ -233,30 +236,30 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       </div>
 
       <!-- Side Column -->
-      <div class="flex flex-col gap-5">
+      <div class="flex flex-col gap-6 lg:gap-8">
         <!-- Status Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-          <div class="font-mono text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
             Status
           </div>
-          <div class="flex items-center gap-2.5 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-            <span class="relative flex h-2.5 w-2.5">
+          <div class="flex items-center gap-3 text-base font-medium text-zinc-800 dark:text-zinc-200">
+            <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
             Available for new projects
           </div>
         </div>
 
         <!-- Skills Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-          <div class="font-mono text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
             Working with
           </div>
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-2.5">
             {featuredSkills.map((skill, index) => (
               <span
-                class="font-mono text-xs px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
+                class="font-mono text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
                 style={`animation-delay: ${index * 0.08}s`}
               >
                 {skill}
