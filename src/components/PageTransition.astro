@@ -2,6 +2,24 @@
 import { siteConfig } from "../config";
 ---
 
+<script is:inline>
+  if (typeof sessionStorage !== "undefined" && !sessionStorage.getItem("has_seen_preloader")) {
+    document.documentElement.classList.add("initial-preloader-active");
+    const theme = (() => {
+      if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+        return localStorage.getItem("theme");
+      }
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    })();
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  }
+</script>
+
 <div
   id="page-transition"
   class="page-transition"
@@ -43,6 +61,7 @@ import { siteConfig } from "../config";
     transitionLines.forEach((line) => line.classList.remove("is-visible"));
     if (transitionFill) transitionFill.style.width = "0%";
     transition?.classList.remove("is-active");
+    document.documentElement.classList.remove("initial-preloader-active");
     document.documentElement.classList.remove("is-transitioning");
   };
 
@@ -53,6 +72,7 @@ import { siteConfig } from "../config";
     if (!transition) return;
 
     resetTransition();
+    document.documentElement.classList.add("initial-preloader-active");
     const isDark = document.documentElement.classList.contains("dark");
     transition.classList.toggle("is-dark", isDark);
     transition.classList.add("is-active");
@@ -71,6 +91,7 @@ import { siteConfig } from "../config";
 
     const completionTimer = window.setTimeout(() => {
       transition.classList.remove("is-active");
+      document.documentElement.classList.remove("initial-preloader-active");
       document.documentElement.classList.remove("is-transitioning");
     }, transitionLines.length * stepDelay + 150);
     transitionTimers.push(completionTimer);
@@ -144,12 +165,13 @@ import { siteConfig } from "../config";
     z-index: 9999;
   }
 
-  .dark .page-transition,
+  :global(.dark) .page-transition,
   .page-transition.is-dark {
     background: rgb(9 9 11 / 1);
     color: rgb(244 244 245);
   }
 
+  :global(.initial-preloader-active) .page-transition,
   .page-transition.is-active {
     opacity: 1;
     pointer-events: auto;
@@ -197,7 +219,7 @@ import { siteConfig } from "../config";
       transform 180ms ease;
   }
 
-  .dark .transition-line,
+  :global(.dark) .transition-line,
   .page-transition.is-dark .transition-line {
     color: rgb(161 161 170);
   }
@@ -219,7 +241,7 @@ import { siteConfig } from "../config";
     overflow: hidden;
   }
 
-  .dark .transition-progress,
+  :global(.dark) .transition-progress,
   .page-transition.is-dark .transition-progress {
     background: rgb(39 39 42);
   }
