@@ -2,6 +2,12 @@
 import { siteConfig } from "../config";
 ---
 
+<script is:inline>
+  if (typeof sessionStorage !== "undefined" && !sessionStorage.getItem("has_seen_preloader")) {
+    document.documentElement.classList.add("initial-preloader-active");
+  }
+</script>
+
 <div
   id="page-transition"
   class="page-transition"
@@ -28,45 +34,39 @@ import { siteConfig } from "../config";
 </div>
 
 <script>
-  const transition = document.getElementById("page-transition");
-  const transitionLines = Array.from(document.querySelectorAll<HTMLElement>(".transition-line"));
-  const transitionFill = document.querySelector<HTMLElement>(".transition-progress-fill");
-  const stepDelay = 560;
-  const finalDelay = 180;
+  const getTransition = () => document.getElementById("page-transition");
+  const getTransitionLines = () => Array.from(document.querySelectorAll<HTMLElement>(".transition-line"));
+  const getTransitionFill = () => document.querySelector<HTMLElement>(".transition-progress-fill");
   let transitionTimers: number[] = [];
-
-  const shouldTransition = (link: HTMLAnchorElement) => {
-    if (!transition) return false;
-    if (link.target && link.target !== "_self") return false;
-    if (link.hasAttribute("download")) return false;
-
-    const href = link.getAttribute("href");
-    if (!href || href.startsWith("mailto:") || href.startsWith("tel:")) return false;
-
-    const url = new URL(link.href, window.location.href);
-    if (url.origin !== window.location.origin) return false;
-
-    const samePath = url.pathname === window.location.pathname;
-    const sameSearch = url.search === window.location.search;
-    if (samePath && sameSearch) return false;
-
-    return true;
-  };
 
   const resetTransition = () => {
     transitionTimers.forEach((timer) => window.clearTimeout(timer));
     transitionTimers = [];
+    const transition = getTransition();
+    const transitionLines = getTransitionLines();
+    const transitionFill = getTransitionFill();
+
     transitionLines.forEach((line) => line.classList.remove("is-visible"));
     if (transitionFill) transitionFill.style.width = "0%";
+    transition?.classList.remove("is-active");
+    document.documentElement.classList.remove("initial-preloader-active");
+    document.documentElement.classList.remove("is-transitioning");
   };
 
-  const showTransition = (destination: string) => {
-    const isDark = document.documentElement.classList.contains("dark");
+  const playInitialPreloader = () => {
+    const transition = getTransition();
+    const transitionLines = getTransitionLines();
+    const transitionFill = getTransitionFill();
+    if (!transition) return;
+
     resetTransition();
-    transition?.classList.toggle("is-dark", isDark);
-    transition?.classList.add("is-active");
+    document.documentElement.classList.add("initial-preloader-active");
+    const isDark = document.documentElement.classList.contains("dark");
+    transition.classList.toggle("is-dark", isDark);
+    transition.classList.add("is-active");
     document.documentElement.classList.add("is-transitioning");
 
+    const stepDelay = 280;
     transitionLines.forEach((line, index) => {
       const timer = window.setTimeout(() => {
         line.classList.add("is-visible");
@@ -77,23 +77,23 @@ import { siteConfig } from "../config";
       transitionTimers.push(timer);
     });
 
-    const navigationTimer = window.setTimeout(() => {
-      window.location.href = destination;
-    }, transitionLines.length * stepDelay + finalDelay);
-    transitionTimers.push(navigationTimer);
+    const completionTimer = window.setTimeout(() => {
+      transition.classList.remove("is-active");
+      document.documentElement.classList.remove("initial-preloader-active");
+      document.documentElement.classList.remove("is-transitioning");
+    }, transitionLines.length * stepDelay + 150);
+    transitionTimers.push(completionTimer);
   };
 
-  document.addEventListener("click", (event) => {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-      return;
+  const initPreloader = () => {
+    const hasSeen = sessionStorage.getItem("has_seen_preloader");
+    if (!hasSeen) {
+      sessionStorage.setItem("has_seen_preloader", "true");
+      playInitialPreloader();
+    } else {
+      resetTransition();
     }
-
-    const link = (event.target as Element | null)?.closest("a");
-    if (!link || !shouldTransition(link)) return;
-
-    event.preventDefault();
-    showTransition(link.href);
-  });
+  };
 
   // Scrollbar visibility tracker
   const initScrollbarTracking = () => {
@@ -124,11 +124,12 @@ import { siteConfig } from "../config";
     });
   };
 
-  window.addEventListener("pageshow", () => {
-    resetTransition();
-    transition?.classList.remove("is-active");
-    transition?.classList.toggle("is-dark", document.documentElement.classList.contains("dark"));
-    document.documentElement.classList.remove("is-transitioning");
+  // Run initial preloader check on load
+  initPreloader();
+  initScrollbarTracking();
+
+  // Handle Astro ClientRouter lifecycle
+  document.addEventListener("astro:page-load", () => {
     initScrollbarTracking();
   });
 </script>
@@ -152,12 +153,13 @@ import { siteConfig } from "../config";
     z-index: 9999;
   }
 
-  .dark .page-transition,
+  :global(.dark) .page-transition,
   .page-transition.is-dark {
     background: rgb(9 9 11 / 1);
     color: rgb(244 244 245);
   }
 
+  :global(.initial-preloader-active) .page-transition,
   .page-transition.is-active {
     opacity: 1;
     pointer-events: auto;
@@ -205,7 +207,7 @@ import { siteConfig } from "../config";
       transform 180ms ease;
   }
 
-  .dark .transition-line,
+  :global(.dark) .transition-line,
   .page-transition.is-dark .transition-line {
     color: rgb(161 161 170);
   }
@@ -227,7 +229,7 @@ import { siteConfig } from "../config";
     overflow: hidden;
   }
 
-  .dark .transition-progress,
+  :global(.dark) .transition-progress,
   .page-transition.is-dark .transition-progress {
     background: rgb(39 39 42);
   }

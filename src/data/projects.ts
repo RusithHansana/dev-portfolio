@@ -39,7 +39,7 @@ export const projects: Project[] = [
     tagline:
       "An AI-powered travel research agent that generates verified itineraries from natural-language trip descriptions.",
     description:
-      "NomadAgent is an AI-powered travel research agent that transforms natural-language trip descriptions into verified itineraries. It researches destinations in real time, extracts structured venue information, verifies results, and compiles day-by-day travel plans with maps, coordinates, opening hours, and source citations through a Flutter mobile app and a FastAPI backend.",
+      "NomadAgent is an AI-powered travel research agent that transforms natural-language trip descriptions into verified itineraries.  ",
     coverImage: "src/assets/covers/nomad-agent-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/nomad-agent.git",
@@ -194,7 +194,7 @@ export const projects: Project[] = [
     tagline:
       "A cross-platform mobile application providing a 24/7 AI-powered receptionist for service-based businesses.",
     description:
-      "BizAgent is a cross-platform mobile application for service-based small businesses that provides a 24/7 AI-powered receptionist. The application uses an intelligent chatbot to answer frequently asked questions, qualify leads, validate appointment availability, prevent double bookings, and write confirmed appointments to a Google Sheet used as a CRM.",
+      "BizAgent is a cross-platform mobile application for service-based small businesses that provides a 24/7 AI-powered receptionist.",
     coverImage: "src/assets/covers/biz-agent-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/biz-agent-react-native.git",
@@ -326,7 +326,7 @@ export const projects: Project[] = [
     tagline:
       "A browser-based real-time Tic-Tac-Toe web application demonstrating production-grade real-time system behavior.",
     description:
-      "SocketXO is a browser-based real-time Tic-Tac-Toe web application built to demonstrate production-grade real-time system behavior. It focuses on connection resilience, server-authoritative state management, and deterministic state synchronization over Socket.io. The project includes online matchmaking, in-game chat, an AI benchmark mode, and developer tools for testing network conditions.",
+      "SocketXO is a browser-based real-time Tic-Tac-Toe web application built to demonstrate production-grade real-time system behavior.",
     coverImage: "src/assets/covers/socket-xo-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/socket-xo",
@@ -432,7 +432,7 @@ export const projects: Project[] = [
     tagline:
       "A gesture-based 3D lighting control system using hand tracking and pinch gestures.",
     description:
-      "HandCast is a gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a realistic 3D environment using pinch gestures. It translates physical hand movements into interactions within a virtual 3D space using a React Three.js frontend and a Python MediaPipe backend connected over WebSockets.",
+      "HandCast is a gesture-based 3D lighting control system that detects hand pointing gestures and allows users to toggle smart bulbs in a virtual 3D environment.",
     coverImage: "src/assets/covers/hand-cast-cover.jpg",
     links: {
       github: "https://github.com/RusithHansana/HandCast",
