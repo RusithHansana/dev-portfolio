@@ -24,7 +24,7 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 py-24 md:h-screen flex items-center"
+  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 min-h-screen py-20 sm:py-24 xl:py-0 xl:h-screen flex items-center"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Light Gradient overlay -->
@@ -158,15 +158,15 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       stroke-width={0}></rect>
   </svg>
 
-  <div class="h-full w-full p-6 sm:p-10 md:p-16 lg:p-20 flex items-center">
-    <div class="w-full grid grid-cols-1 lg:grid-cols-[0.85fr_1.3fr_1fr] gap-6 lg:gap-8 items-stretch">
+  <div class="w-full p-6 sm:p-10 md:p-12 xl:p-16 flex items-center my-auto">
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.85fr_1.3fr_1fr] gap-6 xl:gap-8 items-stretch">
       <!-- Photo Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[320px] sm:min-h-[380px] lg:min-h-[440px] flex items-end p-6 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[300px] sm:min-h-[360px] xl:min-h-[440px] flex items-end p-6 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
         {displayPhotoSrc ? (
           <img
             src={displayPhotoSrc}
             alt={siteConfig.name}
-            class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            class="absolute inset-0 w-full h-full object-cover object-center grayscale-[30%] opacity-90 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100 group-hover:-translate-y-1.5"
           />
         ) : (
           <div class="absolute inset-0 bg-gradient-to-br from-zinc-200/80 via-zinc-100 to-zinc-200/50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900/90 flex items-center justify-center">
@@ -176,20 +176,18 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
             </svg>
           </div>
         )}
-        <span class="relative font-mono text-xs uppercase tracking-widest text-zinc-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 px-3.5 py-2 rounded-xl shadow-sm">
-          portrait
-        </span>
+        <div class="photo-shine pointer-events-none" aria-hidden="true"></div>
       </div>
 
       <!-- Main Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-12 lg:p-14 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 xl:p-14 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
         <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide">
           Hello, I'm
         </div>
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
+        <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
           {firstName} <span style={{ color: siteConfig.accentColor }}>{lastName}</span>
         </h1>
-        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
+        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 sm:mb-10 leading-relaxed">
           {siteConfig.title} building reliable web & intelligent systems
         </p>
         
@@ -236,9 +234,9 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       </div>
 
       <!-- Side Column -->
-      <div class="flex flex-col gap-6 lg:gap-8">
+      <div class="flex flex-col md:col-span-2 xl:col-span-1 md:flex-row xl:flex-col gap-6 xl:gap-8">
         <!-- Status Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
           <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
             Status
           </div>
@@ -252,7 +250,7 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
         </div>
 
         <!-- Skills Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
           <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
             Working with
           </div>
@@ -286,5 +284,25 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
 
   .animate-rise {
     animation: rise 0.4s ease forwards;
+  }
+
+  .photo-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.25) 45%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.25) 55%,
+      transparent 80%
+    );
+    transform: translateX(-150%) skewX(-15deg);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
+  }
+
+  .group:hover .photo-shine {
+    transform: translateX(150%) skewX(-15deg);
   }
 </style>
