@@ -83,93 +83,137 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
         </svg>
       </button>
     </div>
-
-    <!-- Mobile Menu Overlay -->
-    <div
-      id="mobile-menu"
-      class="fixed inset-0 top-[72px] bg-zinc-50/98 dark:bg-zinc-950/98 backdrop-blur-xl z-40 hidden flex-col p-8 transition-all duration-300"
-    >
-      <ul class="flex flex-col gap-6 text-center mt-12">
-        <li>
-          <a
-            href="/#about"
-            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-          >
-            About
-          </a>
-        </li>
-        {
-          hasProjects && (
-            <li>
-              <a
-                href="/#projects"
-                class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-              >
-                Projects
-              </a>
-            </li>
-          )
-        }
-        {
-          hasExperience && (
-            <li>
-              <a
-                href="/#experience"
-                class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-              >
-                Experience
-              </a>
-            </li>
-          )
-        }
-        {
-          hasEducation && (
-            <li>
-              <a
-                href="/#education"
-                class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-              >
-                Education
-              </a>
-            </li>
-          )
-        }
-      </ul>
-    </div>
   </nav>
 </header>
 
-<script>
-  const header = document.getElementById("header");
-  const mobileMenuButton = document.getElementById("mobile-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-  const hamburgerIcon = document.getElementById("hamburger-icon");
-  const closeIcon = document.getElementById("close-icon");
-  const mobileLinks = document.querySelectorAll(".mobile-link");
-
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 100) {
-      header?.classList.add("bg-white/80", "dark:bg-zinc-950/80", "backdrop-blur-sm", "border-zinc-200", "dark:border-zinc-800");
-    } else {
-      header?.classList.remove("bg-white/80", "dark:bg-zinc-950/80", "backdrop-blur-sm", "border-zinc-200", "dark:border-zinc-800");
+<!-- Mobile Menu Overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 top-[72px] bg-zinc-50/98 dark:bg-zinc-950/98 backdrop-blur-xl z-40 hidden flex-col p-8 transition-all duration-300"
+>
+  <ul class="flex flex-col gap-6 text-center mt-12">
+    <li>
+      <a
+        href="/#about"
+        class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+      >
+        About
+      </a>
+    </li>
+    {
+      hasProjects && (
+        <li>
+          <a
+            href="/#projects"
+            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+          >
+            Projects
+          </a>
+        </li>
+      )
     }
-  });
+    {
+      hasExperience && (
+        <li>
+          <a
+            href="/#experience"
+            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+          >
+            Experience
+          </a>
+        </li>
+      )
+    }
+    {
+      hasEducation && (
+        <li>
+          <a
+            href="/#education"
+            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+          >
+            Education
+          </a>
+        </li>
+      )
+    }
+  </ul>
+</div>
 
-  const toggleMenu = () => {
-    mobileMenu?.classList.toggle("hidden");
-    mobileMenu?.classList.toggle("flex");
-    hamburgerIcon?.classList.toggle("hidden");
-    closeIcon?.classList.toggle("hidden");
-    document.body.classList.toggle("overflow-hidden");
-  };
+<script>
+  function setupHeader() {
+    const header = document.getElementById("header");
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const hamburgerIcon = document.getElementById("hamburger-icon");
+    const closeIcon = document.getElementById("close-icon");
+    const mobileLinks = document.querySelectorAll(".mobile-link");
 
-  mobileMenuButton?.addEventListener("click", toggleMenu);
+    // Scroll effect for header background
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        header?.classList.add(
+          "bg-white/80",
+          "dark:bg-zinc-950/80",
+          "backdrop-blur-sm",
+          "border-zinc-200",
+          "dark:border-zinc-800"
+        );
+      } else {
+        header?.classList.remove(
+          "bg-white/80",
+          "dark:bg-zinc-950/80",
+          "backdrop-blur-sm",
+          "border-zinc-200",
+          "dark:border-zinc-800"
+        );
+      }
+    };
 
-  mobileLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      toggleMenu();
+    window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    if (!mobileMenuButton || !mobileMenu) return;
+
+    const closeMenu = () => {
+      mobileMenu.classList.add("hidden");
+      mobileMenu.classList.remove("flex");
+      hamburgerIcon?.classList.remove("hidden");
+      closeIcon?.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    };
+
+    const openMenu = () => {
+      mobileMenu.classList.remove("hidden");
+      mobileMenu.classList.add("flex");
+      hamburgerIcon?.classList.add("hidden");
+      closeIcon?.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+    };
+
+    const toggleMenu = () => {
+      const isHidden = mobileMenu.classList.contains("hidden");
+      if (isHidden) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    };
+
+    // Reset menu to closed state on init/navigation
+    closeMenu();
+
+    mobileMenuButton.onclick = toggleMenu;
+
+    mobileLinks.forEach((link) => {
+      (link as HTMLElement).onclick = () => {
+        closeMenu();
+      };
     });
-  });
+  }
+
+  setupHeader();
+  document.addEventListener("astro:page-load", setupHeader);
 </script>
 
 <style>
