@@ -3,6 +3,7 @@ import { projects } from "../../data/projects";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import PageTransition from "../../components/PageTransition.astro";
+import { ClientRouter } from "astro:transitions";
 import { siteConfig } from "../../config";
 import "../../styles/global.css";
 
@@ -59,19 +60,26 @@ const webScreenshots = resolvedScreenshots.filter((s) => s.type === "web");
       rel="stylesheet"
     />
     <title>{project.name} - {siteConfig.name}</title>
+    <ClientRouter />
     <script is:inline>
-      const theme = (() => {
-        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-          return localStorage.getItem("theme");
+      const applyTheme = () => {
+        const theme = (() => {
+          if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+            return localStorage.getItem("theme");
+          }
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+          }
+          return "light";
+        })();
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
         }
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          return "dark";
-        }
-        return "light";
-      })();
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      }
+      };
+      applyTheme();
+      document.addEventListener("astro:after-swap", applyTheme);
     </script>
   </head>
   <body>
