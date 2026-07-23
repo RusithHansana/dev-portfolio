@@ -1,14 +1,12 @@
 ---
 ---
 <button
-  id="theme-toggle"
   type="button"
-  class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:focus:ring-zinc-700 rounded-lg text-sm p-2.5 transition-colors duration-200"
+  class="theme-toggle text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 focus:outline-none focus:ring-4 focus:ring-zinc-200 dark:focus:ring-zinc-700 rounded-lg text-sm p-2.5 transition-colors duration-200"
   aria-label="Toggle dark mode"
 >
   <svg
-    id="theme-toggle-dark-icon"
-    class="hidden w-5 h-5"
+    class="theme-toggle-dark-icon hidden w-5 h-5"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -21,8 +19,7 @@
     ></path>
   </svg>
   <svg
-    id="theme-toggle-light-icon"
-    class="hidden w-5 h-5"
+    class="theme-toggle-light-icon hidden w-5 h-5"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -37,49 +34,43 @@
 </button>
 
 <script>
-  function setupThemeToggle() {
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+  function setupThemeToggles() {
+    const toggleBtns = document.querySelectorAll(".theme-toggle");
+    if (!toggleBtns.length) return;
 
-    if (!themeToggleBtn) return;
-
-    const isDark =
-      localStorage.getItem("theme") === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    if (isDark) {
-      themeToggleLightIcon?.classList.remove("hidden");
-      themeToggleDarkIcon?.classList.add("hidden");
-    } else {
-      themeToggleDarkIcon?.classList.remove("hidden");
-      themeToggleLightIcon?.classList.add("hidden");
-    }
-
-    themeToggleBtn.onclick = () => {
-      themeToggleDarkIcon?.classList.toggle("hidden");
-      themeToggleLightIcon?.classList.toggle("hidden");
-
-      if (localStorage.getItem("theme")) {
-        if (localStorage.getItem("theme") === "light") {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
+    const syncIcons = () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      toggleBtns.forEach((btn) => {
+        const darkIcon = btn.querySelector(".theme-toggle-dark-icon");
+        const lightIcon = btn.querySelector(".theme-toggle-light-icon");
+        if (isDark) {
+          lightIcon?.classList.remove("hidden");
+          darkIcon?.classList.add("hidden");
         } else {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
+          darkIcon?.classList.remove("hidden");
+          lightIcon?.classList.add("hidden");
         }
-      } else {
-        if (document.documentElement.classList.contains("dark")) {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-        } else {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-        }
-      }
+      });
     };
+
+    syncIcons();
+
+    toggleBtns.forEach((btn) => {
+      btn.onclick = () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        if (isDark) {
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        } else {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        }
+        syncIcons();
+      };
+    });
   }
 
-  setupThemeToggle();
-  document.addEventListener("astro:page-load", setupThemeToggle);
+  setupThemeToggles();
+  document.addEventListener("astro:page-load", setupThemeToggles);
+  document.addEventListener("astro:after-swap", setupThemeToggles);
 </script>

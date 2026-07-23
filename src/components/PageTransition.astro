@@ -5,18 +5,6 @@ import { siteConfig } from "../config";
 <script is:inline>
   if (typeof sessionStorage !== "undefined" && !sessionStorage.getItem("has_seen_preloader")) {
     document.documentElement.classList.add("initial-preloader-active");
-    const theme = (() => {
-      if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-        return localStorage.getItem("theme");
-      }
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        return "dark";
-      }
-      return "light";
-    })();
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    }
   }
 </script>
 
