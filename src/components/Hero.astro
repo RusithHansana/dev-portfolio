@@ -1,35 +1,52 @@
 ---
 import { siteConfig } from "../config";
+
+interface Props {
+  photoUrl?: string;
+}
+
+const { photoUrl } = Astro.props;
+const nameParts = siteConfig.name.split(" ");
+const firstName = nameParts[0] || "Rusith";
+const lastName = nameParts.slice(1).join(" ") || "Hansana";
+
+const featuredSkills = siteConfig.skills?.slice(0, 5) || [
+  "TypeScript",
+  "React",
+  "Node.js",
+  "PostgreSQL",
+  "Next.js",
+];
 ---
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 py-24 md:h-screen"
+  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 py-24 md:h-screen flex items-center"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Light Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10 dark:hidden"
+    class="absolute inset-0 -z-10 dark:hidden pointer-events-none"
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, 1) 100%)`}
   >
   </div>
   
   <!-- Dark Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10 hidden dark:block"
+    class="absolute inset-0 -z-10 hidden dark:block pointer-events-none"
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}20 20%, ${siteConfig.accentColor}05 40%, rgba(9, 9, 11, 0.3) 70%, rgba(9, 9, 11, 0.8) 90%, rgba(9, 9, 11, 1) 100%)`}
   >
   </div>
   
   <svg
     aria-hidden="true"
-    class="absolute inset-0 -z-10 size-full stroke-zinc-200 dark:stroke-zinc-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    class="absolute inset-0 -z-10 size-full stroke-zinc-200 dark:stroke-zinc-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] pointer-events-none"
   >
     <defs>
       <pattern
         x="50%"
         y={-1}
-        id="0787a7c5-978c-4f66-83c7-11c213f99cb7"
+        id="0787a7c5-hero"
         width={200}
         height={200}
         patternUnits="userSpaceOnUse"
@@ -37,7 +54,7 @@ import { siteConfig } from "../config";
         <path d="M.5 200V.5H200" fill="none"></path>
       </pattern>
       <pattern
-        id="programming-symbols"
+        id="programming-symbols-hero"
         x="0"
         y="0"
         width="400"
@@ -127,166 +144,136 @@ import { siteConfig } from "../config";
       </pattern>
     </defs>
     <rect
-      fill="url(#programming-symbols)"
+      fill="url(#programming-symbols-hero)"
       width="100%"
       height="100%"
       opacity="0.2"></rect>
     <rect
-      fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)"
+      fill="url(#0787a7c5-hero)"
       width="100%"
       height="100%"
       stroke-width={0}></rect>
   </svg>
-  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex items-center">
-    <div>
-      <h2
-        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-zinc-700 dark:text-zinc-300 animate-fade-in"
-      >
-        Hello! 👋
-      </h2>
-      <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 animate-fade-in animation-delay-200"
-      >
-        I'm <span style={{ color: siteConfig.accentColor }}
-          >{siteConfig.name}</span
-        >
-      </h1>
-      <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-zinc-600 dark:text-zinc-400 animate-fade-in animation-delay-400"
-      >
-        {siteConfig.title}
-      </p>
+
+  <div class="h-full w-full p-8 sm:p-12 md:p-24 flex items-center">
+    <div class="w-full grid grid-cols-1 lg:grid-cols-[0.85fr_1.3fr_1fr] gap-5 items-stretch">
+      <!-- Photo Card -->
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[280px] lg:min-h-[340px] flex items-end p-4 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        {photoUrl ? (
+          <img
+            src={photoUrl}
+            alt={siteConfig.name}
+            class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div class="absolute inset-0 bg-gradient-to-br from-zinc-200/80 via-zinc-100 to-zinc-200/50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900/90 flex items-center justify-center">
+            <svg class="w-20 h-20 text-zinc-400 dark:text-zinc-700 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+            </svg>
+          </div>
+        )}
+        <span class="relative font-mono text-[11px] uppercase tracking-widest text-zinc-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 rounded-lg shadow-sm">
+          portrait
+        </span>
+      </div>
+
+      <!-- Main Card -->
+      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+        <div class="font-mono text-sm text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide">
+          Hello, I'm
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-3">
+          {firstName} <span style={{ color: siteConfig.accentColor }}>{lastName}</span>
+        </h1>
+        <p class="font-mono text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mb-8">
+          {siteConfig.title} building reliable web & intelligent systems
+        </p>
+        
+        <!-- Socials -->
+        <div class="flex items-center gap-3">
+          {siteConfig.social?.email && (
+            <a
+              href={`mailto:${siteConfig.social.email}`}
+              aria-label="Email"
+              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+              </svg>
+            </a>
+          )}
+          {siteConfig.social?.linkedin && (
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="17"/><circle cx="8" cy="7" r="1"/><path d="M12 17v-4a2 2 0 0 1 4 0v4"/>
+              </svg>
+            </a>
+          )}
+          {siteConfig.social?.github && (
+            <a
+              href={siteConfig.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              class="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5 0-1-.4-2-1-2.7.1-.3.4-1.4-.1-2.8 0 0-1-.3-3 1a10 10 0 0 0-5 0c-2-1.3-3-1-3-1-.5 1.4-.2 2.5-.1 2.8A4 4 0 0 0 4 9.9c0 3.5 2 4.3 4 4.5-.3.3-.5.9-.5 1.7V19"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <!-- Side Column -->
+      <div class="flex flex-col gap-5">
+        <!-- Status Card -->
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+          <div class="font-mono text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+            Status
+          </div>
+          <div class="flex items-center gap-2.5 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            Available for new projects
+          </div>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+          <div class="font-mono text-[11px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-3">
+            Working with
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {featuredSkills.map((skill, index) => (
+              <span
+                class="font-mono text-xs px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
+                style={`animation-delay: ${index * 0.08}s`}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div
-    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-zinc-700 dark:text-zinc-300 animate-fade-in animation-delay-600"
-  >
-    {
-      siteConfig.social?.email && (
-        <a
-          href={`mailto:${siteConfig.social.email}`}
-          aria-label="Email"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-            <path d="M3 7l9 6l9 -6" />
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.linkedin && (
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 11v5" />
-              <path d="M8 8v.01" />
-              <path d="M12 16v-5" />
-              <path d="M16 16v-3a2 2 0 1 0 -4 0" />
-              <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.twitter && (
-        <a
-          href={siteConfig.social.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.github && (
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-            </>
-          </svg>
-        </a>
-      )
-    }
   </div>
 </div>
 
 <style>
-  @keyframes fadeIn {
+  @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
@@ -294,20 +281,7 @@ import { siteConfig } from "../config";
     }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 0.2s;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 0.4s;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 0.6s;
+  .animate-rise {
+    animation: rise 0.4s ease forwards;
   }
 </style>
