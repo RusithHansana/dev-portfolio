@@ -1,11 +1,5 @@
 ---
 import { siteConfig } from "../config";
-import IDCard from "./IDCard.astro";
-import { fetchGithubAvatar } from "../lib/github";
-
-const githubUrl = siteConfig.social?.github || "";
-const githubUsername = siteConfig.githubUsername || githubUrl.split('/').filter(Boolean).pop();
-const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.githubusercontent.com/u/84988775?v=4"; // Fallback just in case
 ---
 
 <div
@@ -26,17 +20,6 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
     style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}20 20%, ${siteConfig.accentColor}05 40%, rgba(9, 9, 11, 0.3) 70%, rgba(9, 9, 11, 0.8) 90%, rgba(9, 9, 11, 1) 100%)`}
   >
   </div>
-  
-  <!--
-  <IDCard 
-    name={siteConfig.name} 
-    role={siteConfig.title || "Software Engineer"} 
-    avatar={avatarUrl} 
-    specialties={siteConfig.specialties} 
-    location="Remote" 
-    status="Open to Work" 
-  />
-  -->
   
   <svg
     aria-hidden="true"
