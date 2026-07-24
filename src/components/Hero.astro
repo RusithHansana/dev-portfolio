@@ -161,7 +161,8 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
   <div class="w-full p-6 sm:p-10 md:p-12 xl:p-16 flex items-center my-auto">
     <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.85fr_1.3fr_1fr] gap-6 xl:gap-8 items-stretch">
       <!-- Photo Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[300px] sm:min-h-[360px] xl:min-h-[440px] flex items-end p-6 group transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[300px] sm:min-h-[360px] xl:min-h-[440px] flex items-end p-6 transition-all duration-300">
+        <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
         {displayPhotoSrc ? (
           <img
             src={displayPhotoSrc}
@@ -180,19 +181,20 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       </div>
 
       <!-- Main Card -->
-      <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 xl:p-14 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-        <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide">
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 xl:p-14 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+        <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+        <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide relative z-10">
           Hello, I'm
         </div>
-        <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
+        <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4 relative z-10">
           {firstName} <span style={{ color: siteConfig.accentColor }}>{lastName}</span>
         </h1>
-        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 sm:mb-10 leading-relaxed">
+        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 sm:mb-10 leading-relaxed relative z-10">
           {siteConfig.title} building reliable web & intelligent systems
         </p>
         
         <!-- Socials -->
-        <div class="flex items-center gap-3.5">
+        <div class="flex items-center gap-3.5 relative z-10">
           {siteConfig.social?.email && (
             <a
               href={`mailto:${siteConfig.social.email}`}
@@ -236,11 +238,12 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       <!-- Side Column -->
       <div class="flex flex-col md:col-span-2 xl:col-span-1 md:flex-row xl:flex-col gap-6 xl:gap-8">
         <!-- Status Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+          <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
             Status
           </div>
-          <div class="flex items-center gap-3 text-base font-medium text-zinc-800 dark:text-zinc-200">
+          <div class="flex items-center gap-3 text-base font-medium text-zinc-800 dark:text-zinc-200 relative z-10">
             <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
@@ -250,11 +253,12 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
         </div>
 
         <!-- Skills Card -->
-        <div class="bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700">
-          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+          <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
             Working with
           </div>
-          <div class="flex flex-wrap gap-2.5">
+          <div class="flex flex-wrap gap-2.5 relative z-10">
             {featuredSkills.map((skill, index) => (
               <span
                 class="font-mono text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
@@ -271,6 +275,27 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
 </div>
 
 <style>
+  .bento-card {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+  }
+
+  .spotlight-border {
+    background: radial-gradient(
+      450px circle at var(--mouse-x) var(--mouse-y),
+      var(--accent-color, #6366f1),
+      transparent 70%
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1.5px;
+    border-radius: inherit;
+    z-index: 5;
+  }
+
   @keyframes rise {
     from {
       opacity: 0;
@@ -306,3 +331,21 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
     transform: translateX(150%) skewX(-15deg);
   }
 </style>
+
+<script>
+  function initBentoSpotlight() {
+    const cards = document.querySelectorAll<HTMLElement>('.bento-card');
+    cards.forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  }
+
+  initBentoSpotlight();
+  document.addEventListener('astro:page-load', initBentoSpotlight);
+</script>
