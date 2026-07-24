@@ -1,50 +1,54 @@
 ---
 import { siteConfig } from "../config";
-import IDCard from "./IDCard.astro";
-import { fetchGithubAvatar } from "../lib/github";
+import heroImage from "../assets/hero/hero-image.jpeg";
 
-const githubUrl = siteConfig.social?.github || "";
-const githubUsername = siteConfig.githubUsername || githubUrl.split('/').filter(Boolean).pop();
-const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.githubusercontent.com/u/84988775?v=4"; // Fallback just in case
+interface Props {
+  photoUrl?: string;
+}
+
+const { photoUrl } = Astro.props;
+const displayPhotoSrc = photoUrl || siteConfig.photoUrl || heroImage.src;
+
+const nameParts = siteConfig.name.split(" ");
+const firstName = nameParts[0] || "Rusith";
+const lastName = nameParts.slice(1).join(" ") || "Hansana";
+
+const featuredSkills = siteConfig.skills?.slice(0, 5) || [
+  "TypeScript",
+  "React",
+  "Node.js",
+  "PostgreSQL",
+  "Next.js",
+];
 ---
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 py-24 md:h-screen"
-  style={`--accent-color: ${siteConfig.accentColor}`}
+  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 min-h-screen py-20 sm:py-24 xl:py-0 xl:h-screen flex items-center"
 >
   <!-- Light Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10 dark:hidden"
-    style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}25 20%, ${siteConfig.accentColor}10 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, 1) 100%)`}
+    class="absolute inset-0 -z-10 dark:hidden pointer-events-none"
+    style="background: radial-gradient(ellipse 800px 1200px at 0% 0%, var(--accent-color) 0%, transparent 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 1) 100%)"
   >
   </div>
   
   <!-- Dark Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10 hidden dark:block"
-    style={`background: radial-gradient(ellipse 800px 1200px at 0% 0%, ${siteConfig.accentColor}40 0%, ${siteConfig.accentColor}20 20%, ${siteConfig.accentColor}05 40%, rgba(9, 9, 11, 0.3) 70%, rgba(9, 9, 11, 0.8) 90%, rgba(9, 9, 11, 1) 100%)`}
+    class="absolute inset-0 -z-10 hidden dark:block pointer-events-none"
+    style="background: radial-gradient(ellipse 800px 1200px at 0% 0%, var(--accent-color) 0%, transparent 40%, rgba(9, 9, 11, 0.3) 70%, rgba(9, 9, 11, 1) 100%)"
   >
   </div>
   
-  <IDCard 
-    name={siteConfig.name} 
-    role={siteConfig.title || "Software Engineer"} 
-    avatar={avatarUrl} 
-    specialties={siteConfig.specialties} 
-    location="Remote" 
-    status="Open to Work" 
-  />
-
   <svg
     aria-hidden="true"
-    class="absolute inset-0 -z-10 size-full stroke-zinc-200 dark:stroke-zinc-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
+    class="absolute inset-0 -z-10 size-full stroke-zinc-200 dark:stroke-zinc-800 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)] pointer-events-none"
   >
     <defs>
       <pattern
         x="50%"
         y={-1}
-        id="0787a7c5-978c-4f66-83c7-11c213f99cb7"
+        id="0787a7c5-hero"
         width={200}
         height={200}
         patternUnits="userSpaceOnUse"
@@ -52,7 +56,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <path d="M.5 200V.5H200" fill="none"></path>
       </pattern>
       <pattern
-        id="programming-symbols"
+        id="programming-symbols-hero"
         x="0"
         y="0"
         width="400"
@@ -62,7 +66,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="50"
           y="50"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="24"
           transform="rotate(-15)">&lt;/&gt;</text
@@ -70,7 +74,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="150"
           y="100"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="20"
           transform="rotate(10)">{}</text
@@ -78,7 +82,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="250"
           y="80"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="18"
           transform="rotate(-5)">=&gt;</text
@@ -86,7 +90,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="100"
           y="200"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="22"
           transform="rotate(15)">[]</text
@@ -94,7 +98,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="300"
           y="180"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="20"
           transform="rotate(-10)">&lt;&gt;</text
@@ -102,7 +106,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="200"
           y="250"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="24"
           transform="rotate(5)">()</text
@@ -110,7 +114,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="50"
           y="320"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="18"
           transform="rotate(-8)">::</text
@@ -118,7 +122,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="350"
           y="300"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="22"
           transform="rotate(12)">==</text
@@ -126,7 +130,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="150"
           y="350"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="20"
           transform="rotate(-15)">++</text
@@ -134,7 +138,7 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
         <text
           x="250"
           y="370"
-          fill={siteConfig.accentColor}
+          fill="var(--accent-color)"
           font-family="monospace"
           font-size="24"
           transform="rotate(8)">;</text
@@ -142,166 +146,159 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
       </pattern>
     </defs>
     <rect
-      fill="url(#programming-symbols)"
+      fill="url(#programming-symbols-hero)"
       width="100%"
       height="100%"
       opacity="0.2"></rect>
     <rect
-      fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)"
+      fill="url(#0787a7c5-hero)"
       width="100%"
       height="100%"
       stroke-width={0}></rect>
   </svg>
-  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex items-center">
-    <div>
-      <h2
-        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-zinc-700 dark:text-zinc-300 animate-fade-in"
-      >
-        Hello! 👋
-      </h2>
-      <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 animate-fade-in animation-delay-200"
-      >
-        I'm <span style={{ color: siteConfig.accentColor }}
-          >{siteConfig.name}</span
-        >
-      </h1>
-      <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-zinc-600 dark:text-zinc-400 animate-fade-in animation-delay-400"
-      >
-        {siteConfig.title}
-      </p>
+
+  <div class="w-full p-6 sm:p-10 md:p-12 xl:p-16 flex items-center my-auto">
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.85fr_1.3fr_1fr] gap-6 xl:gap-8 items-stretch">
+      <!-- Photo Card -->
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[300px] sm:min-h-[360px] xl:min-h-[440px] flex items-end p-6 transition-all duration-300">
+        <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+        {displayPhotoSrc ? (
+          <img
+            src={displayPhotoSrc}
+            alt={siteConfig.name}
+            class="absolute inset-0 w-full h-full object-cover object-center grayscale-[30%] opacity-90 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100 group-hover:-translate-y-1.5"
+          />
+        ) : (
+          <div class="absolute inset-0 bg-gradient-to-br from-zinc-200/80 via-zinc-100 to-zinc-200/50 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-900/90 flex items-center justify-center">
+            <svg class="w-24 h-24 text-zinc-400 dark:text-zinc-700 transition-transform duration-500 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+            </svg>
+          </div>
+        )}
+        <div class="photo-shine pointer-events-none" aria-hidden="true"></div>
+      </div>
+
+      <!-- Main Card -->
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 xl:p-14 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+        <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+        <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide relative z-10">
+          Hello, I'm
+        </div>
+        <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4 relative z-10">
+          {firstName} <span style={{ color: "var(--accent-color)" }}>{lastName}</span>
+        </h1>
+        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 sm:mb-10 leading-relaxed relative z-10">
+          {siteConfig.title} building reliable web & intelligent systems
+        </p>
+        
+        <!-- Socials -->
+        <div class="flex items-center gap-3.5 relative z-10">
+          {siteConfig.social?.email && (
+            <a
+              href={`mailto:${siteConfig.social.email}`}
+              aria-label="Email"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+              </svg>
+            </a>
+          )}
+          {siteConfig.social?.linkedin && (
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="17"/><circle cx="8" cy="7" r="1"/><path d="M12 17v-4a2 2 0 0 1 4 0v4"/>
+              </svg>
+            </a>
+          )}
+          {siteConfig.social?.github && (
+            <a
+              href={siteConfig.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
+            >
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5 0-1-.4-2-1-2.7.1-.3.4-1.4-.1-2.8 0 0-1-.3-3 1a10 10 0 0 0-5 0c-2-1.3-3-1-3-1-.5 1.4-.2 2.5-.1 2.8A4 4 0 0 0 4 9.9c0 3.5 2 4.3 4 4.5-.3.3-.5.9-.5 1.7V19"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+
+      <!-- Side Column -->
+      <div class="flex flex-col md:col-span-2 xl:col-span-1 md:flex-row xl:flex-col gap-6 xl:gap-8">
+        <!-- Status Card -->
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+          <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
+            Status
+          </div>
+          <div class="flex items-center gap-3 text-base font-medium text-zinc-800 dark:text-zinc-200 relative z-10">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            Available for new projects
+          </div>
+        </div>
+
+        <!-- Skills Card -->
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+          <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
+            Working with
+          </div>
+          <div class="flex flex-wrap gap-2.5 relative z-10">
+            {featuredSkills.map((skill, index) => (
+              <span
+                class="font-mono text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
+                style={`animation-delay: ${index * 0.08}s`}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div
-    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-zinc-700 dark:text-zinc-300 animate-fade-in animation-delay-600"
-  >
-    {
-      siteConfig.social?.email && (
-        <a
-          href={`mailto:${siteConfig.social.email}`}
-          aria-label="Email"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-            <path d="M3 7l9 6l9 -6" />
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.linkedin && (
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 11v5" />
-              <path d="M8 8v.01" />
-              <path d="M12 16v-5" />
-              <path d="M16 16v-3a2 2 0 1 0 -4 0" />
-              <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.twitter && (
-        <a
-          href={siteConfig.social.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Twitter"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-              <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.github && (
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-            </>
-          </svg>
-        </a>
-      )
-    }
   </div>
 </div>
 
 <style>
-  @keyframes fadeIn {
+  .bento-card {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+  }
+
+  .spotlight-border {
+    background: radial-gradient(
+      450px circle at var(--mouse-x) var(--mouse-y),
+      var(--accent-color, #84cc16),
+      transparent 70%
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1.5px;
+    border-radius: inherit;
+    z-index: 5;
+  }
+
+  @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(6px);
     }
     to {
       opacity: 1;
@@ -309,20 +306,45 @@ const avatarUrl = await fetchGithubAvatar(githubUsername) || "https://avatars.gi
     }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
+  .animate-rise {
+    animation: rise 0.4s ease forwards;
   }
 
-  .animation-delay-200 {
-    animation-delay: 0.2s;
+  .photo-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.25) 45%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.25) 55%,
+      transparent 80%
+    );
+    transform: translateX(-150%) skewX(-15deg);
+    transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 5;
   }
 
-  .animation-delay-400 {
-    animation-delay: 0.4s;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 0.6s;
+  .group:hover .photo-shine {
+    transform: translateX(150%) skewX(-15deg);
   }
 </style>
+
+<script>
+  function initBentoSpotlight() {
+    const cards = document.querySelectorAll<HTMLElement>('.bento-card');
+    cards.forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  }
+
+  initBentoSpotlight();
+  document.addEventListener('astro:page-load', initBentoSpotlight);
+</script>

@@ -1,9 +1,13 @@
+import heroImage from "./assets/hero/hero-image.jpeg";
+
 export const siteConfig = {
   name: "Rusith Hansana",
   githubUsername: "RusithHansana",
   title: "Software Engineer",
   description: "Portfolio website of Rusith Hansana",
   accentColor: "#1d4ed8",
+  accentColorDark: "#84cc16",
+  photoUrl: heroImage.src,
   social: {
     email: "rusithhansana.dev@gmail.com",
     github: "https://github.com/RusithHansana",

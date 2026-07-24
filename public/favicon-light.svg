@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Light theme favicon: Dark badge background, light letter -->
+  <rect fill="#18181b" x="2" y="2" width="28" height="28" rx="8" />
+  <text fill="#fafafa" x="16" y="16" font-size="18" font-family="'IBM Plex Mono', monospace, sans-serif" font-weight="700" text-anchor="middle" dominant-baseline="central">R</text>
+</svg>

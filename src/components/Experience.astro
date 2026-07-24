@@ -14,7 +14,7 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
             </h2>
             <div
               class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
+              style="background-color: var(--accent-color)"
             />
           </div>
 
@@ -25,7 +25,7 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                   {/* Timeline dot at top of card */}
                   <div
                     class="absolute left-1/2 -top-2 w-4 h-4 bg-zinc-50 dark:bg-zinc-900 border-2 rounded-full -translate-x-1/2 z-20 transition-all duration-300"
-                    style={`border-color: ${siteConfig.accentColor}; background-color: ${siteConfig.accentColor}`}
+                    style="border-color: var(--accent-color); background-color: var(--accent-color)"
                   />
 
                   {/* Connecting line below card */}
@@ -42,7 +42,7 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                         </h3>
                         <p
                           class="text-base sm:text-lg"
-                          style={`color: ${siteConfig.accentColor}`}
+                          style="color: var(--accent-color)"
                         >
                           {exp.company}
                         </p>
