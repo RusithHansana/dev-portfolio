@@ -6,6 +6,7 @@ export const siteConfig = {
   title: "Software Engineer",
   description: "Portfolio website of Rusith Hansana",
   accentColor: "#1d4ed8",
+  accentColorDark: "#84cc16",
   photoUrl: heroImage.src,
   social: {
     email: "rusithhansana.dev@gmail.com",

@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark, .dark *));
 
+:root {
+  --accent-color: #1d4ed8;
+}
+
+.dark {
+  --accent-color: #84cc16;
+}
+
 body {
   font-family: 'IBM Plex Mono', monospace;
   @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300;
@@ -14,7 +22,7 @@ body {
 
 /* Firefox scrollbar color on scroll */
 *.is-scrolling {
-  scrollbar-color: var(--accent-color, #1d4ed8) transparent;
+  scrollbar-color: var(--accent-color) transparent;
 }
 
 /* Webkit Scrollbars (Chrome, Safari, Edge, Opera) */
@@ -38,6 +46,6 @@ body {
 /* Show when scrolling or directly hovered */
 .is-scrolling::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--accent-color, #1d4ed8);
+  background-color: var(--accent-color, #84cc16);
 }
 

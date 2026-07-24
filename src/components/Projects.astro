@@ -8,7 +8,7 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
 
 {
   hasProjects && (
-    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24" style={`--accent-color: ${siteConfig.accentColor};`}>
+    <section id="projects" class="p-8 sm:p-12 md:p-16 lg:p-24">
       <div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           <div class="lg:col-span-4 lg:top-8">
@@ -17,7 +17,7 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
             </h2>
             <div
               class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
+              style="background-color: var(--accent-color)"
             />
           </div>
 
@@ -54,7 +54,7 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
                             <div>
                               <span
                                 class="text-xs sm:text-sm font-mono font-semibold block"
-                                style={{ color: siteConfig.accentColor }}
+                                style={{ color: "var(--accent-color)" }}
                               >
                                 0{index + 1}
                               </span>
@@ -159,7 +159,7 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
     transition: background-color 0.3s, transform 0.3s;
   }
   .project-card-wrap.is-linked:hover .project-cover-arrow {
-    background: var(--accent-color, #6366f1);
+    background: var(--accent-color, #84cc16);
     transform: translate(0.125rem, -0.125rem);
   }
 </style>
