@@ -6,8 +6,6 @@ const hasProjects = projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 
-const nameParts = siteConfig.name.split(" ");
-const initials = nameParts.map((p) => p[0]).join("") || "RH";
 ---
 
 <header
@@ -20,9 +18,6 @@ const initials = nameParts.map((p) => p[0]).join("") || "RH";
       href="/#hero"
       class="group flex items-center gap-2.5 text-zinc-100 font-mono text-sm font-bold tracking-tight shrink-0"
     >
-      <span class="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-xs font-extrabold text-zinc-300 group-hover:border-[var(--accent-color)] group-hover:text-[var(--accent-color)] transition-all duration-300 shadow-inner">
-        {initials}
-      </span>
       <span class="hidden sm:inline-block text-xs font-semibold text-zinc-300 group-hover:text-white transition-colors">
         {siteConfig.name}<span style="color: var(--accent-color)">.</span>
       </span>
