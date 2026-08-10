@@ -4,6 +4,7 @@ export const siteConfig = {
   name: "Rusith Hansana",
   githubUsername: "RusithHansana",
   title: "Software Engineer",
+  tagline: "I turn ideas into production-ready AI apps. Mobile, web, and everything between.",
   description: "Portfolio website of Rusith Hansana",
   accentColor: "#1d4ed8",
   accentColorDark: "#84cc16",
