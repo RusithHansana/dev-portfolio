@@ -153,7 +153,7 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
   <div class="w-full p-6 sm:p-10 md:p-12 xl:p-16 flex items-center my-auto">
     <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[0.85fr_1.3fr_1fr] gap-6 xl:gap-8 items-stretch">
       <!-- Photo Card -->
-      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[300px] sm:min-h-[360px] xl:min-h-[440px] flex items-end p-6 transition-all duration-300">
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl relative overflow-hidden min-h-[320px] sm:min-h-[380px] xl:min-h-[440px] flex flex-col justify-between p-6 sm:p-8 transition-all duration-300">
         <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
         {displayPhotoSrc ? (
           <img
@@ -173,92 +173,157 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
       </div>
 
       <!-- Main Card -->
-      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 sm:p-10 xl:p-14 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+      <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full">
         <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
-        <div class="font-mono text-base text-zinc-500 dark:text-zinc-400 mb-4 tracking-wide relative z-10">
-          Hello, I'm
-        </div>
-        <h1 class="text-4xl sm:text-5xl xl:text-7xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4 relative z-10">
-          {firstName} <span style={{ color: "var(--accent-color)" }}>{lastName}</span>
-        </h1>
-        <p class="font-mono text-base sm:text-lg text-zinc-600 dark:text-zinc-400 mb-8 sm:mb-10 leading-relaxed relative z-10">
-          {siteConfig.tagline}
-        </p>
         
-        <!-- Socials -->
-        <div class="flex items-center gap-3.5 relative z-10">
-          {siteConfig.social?.email && (
-            <a
-              href={`mailto:${siteConfig.social.email}`}
-              aria-label="Email"
-              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
-            >
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
-              </svg>
-            </a>
-          )}
-          {siteConfig.social?.linkedin && (
-            <a
-              href={siteConfig.social.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
-            >
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="17"/><circle cx="8" cy="7" r="1"/><path d="M12 17v-4a2 2 0 0 1 4 0v4"/>
-              </svg>
-            </a>
-          )}
-          {siteConfig.social?.github && (
-            <a
-              href={siteConfig.social.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              class="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-400 dark:text-zinc-200 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-200 -translate-y-0 hover:-translate-y-1 shadow-sm"
-            >
-              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5 0-1-.4-2-1-2.7.1-.3.4-1.4-.1-2.8 0 0-1-.3-3 1a10 10 0 0 0-5 0c-2-1.3-3-1-3-1-.5 1.4-.2 2.5-.1 2.8A4 4 0 0 0 4 9.9c0 3.5 2 4.3 4 4.5-.3.3-.5.9-.5 1.7V19"/>
-              </svg>
-            </a>
-          )}
+        <div class="relative z-10 flex flex-col justify-between h-full">
+          <div>
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-6">
+              <span class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full" style="background-color: var(--accent-color)"></span>
+                00 / INTRODUCTION
+              </span>
+              <span class="font-mono text-xs px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                // OVERVIEW
+              </span>
+            </div>
+
+            <!-- Content -->
+            <div class="font-mono text-xs sm:text-sm uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-2">
+              Hello, I'm
+            </div>
+            <h1 class="text-3xl sm:text-4xl xl:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
+              {firstName} <span style={{ color: "var(--accent-color)" }}>{lastName}</span>
+            </h1>
+            <p class="font-mono text-sm sm:text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-relaxed">
+              {siteConfig.tagline}
+            </p>
+          </div>
+
+          <!-- Bottom Footer Bar -->
+          <div class="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-4">
+            <!-- Socials -->
+            <div class="flex items-center gap-3">
+              {siteConfig.social?.email && (
+                <a
+                  href={`mailto:${siteConfig.social.email}`}
+                  aria-label="Email"
+                  class="w-10 h-10 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-300 shadow-2xs"
+                >
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+                  </svg>
+                </a>
+              )}
+              {siteConfig.social?.linkedin && (
+                <a
+                  href={siteConfig.social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  class="w-10 h-10 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-300 shadow-2xs"
+                >
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="10" x2="8" y2="17"/><circle cx="8" cy="7" r="1"/><path d="M12 17v-4a2 2 0 0 1 4 0v4"/>
+                  </svg>
+                </a>
+              )}
+              {siteConfig.social?.github && (
+                <a
+                  href={siteConfig.social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  class="w-10 h-10 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-white hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] transition-all duration-300 shadow-2xs"
+                >
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5 0-1-.4-2-1-2.7.1-.3.4-1.4-.1-2.8 0 0-1-.3-3 1a10 10 0 0 0-5 0c-2-1.3-3-1-3-1-.5 1.4-.2 2.5-.1 2.8A4 4 0 0 0 4 9.9c0 3.5 2 4.3 4 4.5-.3.3-.5.9-.5 1.7V19"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+
+            <div class="flex items-center gap-2 font-mono text-xs text-zinc-400 dark:text-zinc-500">
+              <span>Based in Sri Lanka</span>
+              <span class="text-[var(--accent-color)]">•</span>
+              <span class="text-[var(--accent-color)] font-medium">Available Globally</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Side Column -->
       <div class="flex flex-col md:col-span-2 xl:col-span-1 md:flex-row xl:flex-col gap-6 xl:gap-8">
         <!-- Status Card -->
-        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex-1 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full">
           <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
-          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
-            Status
-          </div>
-          <div class="flex items-center gap-3 text-base font-medium text-zinc-800 dark:text-zinc-200 relative z-10">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            Available for new projects
+          
+          <div class="relative z-10 flex flex-col justify-between h-full">
+            <div>
+              <!-- Top Bar -->
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                  // CURRENT AVAILABILITY
+                </span>
+                <span class="font-mono text-xs px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                  ACTIVE
+                </span>
+              </div>
+
+              <!-- Main Status Content -->
+              <div class="flex items-center gap-3 text-base sm:text-lg font-semibold text-zinc-800 dark:text-zinc-200 my-4">
+                <span class="relative flex h-3.5 w-3.5 shrink-0">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+                </span>
+                Available for new projects
+              </div>
+            </div>
+
+            <!-- Footer Tag -->
+            <div class="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500">
+              <span>Work Status</span>
+              <span class="text-[var(--accent-color)] font-medium">Open to Offers</span>
+            </div>
           </div>
         </div>
 
         <!-- Skills Card -->
-        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex-1 flex flex-col justify-center transition-all duration-300 relative overflow-hidden">
+        <div class="bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex-1 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full">
           <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
-          <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
-            Working with
-          </div>
-          <div class="flex flex-wrap gap-2.5 relative z-10">
-            {featuredSkills.map((skill, index) => (
-              <span
-                class="font-mono text-xs sm:text-sm px-3.5 py-2 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 shadow-xs animate-rise"
-                style={`animation-delay: ${index * 0.08}s`}
-              >
-                {skill}
-              </span>
-            ))}
+          
+          <div class="relative z-10 flex flex-col justify-between h-full">
+            <div>
+              <!-- Top Bar -->
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                  // TECH ARSENAL
+                </span>
+                <span class="font-mono text-xs px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                  CORE STACK
+                </span>
+              </div>
+
+              <!-- Skills List -->
+              <div class="flex flex-wrap gap-2.5 my-2">
+                {featuredSkills.map((skill, index) => (
+                  <div
+                    class="font-mono text-xs sm:text-sm px-3.5 py-2 rounded-2xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 text-zinc-800 dark:text-zinc-200 shadow-xs hover:border-[var(--accent-color)] hover:text-zinc-900 dark:hover:text-white transition-all duration-200 flex items-center gap-2 group/skill animate-rise"
+                    style={`animation-delay: ${index * 0.08}s`}
+                  >
+                    <span class="w-1.5 h-1.5 rounded-full transition-transform duration-300 group-hover/skill:scale-125" style="background-color: var(--accent-color)"></span>
+                    <span>{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Footer Tag -->
+            <div class="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500">
+              <span>Primary Tech</span>
+              <span class="text-[var(--accent-color)] font-medium">Production Ready</span>
+            </div>
           </div>
         </div>
       </div>
