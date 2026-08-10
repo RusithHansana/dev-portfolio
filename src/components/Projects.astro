@@ -102,10 +102,6 @@ const images = import.meta.glob<{ default: { src: string } }>('/src/assets/cover
 <style>
   .project-card-wrap.is-linked:hover,
   .project-card-wrap.is-linked:focus-within {
-    border-color: var(--zinc-300, #d4d4d8);
-  }
-  :global(.dark) .project-card-wrap.is-linked:hover,
-  :global(.dark) .project-card-wrap.is-linked:focus-within {
     border-color: var(--zinc-700, #3f3f46);
   }
 

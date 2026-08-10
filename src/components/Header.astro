@@ -1,7 +1,6 @@
 ---
 import { siteConfig } from "../config";
 import { projects } from "../data/projects";
-import ThemeToggle from "./ThemeToggle.astro";
 
 const hasProjects = projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
@@ -13,11 +12,6 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
   class="fixed top-0 left-0 right-0 z-50 block w-full transition-all duration-300 border-b border-transparent"
 >
   <nav class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between relative">
-    <!-- Desktop: ThemeToggle on the left -->
-    <div class="hidden md:block">
-      <ThemeToggle />
-    </div>
-
     <!-- Desktop Navigation (Centered) -->
     <ul class="hidden md:flex items-center gap-8 justify-center flex-1">
       <li>
@@ -67,8 +61,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     </ul>
 
     <!-- Mobile Navigation Bar -->
-    <div class="flex md:hidden items-center justify-between w-full">
-      <ThemeToggle />
+    <div class="flex md:hidden items-center justify-end w-full">
       <button
         id="mobile-menu-button"
         type="button"

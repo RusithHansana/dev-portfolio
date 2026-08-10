@@ -24,18 +24,11 @@ const featuredSkills = siteConfig.skills?.slice(0, 5) || [
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white dark:bg-zinc-950 min-h-screen py-20 sm:py-24 xl:py-0 xl:h-screen flex items-center"
+  class="relative isolate overflow-hidden bg-zinc-950 min-h-screen py-20 sm:py-24 xl:py-0 xl:h-screen flex items-center"
 >
-  <!-- Light Gradient overlay -->
+  <!-- Gradient overlay -->
   <div
-    class="absolute inset-0 -z-10 dark:hidden pointer-events-none"
-    style="background: radial-gradient(ellipse 800px 1200px at 0% 0%, var(--accent-color) 0%, transparent 40%, rgba(255, 255, 255, 0.3) 70%, rgba(255, 255, 255, 1) 100%)"
-  >
-  </div>
-  
-  <!-- Dark Gradient overlay -->
-  <div
-    class="absolute inset-0 -z-10 hidden dark:block pointer-events-none"
+    class="absolute inset-0 -z-10 pointer-events-none"
     style="background: radial-gradient(ellipse 800px 1200px at 0% 0%, var(--accent-color) 0%, transparent 40%, rgba(9, 9, 11, 0.3) 70%, rgba(9, 9, 11, 1) 100%)"
   >
   </div>

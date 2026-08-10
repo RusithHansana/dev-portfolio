@@ -2,16 +2,12 @@
 @custom-variant dark (&:is(.dark, .dark *));
 
 :root {
-  --accent-color: #1d4ed8;
-}
-
-.dark {
   --accent-color: #84cc16;
 }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-  @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300;
+  @apply bg-zinc-950 text-zinc-100 transition-colors duration-300;
 }
 
 * {

@@ -25,10 +25,10 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" id="favicon" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" id="favicon" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
@@ -47,28 +47,8 @@ const {
     <title>{title}</title>
     <ClientRouter />
     <script is:inline>
-      const updateFavicon = (theme, doc = document) => {
-        const favicon = doc.getElementById("favicon");
-        if (!favicon) return;
-        favicon.setAttribute("href", theme === "dark" ? "/favicon-dark.svg" : "/favicon-light.svg");
-      };
-
       const applyTheme = (doc = document) => {
-        const theme = (() => {
-          if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-            return localStorage.getItem("theme");
-          }
-          if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            return "dark";
-          }
-          return "light";
-        })();
-        if (theme === "dark") {
-          doc.documentElement.classList.add("dark");
-        } else {
-          doc.documentElement.classList.remove("dark");
-        }
-        updateFavicon(theme, doc);
+        doc.documentElement.classList.add("dark");
       };
 
       applyTheme();
