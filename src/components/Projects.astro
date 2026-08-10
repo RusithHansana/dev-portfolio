@@ -3,15 +3,10 @@ import { siteConfig } from "../config";
 import { projects } from "../data/projects";
 const hasProjects = projects.length > 0;
 
-const images = import.meta.glob<{ default: { src: string } }>('/src/assets/covers/*.{jpeg,jpg,png,gif}', { eager: true });
+const featuredProject = projects[0];
+const otherProjects = projects.slice(1);
 
-// Column spans for asymmetric bento grid layout
-const colSpans = [
-  "lg:col-span-7 xl:col-span-8",
-  "lg:col-span-5 xl:col-span-4",
-  "lg:col-span-5 xl:col-span-4",
-  "lg:col-span-7 xl:col-span-8",
-];
+const images = import.meta.glob<{ default: { src: string } }>('/src/assets/covers/*.{jpeg,jpg,png,gif}', { eager: true });
 ---
 
 {
@@ -36,29 +31,124 @@ const colSpans = [
           </h2>
         </div>
 
-        <!-- Bento Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 xl:gap-8 items-stretch">
-          {projects.map((project, index) => {
-            const coverSrc = images[`/${project.coverImage}`]?.default?.src || project.coverImage;
-            const spanClass = colSpans[index % colSpans.length] || "lg:col-span-6";
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-stretch">
+          {/* FEATURED PROJECT (Full Width Card) */}
+          {featuredProject && (() => {
+            const featuredCover = images[`/${featuredProject.coverImage}`]?.default?.src || featuredProject.coverImage;
 
             return (
-              <div class={`${spanClass} bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full`}>
+              <div class="lg:col-span-12 bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 transition-all duration-300 relative overflow-hidden">
                 <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
 
-                <div class="flex flex-col h-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-10 items-center relative z-10">
+                  {/* Left: Cover Image */}
+                  <div class="lg:col-span-7 xl:col-span-7 relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 bg-zinc-950 aspect-[16/10] sm:aspect-[16/9] group/img">
+                    {featuredProject.slug ? (
+                      <a href={`/projects/${featuredProject.slug}`} class="block w-full h-full">
+                        <img
+                          src={featuredCover}
+                          alt={featuredProject.name}
+                          loading="eager"
+                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-transparent to-transparent opacity-60"></div>
+                      </a>
+                    ) : (
+                      <>
+                        <img
+                          src={featuredCover}
+                          alt={featuredProject.name}
+                          loading="eager"
+                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/70 via-transparent to-transparent opacity-60"></div>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Right: Featured Details */}
+                  <div class="lg:col-span-5 xl:col-span-5 flex flex-col justify-between h-full">
+                    <div>
+                      {/* Top Meta Bar */}
+                      <div class="flex items-center justify-between font-mono text-xs mb-4">
+                        <span class="px-3 py-1 rounded-full bg-[var(--accent-color)] text-white font-bold tracking-wider uppercase">
+                          Featured Project
+                        </span>
+                        <span class="text-zinc-400 dark:text-zinc-500">
+                          {featuredProject.year} • {featuredProject.type}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 class="text-3xl sm:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent-color)] transition-colors mb-3">
+                        {featuredProject.slug ? (
+                          <a href={`/projects/${featuredProject.slug}`} class="hover:underline">
+                            {featuredProject.name}
+                          </a>
+                        ) : (
+                          featuredProject.name
+                        )}
+                      </h3>
+
+                      {/* Tagline */}
+                      <p class="font-mono text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mb-6 leading-relaxed">
+                        {featuredProject.tagline}
+                      </p>
+
+                      {/* Stack Badges */}
+                      {featuredProject.stack && featuredProject.stack.length > 0 && (
+                        <div class="flex flex-wrap gap-2 mb-8">
+                          {featuredProject.stack.map((skill) => (
+                            <span class="font-mono text-xs px-3 py-1 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CTA Link */}
+                    {featuredProject.slug && (
+                      <div>
+                        <a
+                          href={`/projects/${featuredProject.slug}`}
+                          class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 font-mono text-xs sm:text-sm font-bold hover:bg-[var(--accent-color)] dark:hover:bg-[var(--accent-color)] dark:hover:text-white transition-all duration-300 shadow-md group/btn"
+                        >
+                          <span>Explore Project Details</span>
+                          <svg class="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                          </svg>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* OTHER PROJECTS (Compact Grid Cards) */}
+          {otherProjects.map((project, index) => {
+            const coverSrc = images[`/${project.coverImage}`]?.default?.src || project.coverImage;
+
+            return (
+              <div class="lg:col-span-4 bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 relative overflow-hidden h-full">
+                <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+
+                <div class="flex flex-col h-full relative z-10">
                   {/* Top Bar */}
-                  <div class="flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500 mb-4 relative z-10">
+                  <div class="flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500 mb-3">
                     <span class="uppercase tracking-widest">
-                      0{index + 1} // {project.type}
+                      0{index + 2} // {project.type}
                     </span>
-                    <span class="px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300">
+                    <span class="px-2.5 py-0.5 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300">
                       {project.year}
                     </span>
                   </div>
 
                   {/* Cover Image */}
-                  <div class="relative w-full rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 mb-6 bg-zinc-950 aspect-[16/9] group/img relative z-10">
+                  <div class="relative w-full rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800/80 mb-4 bg-zinc-950 aspect-[16/9] group/img">
                     {project.slug ? (
                       <a href={`/projects/${project.slug}`} class="block w-full h-full">
                         <img
@@ -83,10 +173,10 @@ const colSpans = [
                   </div>
 
                   {/* Content Area */}
-                  <div class="flex flex-col flex-1 justify-between relative z-10">
+                  <div class="flex flex-col flex-1 justify-between">
                     <div>
-                      <div class="flex items-center justify-between gap-4 mb-3">
-                        <h3 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent-color)] transition-colors">
+                      <div class="flex items-center justify-between gap-3 mb-2">
+                        <h3 class="text-xl font-extrabold text-zinc-900 dark:text-zinc-100 group-hover:text-[var(--accent-color)] transition-colors">
                           {project.slug ? (
                             <a href={`/projects/${project.slug}`} class="hover:underline">
                               {project.name}
@@ -100,31 +190,31 @@ const colSpans = [
                           <a
                             href={`/projects/${project.slug}`}
                             aria-label={`View ${project.name} details`}
-                            class="w-10 h-10 rounded-2xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-300 group-hover:bg-[var(--accent-color)] group-hover:text-white group-hover:border-[var(--accent-color)] transition-all duration-300 shrink-0 shadow-2xs"
+                            class="w-8 h-8 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-300 group-hover:bg-[var(--accent-color)] group-hover:text-white group-hover:border-[var(--accent-color)] transition-all duration-300 shrink-0 shadow-2xs"
                           >
-                            <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                               <path d="M7 17L17 7M17 7H7M17 7V17"/>
                             </svg>
                           </a>
                         )}
                       </div>
 
-                      <p class="font-mono text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mb-6 leading-relaxed">
+                      <p class="font-mono text-xs text-zinc-600 dark:text-zinc-400 mb-4 leading-relaxed line-clamp-3">
                         {project.tagline}
                       </p>
                     </div>
 
                     {/* Stack Badges */}
                     {project.stack && project.stack.length > 0 && (
-                      <div class="flex flex-wrap gap-2 pt-2">
-                        {project.stack.slice(0, 5).map((skill) => (
-                          <span class="font-mono text-xs px-3 py-1 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                      <div class="flex flex-wrap gap-1.5 pt-2">
+                        {project.stack.slice(0, 4).map((skill) => (
+                          <span class="font-mono text-[11px] px-2.5 py-0.5 rounded-lg bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
                             {skill}
                           </span>
                         ))}
-                        {project.stack.length > 5 && (
-                          <span class="font-mono text-xs px-2.5 py-1 rounded-xl bg-zinc-200/50 dark:bg-zinc-800/40 text-zinc-500 dark:text-zinc-400">
-                            +{project.stack.length - 5}
+                        {project.stack.length > 4 && (
+                          <span class="font-mono text-[11px] px-2 py-0.5 rounded-lg bg-zinc-200/50 dark:bg-zinc-800/40 text-zinc-500 dark:text-zinc-400">
+                            +{project.stack.length - 4}
                           </span>
                         )}
                       </div>
