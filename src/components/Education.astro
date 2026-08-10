@@ -1,15 +1,6 @@
 ---
 import { siteConfig } from "../config";
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
-
-const academicDomains = [
-  "Software Architecture",
-  "Algorithms & Data Structures",
-  "AI & Agentic Pipelines",
-  "Full-Stack Web Engineering",
-  "Database Systems",
-  "Mobile App Development",
-];
 ---
 
 {
@@ -37,79 +28,50 @@ const academicDomains = [
         <!-- Bento Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-8 items-stretch">
           {siteConfig.education.map((edu) => (
-            <>
-              {/* Primary Academic Card */}
-              <div class="lg:col-span-8 bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex flex-col justify-between transition-all duration-300 relative overflow-hidden">
-                <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
+            <div class="lg:col-span-12 bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex flex-col justify-between transition-all duration-300 relative overflow-hidden">
+              <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
 
-                <div class="relative z-10 flex flex-col justify-between h-full">
-                  <div>
-                    {/* Top Bar */}
-                    <div class="flex items-center justify-between mb-4">
-                      <span class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
-                        // DEGREE & INSTITUTION
-                      </span>
-                      <span class="font-mono text-xs px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
-                        {edu.dateRange}
-                      </span>
-                    </div>
-
-                    {/* Degree & School */}
-                    <h3 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 mb-1">
-                      {edu.degree}
-                    </h3>
-                    <p class="font-mono text-base font-semibold mb-6" style="color: var(--accent-color)">
-                      {edu.school}
-                    </p>
-
-                    {edu.achievements && edu.achievements.length > 0 && (
-                      <ul class="space-y-2 mb-6">
-                        {edu.achievements.map((achievement) => (
-                          <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 rounded-full shrink-0 mt-2" style="background-color: var(--accent-color)"></span>
-                            <span class="font-mono text-xs sm:text-sm text-zinc-600 dark:text-zinc-300">
-                              {achievement}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+              <div class="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  {/* Top Bar */}
+                  <div class="flex items-center justify-between mb-4">
+                    <span class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                      // DEGREE & INSTITUTION
+                    </span>
+                    <span class="font-mono text-xs px-3 py-1 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
+                      {edu.dateRange}
+                    </span>
                   </div>
 
-                  {/* Footer Tag */}
-                  <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500">
-                    <span>Degree Awarded</span>
-                    <span class="text-[var(--accent-color)] font-medium">BSc in Software Engineering</span>
-                  </div>
-                </div>
-              </div>
+                  {/* Degree & School */}
+                  <h3 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100 mb-1">
+                    {edu.degree}
+                  </h3>
+                  <p class="font-mono text-base font-semibold mb-6" style="color: var(--accent-color)">
+                    {edu.school}
+                  </p>
 
-              {/* Coursework & Focus Card */}
-              <div class="lg:col-span-4 bento-card group bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 xl:p-10 flex flex-col justify-between transition-all duration-300 relative overflow-hidden">
-                <div class="spotlight-border pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true"></div>
-
-                <div class="relative z-10 flex flex-col justify-between h-full">
-                  <div>
-                    <div class="font-mono text-xs uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-6">
-                      // ACADEMIC DOMAINS
-                    </div>
-
-                    <div class="flex flex-wrap gap-2 mb-6">
-                      {academicDomains.map((domain) => (
-                        <span class="font-mono text-xs px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-300 shadow-2xs">
-                          {domain}
-                        </span>
+                  {edu.achievements && edu.achievements.length > 0 && (
+                    <ul class="space-y-2 mb-6">
+                      {edu.achievements.map((achievement) => (
+                        <li class="flex items-start gap-3">
+                          <span class="w-1.5 h-1.5 rounded-full shrink-0 mt-2" style="background-color: var(--accent-color)"></span>
+                          <span class="font-mono text-xs sm:text-sm text-zinc-600 dark:text-zinc-300">
+                            {achievement}
+                          </span>
+                        </li>
                       ))}
-                    </div>
-                  </div>
+                    </ul>
+                  )}
+                </div>
 
-                  <div class="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center gap-2 font-mono text-xs text-zinc-700 dark:text-zinc-300">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Graduated & Qualified</span>
-                  </div>
+                {/* Footer Tag */}
+                <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800/80 flex items-center justify-between font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                  <span>Degree Awarded</span>
+                  <span class="text-[var(--accent-color)] font-medium">BSc in Software Engineering</span>
                 </div>
               </div>
-            </>
+            </div>
           ))}
         </div>
       </div>
