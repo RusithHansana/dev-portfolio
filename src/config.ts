@@ -4,6 +4,7 @@ export const siteConfig = {
   name: "Rusith Hansana",
   githubUsername: "RusithHansana",
   title: "Software Engineer",
+  tagline: "I turn ideas into production-ready AI apps. Mobile, web, and everything between.",
   description: "Portfolio website of Rusith Hansana",
   accentColor: "#1d4ed8",
   accentColorDark: "#84cc16",
@@ -14,8 +15,9 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/rusith-hansana/",
   },
   specialties: ["Full-Stack", "Mobile Apps", "AI Apps"],
-  aboutMe:"Software Engineer building scalable web, AI-powered, and interactive systems. Focused on clean architecture, performance, and product-driven engineering.",
+  aboutMe:"I like building things that solve real problems. As a Software Engineer, I work across web, mobile, backend, and AI to turn ideas into working products. I've built everything from AI agents and conversational applications to real-time multiplayer systems and gesture-controlled 3D interfaces. I enjoy taking an idea from concept to a product that people can actually use. I'm particularly interested in exploring how AI can be combined with good product engineering to create software that is practical, reliable, and genuinely useful.",
   skills: [
+    "AI Intergrations",
     "Javascript",
     "TypeScript",
     "Python",
