@@ -2,16 +2,12 @@
 @custom-variant dark (&:is(.dark, .dark *));
 
 :root {
-  --accent-color: #1d4ed8;
-}
-
-.dark {
   --accent-color: #84cc16;
 }
 
 body {
   font-family: 'IBM Plex Mono', monospace;
-  @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 transition-colors duration-300;
+  @apply bg-zinc-950 text-zinc-100 transition-colors duration-300;
 }
 
 * {
@@ -48,4 +44,26 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--accent-color, #84cc16);
 }
+
+.bento-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+.spotlight-border {
+  background: radial-gradient(
+    450px circle at var(--mouse-x) var(--mouse-y),
+    var(--accent-color, #84cc16),
+    transparent 70%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  border-radius: inherit;
+  z-index: 5;
+}
+
 

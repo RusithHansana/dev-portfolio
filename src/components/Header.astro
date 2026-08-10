@@ -1,29 +1,34 @@
 ---
 import { siteConfig } from "../config";
 import { projects } from "../data/projects";
-import ThemeToggle from "./ThemeToggle.astro";
 
 const hasProjects = projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
+
 ---
 
 <header
   id="header"
-  class="fixed top-0 left-0 right-0 z-50 block w-full transition-all duration-300 border-b border-transparent"
+  class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-4xl transition-all duration-300"
 >
-  <nav class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between relative">
-    <!-- Desktop: ThemeToggle on the left -->
-    <div class="hidden md:block">
-      <ThemeToggle />
-    </div>
+  <nav class="bg-zinc-950/80 backdrop-blur-xl border border-zinc-800/80 rounded-full px-4 sm:px-6 py-2.5 shadow-2xl shadow-black/60 flex items-center justify-between gap-4">
+    <!-- Brand Logo / Monogram -->
+    <a
+      href="/#hero"
+      class="group flex items-center gap-2.5 text-zinc-100 font-mono text-sm font-bold tracking-tight shrink-0"
+    >
+      <span class="hidden sm:inline-block text-xs font-semibold text-zinc-300 group-hover:text-white transition-colors">
+        {siteConfig.name}<span style="color: var(--accent-color)">.</span>
+      </span>
+    </a>
 
-    <!-- Desktop Navigation (Centered) -->
-    <ul class="hidden md:flex items-center gap-8 justify-center flex-1">
+    <!-- Desktop Navigation Links (Centered) -->
+    <ul class="hidden md:flex items-center gap-1 bg-zinc-900/50 border border-zinc-800/60 rounded-full px-2 py-1 font-mono text-xs">
       <li>
         <a
           href="/#about"
-          class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
+          class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
         >
           About
         </a>
@@ -33,7 +38,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           <li>
             <a
               href="/#projects"
-              class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
+              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
             >
               Projects
             </a>
@@ -45,7 +50,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           <li>
             <a
               href="/#experience"
-              class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
+              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
             >
               Experience
             </a>
@@ -57,7 +62,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
           <li>
             <a
               href="/#education"
-              class="text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white transition-colors font-medium"
+              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
             >
               Education
             </a>
@@ -66,112 +71,137 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       }
     </ul>
 
-    <!-- Mobile Navigation Bar -->
-    <div class="flex md:hidden items-center justify-between w-full">
-      <ThemeToggle />
+    <!-- Right Side CTA Action & Mobile Toggle -->
+    <div class="flex items-center gap-2 shrink-0">
+      <!-- Contact CTA Button -->
+      <a
+        href="/#footer"
+        class="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-xs font-semibold text-zinc-950 transition-all duration-300 shadow-md hover:shadow-lime-500/20 hover:scale-[1.03] active:scale-[0.97]"
+        style="background-color: var(--accent-color)"
+      >
+        <span>Get in Touch</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-3.5 h-3.5"
+        >
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg>
+      </a>
+
+      <!-- Mobile Hamburger Button -->
       <button
         id="mobile-menu-button"
         type="button"
-        class="text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 p-2 rounded-lg transition-colors"
+        class="md:hidden text-zinc-300 hover:text-white p-2 rounded-full hover:bg-zinc-900 border border-transparent hover:border-zinc-800 transition-colors cursor-pointer"
         aria-label="Toggle mobile menu"
       >
-        <svg id="hamburger-icon" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="hamburger-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
-        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
   </nav>
-</header>
 
-<!-- Mobile Menu Overlay -->
-<div
-  id="mobile-menu"
-  class="fixed inset-0 top-[72px] bg-zinc-50/98 dark:bg-zinc-950/98 backdrop-blur-xl z-40 hidden flex-col p-8 transition-all duration-300"
->
-  <ul class="flex flex-col gap-6 text-center mt-12">
-    <li>
-      <a
-        href="/#about"
-        class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-      >
-        About
-      </a>
-    </li>
-    {
-      hasProjects && (
+  <!-- Mobile Menu Overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed top-16 left-0 right-0 z-40 hidden flex-col p-4 transition-all duration-300"
+  >
+    <div class="bg-zinc-950/95 backdrop-blur-2xl border border-zinc-800/90 rounded-3xl p-6 shadow-2xl flex flex-col gap-4 font-mono">
+      <ul class="flex flex-col gap-2">
         <li>
           <a
-            href="/#projects"
-            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+            href="/#about"
+            class="mobile-link block px-4 py-3 rounded-2xl text-base text-zinc-300 hover:text-white hover:bg-zinc-900/80 transition-colors"
           >
-            Projects
+            // About
           </a>
         </li>
-      )
-    }
-    {
-      hasExperience && (
-        <li>
-          <a
-            href="/#experience"
-            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
+        {
+          hasProjects && (
+            <li>
+              <a
+                href="/#projects"
+                class="mobile-link block px-4 py-3 rounded-2xl text-base text-zinc-300 hover:text-white hover:bg-zinc-900/80 transition-colors"
+              >
+                // Projects
+              </a>
+            </li>
+          )
+        }
+        {
+          hasExperience && (
+            <li>
+              <a
+                href="/#experience"
+                class="mobile-link block px-4 py-3 rounded-2xl text-base text-zinc-300 hover:text-white hover:bg-zinc-900/80 transition-colors"
+              >
+                // Experience
+              </a>
+            </li>
+          )
+        }
+        {
+          hasEducation && (
+            <li>
+              <a
+                href="/#education"
+                class="mobile-link block px-4 py-3 rounded-2xl text-base text-zinc-300 hover:text-white hover:bg-zinc-900/80 transition-colors"
+              >
+                // Education
+              </a>
+            </li>
+          )
+        }
+      </ul>
+
+      <div class="pt-3 border-t border-zinc-800/80">
+        <a
+          href="/#footer"
+          class="mobile-link flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-mono text-sm font-semibold text-zinc-950 shadow-lg text-center"
+          style="background-color: var(--accent-color)"
+        >
+          <span>Get in Touch</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-4 h-4"
           >
-            Experience
-          </a>
-        </li>
-      )
-    }
-    {
-      hasEducation && (
-        <li>
-          <a
-            href="/#education"
-            class="mobile-link text-2xl font-bold text-zinc-800 dark:text-zinc-100"
-          >
-            Education
-          </a>
-        </li>
-      )
-    }
-  </ul>
-</div>
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
 
 <script>
   function setupHeader() {
-    const header = document.getElementById("header");
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const hamburgerIcon = document.getElementById("hamburger-icon");
     const closeIcon = document.getElementById("close-icon");
     const mobileLinks = document.querySelectorAll(".mobile-link");
-
-    // Scroll effect for header background
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        header?.classList.add(
-          "bg-white/80",
-          "dark:bg-zinc-950/80",
-          "backdrop-blur-sm",
-          "border-zinc-200",
-          "dark:border-zinc-800"
-        );
-      } else {
-        header?.classList.remove(
-          "bg-white/80",
-          "dark:bg-zinc-950/80",
-          "backdrop-blur-sm",
-          "border-zinc-200",
-          "dark:border-zinc-800"
-        );
-      }
-    };
-
-    window.removeEventListener("scroll", handleScroll);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
 
     if (!mobileMenuButton || !mobileMenu) return;
 
@@ -180,7 +210,6 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       mobileMenu.classList.remove("flex");
       hamburgerIcon?.classList.remove("hidden");
       closeIcon?.classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
     };
 
     const openMenu = () => {
@@ -188,7 +217,6 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       mobileMenu.classList.add("flex");
       hamburgerIcon?.classList.add("hidden");
       closeIcon?.classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
     };
 
     const toggleMenu = () => {
@@ -200,7 +228,6 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       }
     };
 
-    // Reset menu to closed state on init/navigation
     closeMenu();
 
     mobileMenuButton.onclick = toggleMenu;
