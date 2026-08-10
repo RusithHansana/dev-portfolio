@@ -60,6 +60,25 @@ const {
         applyTheme();
       });
     </script>
+    <script>
+      function initBentoSpotlight() {
+        const cards = document.querySelectorAll<HTMLElement>('.bento-card');
+        cards.forEach((card) => {
+          if (card.dataset.spotlightBound) return;
+          card.dataset.spotlightBound = 'true';
+          card.addEventListener('pointermove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      }
+
+      initBentoSpotlight();
+      document.addEventListener('astro:page-load', initBentoSpotlight);
+    </script>
   </head>
   <body>
     <PageTransition />

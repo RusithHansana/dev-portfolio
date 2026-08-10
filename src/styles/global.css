@@ -45,3 +45,25 @@ body {
   background-color: var(--accent-color, #84cc16);
 }
 
+.bento-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+.spotlight-border {
+  background: radial-gradient(
+    450px circle at var(--mouse-x) var(--mouse-y),
+    var(--accent-color, #84cc16),
+    transparent 70%
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  border-radius: inherit;
+  z-index: 5;
+}
+
+
