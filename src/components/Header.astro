@@ -10,87 +10,120 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 
 <header
   id="header"
-  class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-4xl transition-all duration-300"
+  class="fixed top-3 md:top-4 left-1/2 -translate-x-1/2 z-50 max-w-4xl w-[calc(100%-2rem)] flex justify-center"
 >
-  <nav class="bg-zinc-950/80 backdrop-blur-xl border border-zinc-800/80 rounded-full px-4 sm:px-6 py-2.5 shadow-2xl shadow-black/60 flex items-center justify-between gap-4">
-    <!-- Brand Logo / Monogram -->
+  <nav
+    id="header-nav"
+    class="bg-zinc-950/85 backdrop-blur-xl border border-zinc-800/80 rounded-full px-3.5 py-1.5 shadow-2xl shadow-black/70 flex items-center justify-between gap-3 sm:gap-4 w-full"
+  >
+    <!-- Brand Logo / Current Section Indicator -->
     <a
       href="/#hero"
-      class="group flex items-center gap-2.5 text-zinc-100 font-mono text-sm font-bold tracking-tight shrink-0"
+      class="group/brand flex items-center gap-2 text-zinc-100 font-mono text-xs font-bold tracking-tight shrink-0 select-none py-0.5 min-w-0"
     >
-      <span class="hidden sm:inline-block text-xs font-semibold text-zinc-300 group-hover:text-white transition-colors">
+      <!-- Brand Name (Shown when expanded / hovered) -->
+      <span
+        class="brand-name-item text-xs font-semibold text-zinc-300 group-hover/brand:text-white transition-colors duration-200 whitespace-nowrap"
+      >
         {siteConfig.name}<span style="color: var(--accent-color)">.</span>
+      </span>
+
+      <!-- Active Section Indicator (Shown when collapsed) -->
+      <span
+        class="brand-section-item text-xs font-mono font-bold text-zinc-100 transition-colors duration-200 whitespace-nowrap flex items-center gap-2"
+      >
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse shrink-0"></span>
+        <span id="current-section-text" class="truncate">// Home</span>
+        <span class="inline-flex items-center gap-1 text-zinc-500 pl-0.5 opacity-70 group-hover/brand:opacity-100 transition-opacity">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-3 h-3"
+          >
+            <path d="m9 18-6-6 6-6"></path>
+            <path d="m15 6 6 6-6 6"></path>
+          </svg>
+        </span>
       </span>
     </a>
 
     <!-- Desktop Navigation Links (Centered) -->
-    <ul class="hidden md:flex items-center gap-1 bg-zinc-900/50 border border-zinc-800/60 rounded-full px-2 py-1 font-mono text-xs">
-      <li>
-        <a
-          href="/#about"
-          class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
-        >
-          About
-        </a>
-      </li>
-      {
-        hasProjects && (
-          <li>
-            <a
-              href="/#projects"
-              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
-            >
-              Projects
-            </a>
-          </li>
-        )
-      }
-      {
-        hasExperience && (
-          <li>
-            <a
-              href="/#experience"
-              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
-            >
-              Experience
-            </a>
-          </li>
-        )
-      }
-      {
-        hasEducation && (
-          <li>
-            <a
-              href="/#education"
-              class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3.5 py-1.5 rounded-full transition-all duration-200 block"
-            >
-              Education
-            </a>
-          </li>
-        )
-      }
-    </ul>
+    <div class="nav-collapsible-item flex items-center shrink-0">
+      <ul class="hidden md:flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/60 rounded-full px-1.5 py-0.5 font-mono text-xs whitespace-nowrap shrink-0">
+        <li>
+          <a
+            href="/#about"
+            class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3 py-1 rounded-full transition-all duration-200 block whitespace-nowrap"
+          >
+            About
+          </a>
+        </li>
+        {
+          hasProjects && (
+            <li>
+              <a
+                href="/#projects"
+                class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3 py-1 rounded-full transition-all duration-200 block whitespace-nowrap"
+              >
+                Projects
+              </a>
+            </li>
+          )
+        }
+        {
+          hasExperience && (
+            <li>
+              <a
+                href="/#experience"
+                class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3 py-1 rounded-full transition-all duration-200 block whitespace-nowrap"
+              >
+                Experience
+              </a>
+            </li>
+          )
+        }
+        {
+          hasEducation && (
+            <li>
+              <a
+                href="/#education"
+                class="nav-link text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60 px-3 py-1 rounded-full transition-all duration-200 block whitespace-nowrap"
+              >
+                Education
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
 
     <!-- Right Side CTA Action & Mobile Toggle -->
-    <div class="flex items-center gap-2 shrink-0">
+    <div class="nav-collapsible-item flex items-center gap-2 shrink-0">
       <!-- Contact CTA Button -->
       <a
         href="/#footer"
-        class="hidden sm:inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-xs font-semibold text-zinc-950 transition-all duration-300 shadow-md hover:shadow-lime-500/20 hover:scale-[1.03] active:scale-[0.97]"
+        class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full font-mono text-xs font-semibold text-zinc-950 transition-all duration-300 shadow-md hover:shadow-lime-500/20 hover:scale-[1.03] active:scale-[0.97] whitespace-nowrap"
         style="background-color: var(--accent-color)"
       >
         <span>Get in Touch</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
+          width="12"
+          height="12"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2.5"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="w-3.5 h-3.5"
+          class="w-3 h-3"
         >
           <line x1="7" y1="17" x2="17" y2="7"></line>
           <polyline points="7 7 17 7 17 17"></polyline>
@@ -101,13 +134,13 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       <button
         id="mobile-menu-button"
         type="button"
-        class="md:hidden text-zinc-300 hover:text-white p-2 rounded-full hover:bg-zinc-900 border border-transparent hover:border-zinc-800 transition-colors cursor-pointer"
+        class="md:hidden text-zinc-300 hover:text-white p-1.5 rounded-full hover:bg-zinc-900 border border-transparent hover:border-zinc-800 transition-colors cursor-pointer relative w-7 h-7 flex items-center justify-center shrink-0"
         aria-label="Toggle mobile menu"
       >
-        <svg id="hamburger-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="hamburger-icon" class="w-4 h-4 absolute transition-all duration-300 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
-        <svg id="close-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg id="close-icon" class="w-4 h-4 absolute opacity-0 rotate-90 scale-75 transition-all duration-300 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
@@ -117,7 +150,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
   <!-- Mobile Menu Overlay -->
   <div
     id="mobile-menu"
-    class="fixed top-16 left-0 right-0 z-40 hidden flex-col p-4 transition-all duration-300"
+    class="fixed top-14 left-0 right-0 z-40 flex flex-col p-4"
   >
     <div class="bg-zinc-950/95 backdrop-blur-2xl border border-zinc-800/90 rounded-3xl p-6 shadow-2xl flex flex-col gap-4 font-mono">
       <ul class="flex flex-col gap-2">
@@ -197,34 +230,114 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 
 <script>
   function setupHeader() {
+    const header = document.getElementById("header");
     const mobileMenuButton = document.getElementById("mobile-menu-button");
     const mobileMenu = document.getElementById("mobile-menu");
     const hamburgerIcon = document.getElementById("hamburger-icon");
     const closeIcon = document.getElementById("close-icon");
     const mobileLinks = document.querySelectorAll(".mobile-link");
+    const sectionTextEl = document.getElementById("current-section-text");
+
+    let isMobileMenuOpen = false;
+
+    const sectionNameMap: Record<string, string> = {
+      hero: "// Home",
+      about: "// About",
+      projects: "// Projects",
+      experience: "// Experience",
+      education: "// Education",
+      footer: "// Contact",
+    };
+
+    const updateActiveSection = () => {
+      if (!sectionTextEl) return;
+      const pathname = window.location.pathname;
+
+      // 1. Project Detail Pages (/projects/...)
+      if (pathname.startsWith("/projects/")) {
+        const footer = document.querySelector("footer[id], #footer") as HTMLElement;
+        if (footer && window.scrollY + 200 >= footer.offsetTop) {
+          sectionTextEl.textContent = "// Contact";
+          return;
+        }
+
+        const h1 = document.querySelector("h1");
+        let projectTitle = "";
+        if (h1 && h1.textContent) {
+          projectTitle = h1.textContent.trim();
+        } else {
+          const slug = pathname.split("/").filter(Boolean).pop() || "Project";
+          projectTitle = slug.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+        }
+
+        const displayTitle = projectTitle.length > 22 ? projectTitle.substring(0, 20) + "..." : projectTitle;
+        sectionTextEl.textContent = `// ${displayTitle}`;
+        return;
+      }
+
+      // 2. Homepage or section-based page tracking
+      const sectionElements = document.querySelectorAll("section[id], footer[id]");
+      if (sectionElements.length > 0) {
+        let currentSectionId = "hero";
+        const scrollPosition = window.scrollY + 180;
+
+        sectionElements.forEach((section) => {
+          const el = section as HTMLElement;
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            currentSectionId = el.id;
+          }
+        });
+
+        sectionTextEl.textContent = sectionNameMap[currentSectionId] || `// ${currentSectionId.charAt(0).toUpperCase() + currentSectionId.slice(1)}`;
+        return;
+      }
+
+      // 3. Fallback page title from URL path
+      const pageName = pathname.split("/").filter(Boolean).pop() || "Home";
+      const formattedName = pageName.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      sectionTextEl.textContent = `// ${formattedName}`;
+    };
+
+    const handleScroll = () => {
+      if (!header) return;
+      updateActiveSection();
+      if (window.scrollY > 40 && !isMobileMenuOpen) {
+        header.classList.add("is-collapsed");
+      } else {
+        header.classList.remove("is-collapsed");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
     if (!mobileMenuButton || !mobileMenu) return;
 
     const closeMenu = () => {
-      mobileMenu.classList.add("hidden");
-      mobileMenu.classList.remove("flex");
-      hamburgerIcon?.classList.remove("hidden");
-      closeIcon?.classList.add("hidden");
+      mobileMenu.classList.remove("is-open");
+      hamburgerIcon?.classList.remove("opacity-0", "rotate-90", "scale-75");
+      closeIcon?.classList.add("opacity-0", "rotate-90", "scale-75");
+      closeIcon?.classList.remove("opacity-100", "rotate-0", "scale-100");
+      isMobileMenuOpen = false;
+      handleScroll();
     };
 
     const openMenu = () => {
-      mobileMenu.classList.remove("hidden");
-      mobileMenu.classList.add("flex");
-      hamburgerIcon?.classList.add("hidden");
-      closeIcon?.classList.remove("hidden");
+      mobileMenu.classList.add("is-open");
+      hamburgerIcon?.classList.add("opacity-0", "rotate-90", "scale-75");
+      closeIcon?.classList.remove("opacity-0", "rotate-90", "scale-75");
+      closeIcon?.classList.add("opacity-100", "rotate-0", "scale-100");
+      isMobileMenuOpen = true;
+      header?.classList.remove("is-collapsed");
     };
 
     const toggleMenu = () => {
-      const isHidden = mobileMenu.classList.contains("hidden");
-      if (isHidden) {
-        openMenu();
-      } else {
+      if (isMobileMenuOpen) {
         closeMenu();
+      } else {
+        openMenu();
       }
     };
 
@@ -244,7 +357,126 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 </script>
 
 <style>
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
   html {
     scroll-behavior: smooth;
   }
+
+  #header {
+    pointer-events: none;
+  }
+
+  #header-nav {
+    pointer-events: auto;
+  }
+
+  #mobile-menu {
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.35s step-end;
+    transform: translateY(-10px) scale(0.97);
+    transform-origin: top center;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  #mobile-menu.is-open {
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0s;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  #header-nav {
+    max-width: 56rem;
+    transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                gap 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: max-width, padding, gap;
+  }
+
+  .nav-collapsible-item,
+  .brand-name-item,
+  .brand-section-item {
+    transition: max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                margin 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: max-width, opacity, transform;
+  }
+
+  .brand-name-item {
+    display: inline-block;
+    max-width: 250px;
+    opacity: 1;
+    transform: scale(1);
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .brand-section-item {
+    display: inline-flex;
+    align-items: center;
+    max-width: 0;
+    opacity: 0;
+    transform: scale(0.9);
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .nav-collapsible-item {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    opacity: 1;
+    transform: scale(1);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* Collapsed state when scrolled down and NOT hovered on #header-nav */
+  #header.is-collapsed #header-nav:not(:hover) {
+    max-width: fit-content;
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+    gap: 0;
+  }
+
+  #header.is-collapsed #header-nav:not(:hover) .nav-collapsible-item {
+    max-width: 0;
+    opacity: 0;
+    transform: scale(0.92);
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #header.is-collapsed #header-nav:not(:hover) .brand-name-item {
+    max-width: 0;
+    opacity: 0;
+    transform: scale(0.92);
+    pointer-events: none;
+    margin: 0;
+  }
+
+  #header.is-collapsed #header-nav:not(:hover) .brand-section-item {
+    max-width: 240px;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
 </style>
+
